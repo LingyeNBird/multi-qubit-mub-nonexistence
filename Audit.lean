@@ -17,3 +17,10 @@ Verifies that every main theorem depends ONLY on the three standard Lean 4 / Mat
 #print axioms MultiQubitMUB.pauliMoment4_spikeState
 #print axioms MultiQubitMUB.hoggar_sic_three
 #print axioms MultiQubitMUB.four_qubit_spike_bound
+#print axioms MultiQubitMUB.pauliMoment4_ge_welch_add_universal
+#print axioms MultiQubitMUB.pauliMoment4_gt_welch
+#print axioms MultiQubitMUB.no_pauli_sic_all
+#print axioms MultiQubitMUB.pauliMoment4_two_ge
+#print axioms MultiQubitMUB.pauliMoment4_four_ge_kramers
+#print axioms MultiQubitMUB.pauliMoment4_contextuality_bridge
+#print axioms MultiQubitMUB.pauliMoment4_four_of_contextuality_1575

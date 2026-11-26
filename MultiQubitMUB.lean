@@ -4,3 +4,4 @@ import MultiQubitMUB.SubspaceInduction
 import MultiQubitMUB.Alltop
 import MultiQubitMUB.PauliGroup
 import MultiQubitMUB.SpikeFamily
+import MultiQubitMUB.GeneralLowerBound
