@@ -238,64 +238,107 @@ Two subtleties merit emphasis from the outset. First, for $n = 4$, \Cref{cor:gow
 
 \begin{figure}[htbp]
 \centering
-\resizebox{\textwidth}{!}{%
 \begin{tikzpicture}[
   font=\footnotesize,
   box/.style={
-    draw=blue!45!black, rounded corners=3pt, fill=blue!4,
-    align=center, inner sep=5.5pt, minimum width=4.3cm, minimum height=1.1cm
+    draw=blue!45!black, rounded corners=3.5pt, fill=blue!4,
+    align=center, inner xsep=4.5pt, inner ysep=5pt, minimum height=1.55cm
   },
   thm/.style={
-    draw=teal!60!black, thick, rounded corners=3pt, fill=teal!8,
-    align=center, inner sep=5.5pt, minimum width=4.3cm, minimum height=1.1cm
+    draw=teal!60!black, thick, rounded corners=3.5pt, fill=teal!8,
+    align=center, inner xsep=4.5pt, inner ysep=5pt, minimum height=1.55cm
   },
   core/.style={
-    draw=purple!60!black, thick, rounded corners=3pt, fill=purple!6,
-    align=center, inner sep=5.5pt, minimum width=4.6cm, minimum height=1.1cm
+    draw=purple!60!black, thick, rounded corners=3.5pt, fill=purple!6,
+    align=center, inner xsep=4.5pt, inner ysep=5pt, minimum height=1.55cm
   },
-  arr/.style={-{Stealth[length=5.5pt]}, semithick, draw=black!75}
+  arr/.style={-{Stealth[length=6pt,width=4.5pt]}, semithick, draw=black!75}
 ]
 
-% Row 1: Pauli / Symplectic preliminaries
-\node[box, minimum width=5.2cm] (pauli) at (-1.0, 6.6) {\textbf{Pauli Identities (\Cref{sec:prelim})}\\Completeness, Parseval, Purity};
+% Row 1: Legend (top-left, aligned with Col L) and Spectral Quantization (top-right)
+\node[draw=black!25, rounded corners=3.5pt, fill=black!2, inner xsep=6pt, inner ysep=5.5pt, text width=4.15cm, align=left, font=\footnotesize, minimum height=1.55cm] (legend) at (-5.15, 10.1) {%
+  \tikz[baseline=-0.5ex]\draw[draw=blue!45!black, fill=blue!4, rounded corners=1.5pt] (0,0) rectangle (0.35,0.22);\; Tool / Reduction\\[3pt]
+  \tikz[baseline=-0.5ex]\draw[draw=purple!60!black, thick, fill=purple!6, rounded corners=1.5pt] (0,0) rectangle (0.35,0.22);\; Core $2$-adic Engine\\[3pt]
+  \tikz[baseline=-0.5ex]\draw[draw=teal!60!black, thick, fill=teal!8, rounded corners=1.5pt] (0,0) rectangle (0.35,0.22);\; Main Theorem / Cor.
+};
 
-% Row 2: Three parallel branches
-\node[thm] (thm3) at (-7.2, 4.3) {\textbf{Theorem~\ref{thm:odd-two-valued}} (\Cref{sec:odd-purity})\\Odd $n \ge 3$: no two-valued state\\[-1pt]{\scriptsize($M^2 = 2b^2$; $n=1$ escapes via $2^1-2=0$)}};
+\node[box, text width=6.60cm] (quant) at (2.70, 10.1) {%
+  {\small\textbf{Spectral Quantization (\S\ref{sec:quant})}}\\[2pt]
+  $m^2 + \ell^2 = 2^{n-2}$ ($n \ge 2$)\\
+  via WHT inversion \& parity
+};
 
-\node[box] (red) at (-1.0, 4.3) {\textbf{Matrix-Free Reduction (\Cref{sec:reduction})}\\Lagrangian $H$, symplectic basis,\\[-1pt]joint $+1$ eigenstate $v_0$};
+% Row 2: Pauli Identities + Odd/Even Alltop branches
+\node[box, text width=4.25cm] (pauli) at (-5.15, 7.2) {%
+  {\small\textbf{Pauli Identities (\S\ref{sec:prelim})}}\\[2pt]
+  Completeness, Parseval,\\
+  Self-Duality, Purity
+};
 
-\node[box] (quant) at (5.4, 4.3) {\textbf{Spectral Quantization (\Cref{sec:quant})}\\$m^2 + \ell^2 = 2^{n-2}$ ($n \ge 2$)\\[-1pt]{\scriptsize(via WHT inversion \& parity)}};
+\node[box, text width=4.60cm] (oddall) at (0.05, 7.2) {%
+  {\small\textbf{Odd $n = 2k{+}1 \ge 3$ (\S\ref{sec:alltop-odd})}}\\[2pt]
+  $g_a(x) \in \{(\pm 1 \pm i)/\sqrt{2}\}$\\
+  Triangle identity contradiction
+};
 
-% Row 3: Odd vs Even Alltop
-\node[box] (oddall) at (2.2, 1.8) {\textbf{Odd $n = 2k+1 \ge 3$} (\Cref{sec:alltop-odd})\\$g_a(x) \in \{(\pm 1 \pm i)/\sqrt{2}\}$\\[-1pt]Triangle identity contradiction};
+\node[core, text width=4.60cm] (evenall) at (5.35, 7.2) {%
+  {\small\textbf{Even $n = 2k \ge 4$ (\S\ref{sec:alltop-even}--\ref{sec:final-kill})}}\\[2pt]
+  $\Zi$-M\"obius $2$-adic induction\\
+  $2^k \mid \abs{\psi'(x)-\psi'(0)}^2$ ($k \ge 2$)
+};
 
-\node[core] (evenall) at (8.7, 1.8) {\textbf{Even $n = 2k \ge 4$} (\Cref{sec:alltop-even,sec:induction,sec:final-kill})\\$\Zi$-M\"obius $2$-adic Subspace Induction\\[-1pt]$2^k \mid \abs{\psi'(x)-\psi'(0)}^2$ ($k \ge 2 \Rightarrow 4\mid\cdot$)};
+% Row 3: Theorem 3, Matrix-Free Reduction, Theorem 1
+\node[thm, text width=4.25cm] (thm3) at (-5.15, 4.1) {%
+  {\small\textbf{Theorem~\ref{thm:odd-two-valued} (\S\ref{sec:odd-purity})}}\\[2pt]
+  No two-valued state ($n \ge 3$ odd)\\
+  ($M^2 = 2b^2$; $n=1$: $2^1{-}2=0$)
+};
 
-% Row 4: Main theorems
-\node[thm] (thm4) at (-7.2, -0.7) {\textbf{Theorem~\ref{thm:spike}} (\Cref{sec:spike})\\Spike Family $F_n(s)$\\[-1pt]{\scriptsize($\ket{T}$, MUB, Hoggar, $F_4<2.150521$)}};
+\node[box, text width=4.60cm] (red) at (0.05, 4.1) {%
+  {\small\textbf{Matrix-Free Reduction}}\\[2pt]
+  (\S\ref{sec:reduction}) Lagrangian $H$, symplectic\\
+  basis, joint $+1$ eigenstate $v_0$
+};
 
-\node[thm] (thm2) at (-1.0, -0.7) {\textbf{Theorem~\ref{thm:no-pauli-mub}}: No Pauli-MUB\\Fiducial for all $n \ge 3$\\[-1pt]{\scriptsize(\& \textbf{Cor.~\ref{cor:damski-lly}}: Damski Conj.\ 1 \& E28)}};
+\node[thm, text width=4.60cm] (thm1) at (5.35, 4.1) {%
+  {\small\textbf{Theorem~\ref{thm:no-alltop} (\S\ref{sec:alltop})}}\\[2pt]
+  No Alltop on $\F_2^n$ ($n \ge 3$)\\
+  Sharp at $n \in \{1, 2\}$
+};
 
-\node[thm] (thm1) at (5.4, -0.7) {\textbf{Theorem~\ref{thm:no-alltop}}: No Alltop on $\F_2^n$\\($n \ge 3$; sharp at $n=1,2$)};
+% Row 4: Theorem 4, Theorem 2 (& Cor. 2), Corollary 1
+\node[thm, text width=4.25cm] (thm4) at (-5.15, 0.9) {%
+  {\small\textbf{Theorem~\ref{thm:spike} (\S\ref{sec:spike})}}\\[2pt]
+  Spike $F_n(s)$: $\ket{T}$, MUB, Hoggar\\
+  $4$-qubit bound $F_4 < 2.150521$
+};
 
-% Row 5: Corollary 1
-\node[thm] (cor1) at (5.4, -2.7) {\textbf{Corollary~\ref{cor:gowers}}: Gowers $U^3$ Bound\\$2^n\norm{\phi}_{U^3}^8 > 2 - 2^{-n}$ ($n \ge 3$)};
+\node[thm, text width=4.60cm] (thm2) at (0.05, 0.9) {%
+  {\small\textbf{Theorem~\ref{thm:no-pauli-mub} (\S\ref{sec:reduction}, \S\ref{sec:alltop})}}\\[2pt]
+  No Pauli-MUB fiducial ($n \ge 3$)\\
+  (\& \textbf{Cor.~\ref{cor:damski-lly}}: Damski \& E28)
+};
+
+\node[thm, text width=4.60cm] (cor1) at (5.35, 0.9) {%
+  {\small\textbf{Corollary~\ref{cor:gowers} (\S\ref{sec:alltop})}}\\[2pt]
+  Strict Gowers $U^3$ ($n \ge 3$):\\
+  $2^n\norm{\phi}_{U^3}^8 > 2 - 2^{-n}$
+};
 
 % Arrows
-\draw[arr] (pauli.south west) -- (thm3.north);
-\draw[arr] (pauli.south) -- (red.north);
-\draw[arr] (pauli.west) -| (-10.5, -0.7) -- (thm4.west);
+\draw[arr] ([xshift=-0.8cm]quant.south) -- (oddall.north);
+\draw[arr] ([xshift=0.8cm]quant.south) -- (evenall.north);
+\draw[arr, rounded corners=4pt] (pauli.west) -| (-7.82, 0.9) -- (thm4.west);
+\draw[arr] (pauli.south) -- (thm3.north);
+\draw[arr] ([xshift=0.9cm]pauli.south) -- ([xshift=-0.9cm]red.north);
+\draw[arr] ([xshift=0.9cm]oddall.south) -- ([xshift=-0.9cm]thm1.north);
+\draw[arr] (evenall.south) -- (thm1.north);
+\draw[arr, dashed, draw=black!60] ([xshift=0.9cm]thm3.south) -- node[pos=0.48, sloped, below=2pt, font=\footnotesize]{odd-$n$ shortcut} ([xshift=-0.9cm]thm2.north);
 \draw[arr] (red.south) -- (thm2.north);
-\draw[arr] (quant.south) -- (oddall.north);
-\draw[arr] (quant.south) -- (evenall.north);
-\draw[arr] (oddall.south) -- (thm1.north west);
-\draw[arr] (evenall.south) -- (thm1.north east);
+\draw[arr] ([xshift=-0.9cm]thm1.south) -- ([xshift=0.9cm]thm2.north);
 \draw[arr] (thm1.south) -- (cor1.north);
-\draw[arr] (thm1.west) -- (thm2.east);
-\draw[arr, dashed, draw=black!55] (thm3.south) -- node[sloped, above, font=\scriptsize]{odd-$n$ shortcut} (thm2.north west);
 
-\end{tikzpicture}%
-}
+\end{tikzpicture}
 \caption{Logical dependency structure of the main theorems. The dashed arrow indicates that for odd $n \ge 3$, \Cref{thm:odd-two-valued} combined with \Cref{lem:lagrangian} already suffices to establish \Cref{thm:no-pauli-mub}, whereas the odd-$n$ branch of \Cref{thm:no-alltop} is still needed for Alltop non-existence and \Cref{cor:gowers}.}\label{fig:proof-arch}
 \end{figure}
 
