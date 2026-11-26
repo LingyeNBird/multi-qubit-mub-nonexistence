@@ -142,7 +142,7 @@ The present work resolves the corresponding question for \emph{mutually unbiased
   \begin{equation}\label{eq:welch-bound}
     F_n(\ket{\psi}) \ge 1 + \frac{(d-1)^2}{d^2 - 1} = \frac{2d}{d+1},
   \end{equation}
-  which Cuffaro and Fuchs~\cite{cuffaro2024quantum} (for all R\'enyi orders $\alpha \ge 2$) showed is uniquely saturated by WH-SIC fiducials when they exist (under $\Pauli_n$, only for $n \in \{1, 3\}$, giving $F_1 = 4/3$ and $F_3 = 16/9$). Open Quantum Problem~E28~\cite{oqpE28} asks for the exact maximum of $M_\alpha$ ($\alpha \ge 2$) when no product WH-SIC exists ($n \neq 1, 3$). Throughout~\cite{liu2026maximal,oqpE28}, the SRE is defined with respect to the $n$-qubit Pauli group $\Pauli_n = \mathrm{WH}(2)^{\otimes n}$ (as distinct from the cyclic group $\mathrm{WH}(2^n)$). For $n = 2$, Liu, Low, and Yin~\cite{liu2026maximal} identified $480$ two-qubit WH-MUB fiducials attaining $F_2 = 7/4$ ($M_2 = \ln(16/7) \approx 0.826679$), provided strong numerical evidence for global optimality at $n = 2$ (a rigorous analytic proof at $n = 2$ remains open in~\cite{oqpE28}), and wrote that they
+  which Cuffaro and Fuchs~\cite{cuffaro2024quantum} (for all R\'enyi orders $\alpha \ge 2$) showed is uniquely saturated by WH-SIC fiducials when they exist (under $\Pauli_n$, only for $n \in \{1, 3\}$, giving $F_1 = 4/3$ and $F_3 = 16/9$). Open Quantum Problem~E28~\cite{oqpE28} asks for the exact maximum of $M_\alpha$ ($\alpha \ge 2$) when no product WH-SIC exists ($n \neq 1, 3$). Throughout~\cite{liu2026maximal,oqpE28}, the SRE is defined with respect to the $n$-qubit Pauli group $\Pauli_n = \mathrm{WH}(2)^{\otimes n}$ (as distinct from the cyclic group $\mathrm{WH}(2^n)$). For $n = 2$, Liu, Low, and Yin~\cite{liu2026maximal} identified $480$ two-qubit WH-MUB fiducials attaining $F_2 = 7/4$ ($M_2 = \ln(16/7) \approx 0.826679$), provided strong numerical evidence for global optimality at $n = 2$ (subsequently proved rigorously across all $\alpha \ge 2$ in the companion certified formalization~\cite{ye2026twoqubit}), and wrote that they
   \begin{quote}\small\itshape
     ``conjecture that WH-MUBs are the maximal magic states for $n$-qubit, when $n \neq 1$ and $3$''
   \end{quote}
@@ -240,7 +240,7 @@ In particular:
 
 \begin{table}[htbp]
 \centering
-\caption{Existence of multi-qubit product Weyl--Heisenberg (Pauli) covariant SIC fiducials, complete $2^n$-basis MUB fiducials (equivalently two-valued Pauli states), and Alltop phase functions on $\F_2^n$, together with key Pauli fourth-moment benchmarks ($F_n$; smaller $F_n$ means larger magic $M_2 = -\ln(F_n/2^n)$). Global optimality of $F_n$ over $\CP^{2^n-1}$ is proved via~\eqref{eq:welch-bound} for $n \in \{1, 3\}$, whereas the conjectured minima $F_2 = 7/4$~\cite{liu2026maximal} and $F_4 \approx 2.150520$ rest on numerical evidence.}\label{tab:positioning}
+\caption{Existence of multi-qubit product Weyl--Heisenberg (Pauli) covariant SIC fiducials, complete $2^n$-basis MUB fiducials (equivalently two-valued Pauli states), and Alltop phase functions on $\F_2^n$, together with key Pauli fourth-moment benchmarks ($F_n$; smaller $F_n$ means larger magic $M_2 = -\ln(F_n/2^n)$). Global optimality of $F_n$ over $\CP^{2^n-1}$ is proved via~\eqref{eq:welch-bound} for $n \in \{1, 3\}$ and via a certified $\mathrm{SO}(6)$ sum-of-squares proof in the companion work~\cite{ye2026twoqubit} for $n = 2$ ($F_2 = 7/4$), whereas the $n = 4$ candidate $F_4 \approx 2.150520$ rests on numerical evidence.}\label{tab:positioning}
 \smallskip
 \footnotesize
 \setlength{\tabcolsep}{3.0pt}
@@ -1142,7 +1142,7 @@ By \Cref{thm:no-alltop}, $\phi$ is not an Alltop phase function, so there exist 
 \section{Spike-Plus-Uniform Family and Four-Qubit Magic}\label{sec:spike}
 % ==============================================================================
 
-Analytically, Open Quantum Problem~E28~\cite{oqpE28} remains open already at $n = 2$ (where $F_2 = 7/4$ has strong numerical support~\cite{liu2026maximal} but no analytic proof). With product WH-SICs absent for $n \notin \{1, 3\}$~\cite{godsil2009equiangular} and product WH-MUB fiducials absent for all $n \ge 3$ (\Cref{thm:no-pauli-mub}), $n = 4$ ($d = 16$) is the smallest qubit number at which neither symmetric fiducial structure exists. We now prove \Cref{prop:spike}, evaluating a one-parameter family of spike-plus-uniform states that contains $\ket{T}$, a $2$-qubit MUB fiducial, and the $3$-qubit Hoggar SIC, and yields a numerical candidate extremizer at $n = 4$.
+While the $n = 2$ case of Open Quantum Problem~E28~\cite{oqpE28} ($F_2 = 7/4$, attained precisely on the $480$-state Clifford orbit~\cite{liu2026maximal}) is resolved across all $\alpha \ge 2$ in the companion certified proof~\cite{ye2026twoqubit}, global optimality for $n \ge 4$ remains open. With product WH-SICs absent for $n \notin \{1, 3\}$~\cite{godsil2009equiangular} and product WH-MUB fiducials absent for all $n \ge 3$ (\Cref{thm:no-pauli-mub}), $n = 4$ ($d = 16$) is the smallest qubit number at which neither symmetric fiducial structure exists. We now prove \Cref{prop:spike}, evaluating a one-parameter family of spike-plus-uniform states that contains $\ket{T}$, a $2$-qubit MUB fiducial, and the $3$-qubit Hoggar SIC, and yields a numerical candidate extremizer at $n = 4$.
 
 \subsection{Symmetry and exact Pauli spectrum}
 
@@ -1263,7 +1263,7 @@ where the Haar-random pure-state average on $\CP^{d-1}$ equals $\mathbb{E}_{\mat
 
 \begin{table}[htbp]
 \centering
-\caption{Instances of the spike-plus-uniform family $\ket{\psi_n(s)}$ for $n = 1, 2, 3, 4$, distinguishing global optima proved via~\eqref{eq:welch-bound} from numerical candidates.}\label{tab:spike-summary}
+\caption{Instances of the spike-plus-uniform family $\ket{\psi_n(s)}$ for $n = 1, 2, 3, 4$, distinguishing proved global optima ($n \in \{1, 2, 3\}$) from the $n = 4$ numerical candidate.}\label{tab:spike-summary}
 \smallskip
 \footnotesize
 \setlength{\tabcolsep}{3.0pt}
@@ -1273,7 +1273,7 @@ where the Haar-random pure-state average on $\CP^{d-1}$ equals $\mathbb{E}_{\mat
 $n$ & Structure & Parameter $s$ & $F_n$ & $M_2 = -\ln(F_n/2^n)$ & Optimality \\
 \midrule
 $1$ & $1$-qubit WH-SIC ($\ket{T}$) & $1 - 1/\sqrt{3} \approx 0.422650$ & $4/3 \approx 1.333333$ & $\ln(3/2) \approx 0.405465$ & Proved (Welch) \\
-$2$ & $2$-qubit WH-MUB fiducial & $1/2 = 0.500000$ & $7/4 = 1.750000$ & $\ln(16/7) \approx 0.826679$ & Numerical~\cite{liu2026maximal} \\
+$2$ & $2$-qubit WH-MUB fiducial & $1/2 = 0.500000$ & $7/4 = 1.750000$ & $\ln(16/7) \approx 0.826679$ & Proved (SOS/Lean)~\cite{ye2026twoqubit} \\
 $3$ & $3$-qubit Hoggar WH-SIC & $2/3 \approx 0.666667$ & $16/9 \approx 1.777778$ & $\ln(9/2) \approx 1.504077$ & Proved (Welch) \\
 $4$ & Cubic spike extremizer & $s^* \approx 0.622543$ & $\approx 2.150520$ & $\approx 2.006879$ & Numerical (\S\ref{sec:spike}) \\
 \bottomrule
@@ -1451,8 +1451,8 @@ always obeys $0 < \Delta_{\mathrm{phase}}(n) \le 2 - 5\cdot 2^{-n} + 3\cdot 4^{-
 for all $\theta \in \R$. In multi-start L-BFGS optimizations over $\Uone^{\F_2^n}$, all starts converged to $9/4$, $45/16$, and $21/8$ for $n = 3, 4, 5$, and optimization at $n = 6$ found $\min F_6^{\mathrm{phase}} \le 2.6484$ ($\Delta_{\mathrm{phase}}(6) \le 0.664$). Note in particular that at $n = 4$, the apparent phase-state minimum $45/16 = 2.8125$ lies far above the cubic spike value $F_4(\ket{\psi_4(s^*)}) \approx 2.1505$, showing that optimal $4$-qubit magic states lie far outside the class of phase (or Lagrangian-annihilated) states. Because $\Delta_{\mathrm{phase}}(n)$ is non-monotone and stays of order $\Theta(1)$ across $n = 3, 4, 5, 6$ with no sign of decaying to $0$, we ask: are $9/4$, $45/16$, and $21/8$ the exact minima for $n = 3, 4, 5$, does $\liminf_{n\to\infty} \Delta_{\mathrm{phase}}(n) > 0$, and does $\min_\phi 2^n\norm{\phi}_{U^3(\F_2^n)}^8$ remain bounded strictly below the random-phase expectation $4$?
 \end{openproblem}
 
-\begin{openproblem}[Two- and four-qubit maximal magic / Open Quantum Problem~E28]\label{op:e28-4qubit}
-Rigorous analytic proofs of global optimality for Open Quantum Problem~E28~\cite{oqpE28} remain open for all $n \notin \{1, 3\}$, starting at $n = 2$ (proving $\min_{\ket{\psi}\in\CP^3} F_2(\ket{\psi}) = 7/4$~\cite{liu2026maximal}). At $n = 4$, prove (or refute) that the cubic spike-plus-uniform state $\ket{\psi_4(s^*)}$ of \Cref{prop:spike} globally minimizes $F_4(\ket{\psi})$ over all pure states $\ket{\psi} \in \CP^{15}$, i.e., that
+\begin{openproblem}[Four-qubit maximal magic / Open Quantum Problem~E28]\label{op:e28-4qubit}
+While the $n = 2$ case ($\min_{\ket{\psi}\in\CP^3} F_2(\ket{\psi}) = 7/4$~\cite{liu2026maximal}) is resolved across all $\alpha \ge 2$ in the companion certified proof~\cite{ye2026twoqubit}, rigorous global optimality for Open Quantum Problem~E28~\cite{oqpE28} remains open for all $n \ge 4$. At $n = 4$, prove (or refute) that the cubic spike-plus-uniform state $\ket{\psi_4(s^*)}$ of \Cref{prop:spike} globally minimizes $F_4(\ket{\psi})$ over all pure states $\ket{\psi} \in \CP^{15}$, i.e., that
 \[
   \min_{\ket{\psi} \in \CP^{15}} F_4(\ket{\psi}) = F_4(\ket{\psi_4(s^*)}) \approx 2.1505201547.
 \]
