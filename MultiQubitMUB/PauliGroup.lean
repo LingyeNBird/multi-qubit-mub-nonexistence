@@ -1,5 +1,9 @@
-import MultiQubitMUB.Basic
-import MultiQubitMUB.Alltop
+module
+
+public import MultiQubitMUB.Basic
+public import MultiQubitMUB.Alltop
+public import Mathlib.Analysis.Real.Sqrt
+import Mathlib.Tactic
 
 /-!
 # Theorem 2: Unrestricted Non-Existence of Multi-Qubit Pauli-Covariant MUB Fiducials (`n ≥ 3`)
@@ -19,6 +23,8 @@ We prove in complete matrix-free generality on `QState n := F2 n → ℂ`:
 3. **Sharpness (`exists_pauli_mub_fiducial_two`)**: For `n = 2`, `|ψ₂⟩ = (1/2)(1, 1, 1, i)` IS
    a 2-qubit Pauli-covariant MUB fiducial generating 4 pairwise MUBs.
 -/
+
+@[expose] public section
 
 namespace MultiQubitMUB
 

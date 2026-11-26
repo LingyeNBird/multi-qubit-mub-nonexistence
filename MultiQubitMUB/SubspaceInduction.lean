@@ -1,5 +1,8 @@
-import MultiQubitMUB.GaussianInt
-import MultiQubitMUB.Basic
+module
+
+public import MultiQubitMUB.GaussianInt
+public import MultiQubitMUB.Basic
+import Mathlib.Tactic
 
 /-!
 # The 2-Adic Subspace Induction Theorem on `𝔽₂ⁿ`
@@ -7,6 +10,8 @@ import MultiQubitMUB.Basic
 Proves the pure algebraic core of the non-existence of even-qubit Pauli-covariant MUB fiducials
 and Alltop functions on `𝔽₂^(2k)` (`k ≥ 2`).
 -/
+
+@[expose] public section
 
 namespace MultiQubitMUB
 
@@ -246,8 +251,7 @@ lemma wht_eq_subcube_sum {n : ℕ} (f : F2 n → GI) (x : F2 n) :
         have hx : ∀ i ∈ T, x i = 1 := fun i hi => (h i hi).2
         have hu : ∀ i ∈ T, u i = 1 := fun i hi => (h i hi).1
         simp only [monom]
-        split_ifs
-        ring
+        rw [ite_eq_left hx, ite_eq_left hu, mul_one]
       · push Not at h
         obtain ⟨i, hi, hne⟩ := h
         have hnotboth : ¬ (u i = 1 ∧ x i = 1) := fun ⟨h1, h2⟩ => hne h1 h2

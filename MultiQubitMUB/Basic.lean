@@ -1,9 +1,11 @@
-import Mathlib.Data.ZMod.Basic
-import Mathlib.LinearAlgebra.Dimension.Finrank
-import Mathlib.LinearAlgebra.Dimension.Constructions
-import Mathlib.LinearAlgebra.Dimension.DivisionRing
-import Mathlib.LinearAlgebra.FiniteDimensional.Defs
-import Mathlib.Basic.Complex.Basic
+module
+
+public import Mathlib.Data.ZMod.Basic
+public import Mathlib.LinearAlgebra.Dimension.Finrank
+public import Mathlib.LinearAlgebra.Dimension.Constructions
+public import Mathlib.LinearAlgebra.Dimension.DivisionRing
+public import Mathlib.LinearAlgebra.FiniteDimensional.Defs
+public import Mathlib.Basic.Complex.Basic
 import Mathlib.Tactic
 
 /-!
@@ -15,6 +17,8 @@ Provides foundational definitions and lemmas for `F2 n := Fin n → ZMod 2`:
 - Walsh–Hadamard Transform inversion over any ring (specialized to `ℂ`, `ℝ`, `ℤ`, `GaussianInt`).
 - Affine subspace character sums and dimension/cardinality parity lemmas for orthogonal complements.
 -/
+
+@[expose] public section
 
 namespace MultiQubitMUB
 

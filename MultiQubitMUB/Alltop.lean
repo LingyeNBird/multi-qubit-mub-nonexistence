@@ -1,6 +1,10 @@
-import MultiQubitMUB.GaussianInt
-import MultiQubitMUB.Basic
-import MultiQubitMUB.SubspaceInduction
+module
+
+public import MultiQubitMUB.GaussianInt
+public import MultiQubitMUB.Basic
+public import MultiQubitMUB.SubspaceInduction
+public import Mathlib.Analysis.Real.Sqrt
+import Mathlib.Tactic
 
 /-!
 # Theorem 1: Non-Existence of Alltop Functions on `𝔽₂ⁿ` for All `n ≥ 3`
@@ -21,6 +25,8 @@ We prove:
    For all `n ≥ 3` and every phase function `φ : 𝔽₂ⁿ → U(1)`,
    `∑_{a,b} |2^(-n) ∑_x (-1)^(b·x) conj(φ x) φ(x+a)|^4 > 2 - 2^(-n)`.
 -/
+
+@[expose] public section
 
 namespace MultiQubitMUB
 

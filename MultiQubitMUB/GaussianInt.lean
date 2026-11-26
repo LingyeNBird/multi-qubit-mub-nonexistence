@@ -1,5 +1,8 @@
-import Mathlib.NumberTheory.Zsqrtd.GaussianInt
-import Mathlib.Basic.Complex.Basic
+module
+
+public import Mathlib.NumberTheory.Zsqrtd.GaussianInt
+public import Mathlib.Basic.Complex.Basic
+public import Mathlib.Algebra.BigOperators.Group.Finset.Basic
 import Mathlib.Tactic
 
 /-!
@@ -12,6 +15,8 @@ proof of multi-qubit Pauli-covariant MUB fiducial states and Alltop functions on
 3. Coordinate-wise characterization of `2^r ∣ z` in `GaussianInt`.
 4. Exact complex embedding `giToComplex : GaussianInt →+* ℂ` preserving conjugation and norm.
 -/
+
+@[expose] public section
 
 namespace MultiQubitMUB
 

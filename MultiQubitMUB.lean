@@ -1,6 +1,8 @@
-import MultiQubitMUB.GaussianInt
-import MultiQubitMUB.Basic
-import MultiQubitMUB.SubspaceInduction
-import MultiQubitMUB.Alltop
-import MultiQubitMUB.PauliGroup
-import MultiQubitMUB.SpikeFamily
+module
+
+public import MultiQubitMUB.GaussianInt
+public import MultiQubitMUB.Basic
+public import MultiQubitMUB.SubspaceInduction
+public import MultiQubitMUB.Alltop
+public import MultiQubitMUB.PauliGroup
+public import MultiQubitMUB.SpikeFamily

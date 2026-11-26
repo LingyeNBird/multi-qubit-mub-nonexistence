@@ -1,4 +1,8 @@
-import MultiQubitMUB.PauliGroup
+module
+
+public import MultiQubitMUB.PauliGroup
+public import Mathlib.Analysis.Real.Sqrt
+import Mathlib.Tactic
 
 /-!
 # The `GL(n, 𝔽₂)`-Invariant, `(H^⊗n ∘ K)`-Symmetric Spike+Uniform Family
@@ -19,6 +23,8 @@ Remarkably, this single 1-parameter family unifies the known optimal magic state
 - `n = 4`, cubic root of `453 s³ - 708 s² + 368 s - 64 = 0`: candidate global 4-qubit magic extremizer
   (`F₄ ≈ 2.1505201547`, certified `F₄ < 2.150521`).
 -/
+
+@[expose] public section
 
 namespace MultiQubitMUB
 
