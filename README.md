@@ -2,7 +2,7 @@
 
 A self-contained, pure-kernel **Lean 4** formalization (zero `sorry`, zero `native_decide`, standard axioms `[propext, Classical.choice, Quot.sound]` only) resolving the multi-qubit Pauli-covariant MUB fiducial problem and the Alltop function problem over $\mathbb{F}_2^n$ for **all** $n \ge 3$ (both odd and even).
 
-For a complete, self-contained, human-readable mathematical proof mirroring every module and lemma, see **[`PROOF.md`](PROOF.md)**.
+For the full publication-ready manuscript (compiled PDF + LaTeX source), see **[`paper/main.pdf`](paper/main.pdf)** ([`paper/main.tex`](paper/main.tex)). For a concise Markdown proof mirroring every Lean module and lemma, see **[`PROOF.md`](PROOF.md)**.
 
 ---
 
@@ -23,7 +23,7 @@ For a complete, self-contained, human-readable mathematical proof mirroring ever
 
 1. **Product Weyl–Heisenberg MUBs ([arXiv:2603.15550](https://arxiv.org/abs/2603.15550)):** Damski, Bistroń, Ponterio, Czartowski, and Życzkowski conjectured (Conjecture 1) that no product-WH MUB fiducial vector of the form $\psi_x = 2^{-n/2}\omega_8^{m_x}$ exists for $n > 2$, and further proposed the stronger conjecture that no multi-qubit product-WH MUB fiducial exists at all for $n > 2$ (analogous to Godsil–Roy's theorem for product-WH SICs). Our `IsPauliMubFiducial` characterizes a fiducial generating a complete set of $2^n$ pairwise MUBs under $\mathcal{P}_n$ (adding the computational basis gives $2^n + 1$ MUBs for equatorial states; partial sets of $< 2^n$ bases are not ruled out). `no_pauli_mub_fiducial` proves non-existence in full unrestricted generality for **all** $n \ge 3$.
 2. **Multi-Qubit Maximal Magic ([arXiv:2502.17550](https://arxiv.org/abs/2502.17550) / Problem E28):** Liu, Low, and Yin found 480 two-qubit WH-MUB fiducials attaining $F_2 = 7/4$ ($M_2 = \ln(16/7)$) and conjectured that WH-MUB fiducials act as maximal magic states for $n$-qubit systems with $n \neq 1, 3$ (excluding $n = 1, 3$, where product WH-SICs exist). Theorem 2 proves that no product WH-MUB fiducial exists for any $n \ge 3$, ruling out their conjectured WH-MUB maximizers for all $n \ge 4$.
-3. **Companion Numerical Observation ($n = 4$):** In 3,000 multi-start Riemannian optimizations on $\mathbb{CP}^{15}$ (separate from the Lean formalization), 2,936 trials converged to the exact cubic point of the `spikeState` family ($453 s^3 - 708 s^2 + 368 s - 64 = 0$), giving $F_4 \approx 2.1505201547 > 31/16 = 1.9375$ — equivalently $M_2 \approx 2.006879 < \ln(256/31) \approx 2.111180$ relative to the unreachable hypothetical WH-MUB value. (Note that Corollary 1 proves $F_4 > 31/16$ strictly for *phase* states; for *general* states on $\mathbb{CP}^{15}$, the only known analytic lower bound on $F_4$ is the Welch/SIC bound $2d/(d+1) = 32/17 \approx 1.882353$, and proving global optimality of $F_4 \approx 2.150520$ remains open.)
+3. **Companion Numerical Observation ($n = 4$):** In 3,000 multi-start Riemannian optimizations on $\mathbb{CP}^{15}$ (separate from the Lean formalization), 2,936 trials converged to the exact cubic point of the `spikeState` family ($453 s^3 - 708 s^2 + 368 s - 64 = 0$), giving $F_4 \approx 2.1505201547 > 31/16 = 1.9375$ — equivalently $M_2 \approx 2.006879 < \ln(256/31) \approx 2.111190$ relative to the unreachable hypothetical WH-MUB value. (Note that Corollary 1 proves $F_4 > 31/16$ strictly for *phase* states; for *general* states on $\mathbb{CP}^{15}$, the only known analytic lower bound on $F_4$ is the Welch/SIC bound $2d/(d+1) = 32/17 \approx 1.882353$, and proving global optimality of $F_4 \approx 2.150520$ remains open.)
 
 ---
 
@@ -31,7 +31,11 @@ For a complete, self-contained, human-readable mathematical proof mirroring ever
 
 ```text
 .
-├── PROOF.md                        # Complete human-readable mathematical proof
+├── paper/
+│   ├── main.tex                    # Complete LaTeX manuscript (AMS style, TikZ/pgfplots)
+│   ├── references.bib              # Curated BibTeX bibliography
+│   └── main.pdf                    # Compiled publication-ready PDF
+├── PROOF.md                        # Concise Markdown proof mirroring Lean modules
 ├── README.md                       # Project overview and verification guide
 ├── Audit.lean                      # #print axioms audit on all 10 main theorems
 ├── MultiQubitMUB.lean              # Root Lean library aggregator
