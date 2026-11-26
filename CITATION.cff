@@ -1,0 +1,23 @@
+cff-version: 1.2.0
+message: "If you use this Lean 4 formalization, companion scripts, or manuscript, please cite it using the metadata below."
+type: software
+title: "Non-Existence of Multi-Qubit Pauli-Covariant MUB Fiducial States and Alltop Phase Functions on F_2^n (n >= 3)"
+authors:
+  - family-names: "Ye"
+    given-names: "Zhaoting"
+    orcid: "https://orcid.org/0009-0006-8457-0482"
+    affiliation: "Independent Researcher"
+version: "1.1"
+date-released: "2026-11-26"
+doi: "10.5281/zenodo.24566133"
+repository-code: "https://github.com/LingyeNBird/multi-qubit-mub-nonexistence"
+license: "MIT"
+keywords:
+  - "quantum information"
+  - "mutually unbiased bases"
+  - "Alltop functions"
+  - "stabilizer Renyi entropy"
+  - "quantum magic"
+  - "Gowers U3 norm"
+  - "Lean 4"
+  - "formal verification"
