@@ -33,7 +33,7 @@ A direct calculation verifies:
 - **Pauli-covariant MUB fiducial state (`IsPauliMubFiducial`):** A unit vector $|\psi\rangle \in (\mathbb{C}^2)^{\otimes n}$ for which there exists a partition map $\pi : \mathbb{F}_2^{2n} \to \{0, \dots, 2^n - 1\}$ such that for all $p, q \in \mathbb{F}_2^{2n}$:
   - $\pi(p) = \pi(q)$ and $p \neq q \implies \langle P_p\psi | P_q\psi \rangle = 0$;
   - $\pi(p) \neq \pi(q) \implies |\langle P_p\psi | P_q\psi \rangle|^2 = 2^{-n}$.
-  *(Note: We do not even need to assume that the fibers of $\pi$ have equal cardinality $2^n$; this follows automatically from Parseval's identity in Lemma 3.1.)*
+  *(Note: This captures a fiducial generating a complete set of $2^n$ pairwise MUBs under $\mathcal{P}_n$—yielding $2^n + 1$ MUBs with the computational basis when $|\psi\rangle$ is equatorial—and does not assume a priori that the fibers of $\pi$ have equal size $2^n$; as shown in Lemma 3.1, the fibers are automatically the $2^n$ cosets of $H$, each of cardinality $2^n$. Smaller partial sets of $< 2^n$ covariant MUBs are outside the scope of this definition.)*
 - **Pauli 4th moment (`pauliMoment4`, `phasePauliMoment4`):**
   $$F_n(|\psi\rangle) := \sum_{p \in \mathbb{F}_2^{2n}} |\langle\psi|P_p|\psi\rangle|^4,$$
   which relates to the order-2 Stabilizer Rényi Entropy by $M_2(|\psi\rangle) = -\ln\bigl(F_n(|\psi\rangle)/2^n\bigr)$. For a phase state $\psi(x) = 2^{-n/2}\phi(x)$ ($|\phi(x)| = 1$), $F_n(|\psi\rangle) = 2^n \|\phi\|_{U^3(\mathbb{F}_2^n)}^8$.
@@ -42,9 +42,9 @@ A direct calculation verifies:
 
 - **Theorem 1 (`no_alltop_f2`):** For every $n \ge 3$, no Alltop function exists on $\mathbb{F}_2^n$. For $n = 2$, $\phi_2 = (1, 1, 1, i)$ IS an Alltop function (`exists_alltop_two`).
 - **Corollary 1 (`phasePauliMoment4_gt_mub`):** For every $n \ge 3$ and every $\phi : \mathbb{F}_2^n \to U(1)$, $2^n \|\phi\|_{U^3(\mathbb{F}_2^n)}^8 > 2 - 2^{-n}$ strictly.
-- **Theorem 2 (`no_pauli_mub_fiducial`):** For every $n \ge 3$, no unit vector $|\psi\rangle \in (\mathbb{C}^2)^{\otimes n}$ is a Pauli-covariant MUB fiducial state. In particular, this resolves both Conjecture 1 and the stronger unrestricted conjecture of Damski–Bistroń–Ponterio–Czartowski–Życzkowski (`arXiv:2603.15550`, `damski_conjecture_1`), and rules out the product WH-MUB maximal magic mechanism of Liu–Low–Yin (`arXiv:2502.17550`) for all $n \ge 3$. For $n = 2$, $|\psi_2\rangle = \frac{1}{2}(1, 1, 1, i)$ IS a Pauli-covariant MUB fiducial (`exists_pauli_mub_fiducial_two`).
+- **Theorem 2 (`no_pauli_mub_fiducial`):** For every $n \ge 3$, no unit vector $|\psi\rangle \in (\mathbb{C}^2)^{\otimes n}$ is a Pauli-covariant MUB fiducial state (generating $2^n$ pairwise MUBs under $\mathcal{P}_n$). In particular, this proves the $\omega_8$-phase non-existence statement (`damski_conjecture_1`, corresponding to Conjecture 1 of Damski–Bistroń–Ponterio–Czartowski–Życzkowski, `arXiv:2603.15550`) as well as the unrestricted non-existence of $2^n$ product-WH covariant MUBs from a fiducial for all $n \ge 3$, and rules out the conjectured WH-MUB maximal magic states of Liu–Low–Yin (`arXiv:2502.17550`, originally conjectured for $n \neq 1, 3$) for all $n \ge 4$. For $n = 2$, $|\psi_2\rangle = \frac{1}{2}(1, 1, 1, i)$ IS a Pauli-covariant MUB fiducial (`exists_pauli_mub_fiducial_two`).
 - **Theorem 3 (`no_pauli_two_valued_odd`):** For every odd $n = 2k + 1 \ge 3$, no unit vector $|\psi\rangle \in (\mathbb{C}^2)^{\otimes n}$ even satisfies $|\langle\psi|P_p|\psi\rangle|^2 \in \{0, 2^{-n}\}$ for all $p \neq 0$ (no basis-partition hypothesis needed).
-- **Theorem 4 (`pauliMoment4_spikeState`, `hoggar_sic_three`, `four_qubit_spike_bound`):** Exact closed-form formula for $F_n$ on the $\mathrm{GL}(n,\mathbb{F}_2) \rtimes \langle H^{\otimes n}\rangle$-invariant family $|\psi_n(s)\rangle$, recovering the 3-qubit Hoggar SIC ($F_3 = 16/9$) and certifying a 4-qubit state with $F_4 < 2.150521$.
+- **Theorem 4 (`pauliMoment4_spikeState`, `hoggar_sic_three`, `four_qubit_spike_bound`):** Exact closed-form formula for $F_n$ on the $\mathrm{GL}(n,\mathbb{F}_2)$-invariant, antiunitarily $(H^{\otimes n} \circ K)$-symmetric family $|\psi_n(s)\rangle$ (where $K$ is entrywise complex conjugation in the computational basis), recovering the 3-qubit Hoggar SIC ($F_3 = 16/9$) and certifying a 4-qubit unit state with $F_4 < 2.150521$.
 
 ---
 
@@ -82,6 +82,8 @@ Let $n = 2k + 1 \ge 3$ ($k \ge 1$) and suppose a unit vector $\psi$ satisfies $c
    $$M^2 = 2^n (2^n - 2)^2 = 2\bigl(2^k (2^n - 2)\bigr)^2.$$
 5. Since $n \ge 3$, $b := 2^k(2^n - 2) > 0$. By elementary infinite descent (`int_sq_ne_two_mul_sq`: $a^2 = 2 b^2 \implies 2 \mid a \implies 2 \mid b \implies (a/2)^2 = 2(b/2)^2$), $M^2 = 2 b^2$ forces $b = 0$, contradiction. *(Notice why $n = 1$ escapes: $2^1 - 2 = 0$, allowing $|T\rangle$!)* $\blacksquare$
 
+*Structural remark.* Since any Pauli-covariant MUB fiducial is two-valued on $\mathcal{P}_n \setminus \{I\}$ (Lemma 3.1), Theorem 3 already implies Theorem 2 directly for all odd $n \ge 3$. The odd-$n$ Alltop argument in Section 4 (`no_alltop_odd`) is still required to prove Theorem 1 (Alltop non-existence) and Corollary 1 (strict Gowers $U^3$ lower bound) for odd $n \ge 3$.
+
 ---
 
 ## 3. Matrix-Free Reduction: Pauli-MUB Fiducial $\implies$ Alltop Function (Theorem 2 $\Leftarrow$ Theorem 1)
@@ -98,7 +100,9 @@ Define $H := \{p \in \mathbb{F}_2^{2n} : \pi(p) = \pi(0)\}$. Then $H$ is an $n$-
 4. Summing Lemma 2.1(3) over $q \in H$ and using character orthogonality $\sum_{q \in H} (-1)^{\omega(p, q)} = |H|\mathbf{1}_{p \in H^\perp} = 2^n \mathbf{1}_{p \in H^\perp}$ (`sum_sympSign_submodule`) gives:
    $$2^n \sum_{p \in H^\perp} \langle\psi|P_p|\psi\rangle^2 = 2^n \sum_{q \in H} \langle\psi|P_q|\psi\rangle^2 = 2^n \cdot 1.$$
    Dividing by $2^n$ and peeling off $p = 0$ yields $\sum_{p \in H^\perp \setminus \{0\}} \langle\psi|P_p|\psi\rangle^2 = 0$. Since each summand is $\ge 0$, every $p \in H^\perp \setminus \{0\}$ has $\langle\psi|P_p|\psi\rangle = 0$, so $H^\perp \subseteq H$.
-5. By rank-nullity on $p \mapsto (h \mapsto \omega(p, h)) \in H^*$ (`finrank_sympOrth_ge`), $\dim H^\perp \ge 2n - \dim H = n = \dim H$. Combined with $H^\perp \subseteq H$, this forces $H^\perp = H$. $\square$
+5. By rank-nullity on $p \mapsto (h \mapsto \omega(p, h)) \in H^*$ (`finrank_sympOrth_ge`), $\dim H^\perp \ge 2n - \dim H = n = \dim H$. Combined with $H^\perp \subseteq H$, this forces $H^\perp = H$.
+
+*Remark on all fibers of $\pi$.* Although the rest of the proof only uses $|H| = 2^n$, one also has $\pi(p) = \pi(q) \iff p \oplus q \in H$ for all $p, q \in \mathbb{F}_2^{2n}$: if $\pi(p) = \pi(q)$ and $p \neq q$, then $0 = \langle P_p\psi | P_q\psi\rangle = \gamma(p,q)\langle\psi|P_{p\oplus q}|\psi\rangle$, so $p \oplus q \in H$; conversely, if $p \oplus q \in H \setminus \{0\}$, then $|\langle P_p\psi|P_q\psi\rangle|^2 = |\langle\psi|P_{p\oplus q}|\psi\rangle|^2 = 0 \neq 2^{-n}$, forcing $\pi(p) = \pi(q)$. Thus the fibers of $\pi$ are precisely the $2^n$ cosets $p \oplus H$, each of size $|H| = 2^n$. $\square$
 
 ### Lemma 3.2 (Explicit Symplectic Basis, `exists_symplectic_basis`)
 Let $f_1, \dots, f_n$ be an $\mathbb{F}_2$-basis of the Lagrangian subspace $H$. Then there exist $e_1, \dots, e_n \in \mathbb{F}_2^{2n}$ such that $\omega(f_i, f_j) = 0$, $\omega(e_i, e_j) = 0$, and $\omega(e_i, f_j) = \delta_{ij}$ for all $i, j$.
@@ -120,8 +124,10 @@ Let $F_j := P_{f_j}$ and $E_i := P_{e_i}$.
    - Since $\omega(f_j, e_i) = \delta_{ij}$, $F_j E_i = (-1)^{\delta_{ij}} E_i F_j$, so $F_j v_x = (-1)^{x_j} v_x$, hence $F^b v_x = (-1)^{b\cdot x} v_x$ for all $b \in \mathbb{F}_2^n$.
    - Since all $E_i$ pairwise commute and satisfy $E_i^2 = I$, $E^a E^x = E^{x \oplus a}$ with **no phase factor at all** (`applyProd_applyProd`), so $E^a v_x = v_{x \oplus a}$.
    - Each $E^x$ is unitary, so $\|v_x\| = \|v_0\| = 1$; for $x \neq y$, picking $j$ with $x_j \neq y_j$ gives $\langle v_x | v_y \rangle = \langle F_j v_x | F_j v_y \rangle = -\langle v_x | v_y \rangle \implies \langle v_x | v_y \rangle = 0$. Thus $\{v_x\}_{x \in \mathbb{F}_2^n}$ is an orthonormal basis of $\mathbb{C}^{\mathbb{F}_2^n}$.
-4. Set $\alpha(x) := \langle v_x | \psi \rangle$. Since $F^b$ and $E^a$ are products of commuting Hermitian operators, both are Hermitian, so expanding $\langle \psi | F^b E^a \psi \rangle$ in $\{v_x\}$ yields
-   $$c_{a,b}\,\langle \psi | P_{p(a,b)} | \psi \rangle = \langle \psi | F^b E^a \psi \rangle = \sum_{x \in \mathbb{F}_2^n} (-1)^{b\cdot x}\,\overline{\alpha(x)}\,\alpha(x \oplus a),$$
+4. Set $\alpha(x) := \langle v_x | \psi \rangle$, so $\psi = \sum_{x \in \mathbb{F}_2^n} \alpha(x)\, v_x$. Applying $F^b E^a$ term by term and re-indexing $y = x \oplus a$ gives
+   $$F^b E^a \psi = \sum_{x \in \mathbb{F}_2^n} \alpha(x)\, F^b v_{x\oplus a} = \sum_{x \in \mathbb{F}_2^n} (-1)^{b\cdot(x\oplus a)}\,\alpha(x)\, v_{x\oplus a} = \sum_{y \in \mathbb{F}_2^n} (-1)^{b\cdot y}\,\alpha(y\oplus a)\, v_y.$$
+   Taking the inner product with $\psi = \sum_y \alpha(y) v_y$ (by orthonormality of $\{v_y\}$) yields
+   $$c_{a,b}\,\langle \psi | P_{p(a,b)} | \psi \rangle = \langle \psi | F^b E^a \psi \rangle = \sum_{y \in \mathbb{F}_2^n} (-1)^{b\cdot y}\,\overline{\alpha(y)}\,\alpha(y \oplus a),$$
    where $|c_{a,b}| = 1$ and $p(a,b) := \sum_i a_i e_i + \sum_j b_j f_j$.
 5. Notice $\omega(p(a,b), f_k) = a_k$, so $p(a,b) \in H = H^\perp \iff a = 0$.
    - Setting $a = 0$: for $b = 0$ the sum is $\sum_x |\alpha(x)|^2 = 1$; for $b \neq 0$, $p(0, b) \in H \setminus \{0\}$ gives $0$. By WHT inversion, $|\alpha(x)|^2 = 2^{-n}$ for all $x$.
@@ -184,7 +190,7 @@ Let $1 \le r \le 2k - 2$, let $U \le \mathbb{F}_2^{2k}$ be an $r$-dimensional li
 - For $b = 0$: $|U^\perp \setminus \{0\}| = 2^{\dim U^\perp} - 1$ is odd, and $k \ge 1$.
 - For $b \neq 0$: $\dim(U^\perp \cap b^\perp) \ge \dim U^\perp - 1 \ge 1$, so $|(U^\perp \cap b^\perp) \setminus \{0\}| = 2^{\dim(U^\perp \cap b^\perp)} - 1$ is **odd** (`odd_card_nonzero_dot_zero`), while $|\{a \in U^\perp : a \cdot b = 1\}| \in \{0, 2^{\dim U^\perp - 1}\}$ is **even** (`even_card_dot_one`).
 
-Summing $\overline{w_{v_0 + u + b}}\, w_{v_0 + u}$ over $u \in U$ and applying affine character orthogonality $\sum_{u \in U} (-1)^{(v_0 + u)\cdot a} = 2^r (-1)^{v_0 \cdot a}\mathbf{1}_{a \in U^\perp}$ (`sum_chi_affine`) yields
+Summing $\overline{w_{v_0 + u + b}}\, w_{v_0 + u}$ over $u \in U$ and applying affine character orthogonality $\sum_{u \in U} (-1)^{(v_0 + u)\cdot a} = 2^r (-1)^{v_0 \cdot a}\mathbf{1}_{a \in U^\perp}$ (`sum_chi_affine`) shows that $\sum_{u \in U} \overline{w_{v_0 + u + b}}\, w_{v_0 + u}$ has the form $2^r(\text{odd} + i\cdot\text{even}) \equiv 2^r \pmod{2^{r+1}}$ in $\mathbb{Z}[i]$. Taking complex conjugates preserves this congruence (since $\overline{2^r(\text{odd} + i\cdot\text{even})} = 2^r(\text{odd} - i\cdot\text{even}) \equiv 2^r \pmod{2^{r+1}}$), and multiplying by $\overline{u_{\mathrm{rot}}} u_{\mathrm{rot}} = 1$ gives $\overline{w'_x}\, w'_y = \overline{w_x}\, w_y$, hence
 $$\sum_{u \in U} \overline{w'_{v_0 + u}}\, w'_{v_0 + u + b} \equiv 2^r \pmod{2^{r+1}} \quad \text{in } \mathbb{Z}[i].$$
 Substituting $w'_u = 1 + 2\eta_u$, subtracting $2^r$, and dividing by $2$ gives the **subspace correlation congruence** (`CorrCongr η r`):
 $$(\star_r): \qquad 2^r \;\Big|\; \sum_{u \in U} \Bigl(\overline{\eta_{v_0+u}} + \eta_{v_0+u+b} + 2\,\overline{\eta_{v_0+u}}\,\eta_{v_0+u+b}\Bigr) \quad \text{in } \mathbb{Z}[i].$$
@@ -207,7 +213,7 @@ $$(IH_m): \qquad 2^{r-1} \;\Big|\; \sum_{u \in U} \eta(v_0 + u) \quad \text{in }
      $$c_S(f) = (-1)^r \left(2 \sum_{v \in H_S} f(v) - \sum_{v \in C_S} f(v)\right).$$
      By $(IH_m)$, $2^{r-2} \mid \sum_{H_S} f$ and $2^{r-1} \mid \sum_{C_S} f$, hence **$2^{r-1} \mid c_S(f)$ for all $|S| \ge 1$**.
   3. **Sharper 2-adic valuation of $c_T(\delta)$ (`pow_two_dvd_mobiusCoeff_diff`):** For $|T| = r \ge 1$:
-     - If $r = m$: $c_T(\delta) = c_T(h(\cdot, 1)) - c_T(h(\cdot, 0))$, so by (2), **$2^{m-1} \mid c_T(\delta)$**.
+     - If $r = m$: because $(IH_m)$ holds for *every* affine subspace of dimension $\le m$, the pullback of $h(\cdot, 1)$ onto $\mathbb{F}_2^m$ also satisfies $(IH_m)$, so (2) applies equally to both $h(\cdot, 1)$ and $f = h(\cdot, 0)$. Hence $c_T(\delta) = c_T(h(\cdot, 1)) - c_T(h(\cdot, 0))$ is divisible by $2^{m-1}$.
      - If $1 \le r \le m - 1$: let $\widetilde{C}_T := \{w \in \mathbb{F}_2^{m+1} : \forall i \notin T,\, w_i = 0\}$ (dim $r + 1 \le m$) and $D_T := \{w \in \widetilde{C}_T : \sum_{i \in T} w_i + w_m = 0\}$ (dim $r \le m - 1$). Then (`mobiusCoeff_diff_eq_subspaces`):
        $$c_T(\delta) = (-1)^r \left(\sum_{w \in \widetilde{C}_T} h(w) - 2 \sum_{w \in D_T} h(w)\right).$$
        By $(IH_m)$ on $h$, $2^r \mid \sum_{\widetilde{C}_T} h$ and $2^{r-1} \mid \sum_{D_T} h$, hence **$2^r \mid c_T(\delta)$** (an extra factor of $2$!).
@@ -263,8 +269,8 @@ For any unimodular $\phi : \mathbb{F}_2^n \to U(1)$, let $c_a(b) := |\widehat{g_
   $$F_n(\phi) = 2 - \frac{1}{2^n} + \frac{1}{4^{2n}}\sum_{a \neq 0}\sum_{b} \bigl(c_a(b) - 2^n\bigr)^2.$$
 - By Theorem 1 (`no_alltop_f2`), for $n \ge 3$ there exists $(a_0, b_0)$ with $a_0 \neq 0$ and $c_{a_0}(b_0) \neq 2^n$, making the sum of squares strictly positive. $\blacksquare$
 
-### The $\mathrm{GL}(n, \mathbb{F}_2) \rtimes \langle H^{\otimes n}\rangle$-Invariant Spike Family (`SpikeFamily.lean`)
-For $n \ge 1$ ($d = 2^n$) and real $s$ satisfying $p := 1 - \frac{d-1}{d}s > 0$ and $v^2 := -1 + 4s - \frac{4(d-1)}{d} s^2 \ge 0$, set $\alpha := \sqrt{p}$, $u := 2p - 1$, $v := \sqrt{v^2}$, $\beta := \frac{u + iv}{2\alpha}$, and $|\psi_n(s)\rangle := \alpha|0\rangle + \beta\sum_{x \neq 0}|x\rangle$. Direct evaluation over the 5 Pauli orbits yields:
+### The $\mathrm{GL}(n, \mathbb{F}_2)$-Invariant, $(H^{\otimes n} \circ K)$-Symmetric Spike Family (`SpikeFamily.lean`)
+For $n \ge 1$ ($d = 2^n$) and real $s$ satisfying $p := 1 - \frac{d-1}{d}s > 0$ and $v^2 := -1 + 4s - \frac{4(d-1)}{d} s^2 \ge 0$, set $\alpha := \sqrt{p}$, $u := 2p - 1$, $v := \sqrt{v^2}$, $\beta := \frac{u + iv}{2\alpha}$, and $|\psi_n(s)\rangle := \alpha|0\rangle + \beta\sum_{x \neq 0}|x\rangle$. Under computational-basis permutations in $\mathrm{GL}(n, \mathbb{F}_2)$ the state is strictly invariant; under $H^{\otimes n}$, direct calculation gives $H^{\otimes n}|\psi_n(s)\rangle = e^{i\theta}|\overline{\psi_n(s)}\rangle$ (i.e., $|\psi_n(s)\rangle$ is invariant up to global phase under the **antiunitary** involution $H^{\otimes n} \circ K$, where $K$ is entrywise complex conjugation, so its Pauli expectation spectrum is symmetric under $(a, b) \leftrightarrow (b, a)$ up to signs on $a \cdot b = 1$). Direct evaluation over the 5 Pauli orbits yields:
 - $(a,b) = (0,0)$: $\langle P \rangle = 1$ (count $1$);
 - $a = 0, b \neq 0$ or $a \neq 0, b = 0$: $\langle P \rangle = 1 - s$ (count $2(d - 1)$);
 - $a \neq 0, b \neq 0, a \cdot b = 0$: $\langle P \rangle = 1 - 2s$ (count $(d - 1)(d/2 - 1)$);

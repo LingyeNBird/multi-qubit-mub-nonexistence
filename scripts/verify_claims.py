@@ -4,7 +4,8 @@ Independent numerical & exact verification script for MultiQubitMUB.
 
 Checks:
 1. n = 2 sharpness witness |ψ₂⟩ = (1/2)(1, 1, 1, i): exact Pauli-covariant 4-MUB fiducial (F₂ = 7/4).
-2. Unified GL(n, 𝔽₂) ⋊ ⟨H^⊗n⟩ spike+uniform family |ψ_n(s)⟩ for n = 1, 2, 3, 4:
+2. Unified GL(n, 𝔽₂)-invariant, antiunitarily (H^⊗n ∘ K)-symmetric spike+uniform family |ψ_n(s)⟩ for n = 1, 2, 3, 4:
+   - Verifies H^⊗n |ψ_n(s)⟩ = e^{iθ} |conj(ψ_n(s))⟩ (antiunitary symmetry) and exact Pauli 4th moments:
    - n = 1, s = 1 - 1/√3: exact 1-qubit WH-SIC |T⟩ (F₁ = 4/3).
    - n = 2, s = 1/2: exact 2-qubit MUB fiducial (F₂ = 7/4).
    - n = 3, s = 2/3: exact 3-qubit Hoggar WH-SIC (F₃ = 16/9, all 63 Paulis have |⟨P⟩| = 1/3).
@@ -66,6 +67,23 @@ def spike_moment_poly(n: int, s: float) -> float:
     )
 
 
+def hadamard_apply(psi: list[complex], n: int) -> list[complex]:
+    d = 1 << n
+    scale = 1.0 / math.sqrt(d)
+    return [
+        scale * sum(((-1.0 if (popcount(x & y) & 1) else 1.0) * psi[y]) for y in range(d))
+        for x in range(d)
+    ]
+
+
+def check_antiunitary_hadamard(psi: list[complex], n: int) -> None:
+    """Verify H^⊗n |ψ⟩ = e^{iθ} |conj(ψ)⟩ up to a global phase."""
+    hpsi = hadamard_apply(psi, n)
+    conj_psi = [z.conjugate() for z in psi]
+    ov = sum(a.conjugate() * b for a, b in zip(conj_psi, hpsi))
+    assert abs(abs(ov) - 1.0) < 1e-12, f"Antiunitary H^⊗n ∘ K symmetry failed: |⟨conj(ψ)|H^⊗n ψ⟩| = {abs(ov)}"
+
+
 def main() -> None:
     # 1. Verify n = 2 Pauli-MUB fiducial sharpness witness
     psi2 = [0.5, 0.5, 0.5, 0.5j]
@@ -86,11 +104,12 @@ def main() -> None:
         psi = spike_state(n, s)
         norm = sum(abs(z) ** 2 for z in psi)
         assert abs(norm - 1.0) < 1e-13
+        check_antiunitary_hadamard(psi, n)
         f_direct = pauli_moment4(psi, n)
         f_poly = spike_moment_poly(n, s)
         assert abs(f_direct - target) < 1e-12
         assert abs(f_poly - target) < 1e-12
-        print(f"[PASS] n={n} {label}: s={s:.12f}, F_{n}={f_direct:.15f} (exact {target:.15f})")
+        print(f"[PASS] n={n} {label}: s={s:.12f}, F_{n}={f_direct:.15f} (exact {target:.15f}), (H^⊗n∘K)-symmetric")
 
     # 3. Verify n = 4 exact cubic extremizer
     # Solve 453 s^3 - 708 s^2 + 368 s - 64 = 0 via Newton
@@ -101,6 +120,7 @@ def main() -> None:
         s4 -= val / der
     psi4 = spike_state(4, s4)
     assert abs(sum(abs(z) ** 2 for z in psi4) - 1.0) < 1e-13
+    check_antiunitary_hadamard(psi4, 4)
     f4_direct = pauli_moment4(psi4, 4)
     f4_poly = spike_moment_poly(4, s4)
     assert abs(f4_direct - f4_poly) < 1e-12

@@ -14,8 +14,8 @@ We prove in complete matrix-free generality on `QState n := F2 n → ℂ`:
    - Completely resolves Conjecture 1 of Damski, Bistroń, Ponterio, Czartowski, Życzkowski
      (`arXiv:2603.15550`) in full unrestricted generality (`damski_conjecture_1`), removing both
      the `ω₈` phase ansatz and equimodularity.
-   - Refutes the multi-qubit Pauli-MUB maximal magic mechanism (`arXiv:2502.17550` / Problem E28)
-     for all `n ≥ 3`.
+   - Rules out the conjectured product WH-MUB maximal magic states (`arXiv:2502.17550` / Problem E28,
+     originally conjectured for `n ≠ 1, 3`) for all `n ≥ 4` (with Theorem 2 holding for all `n ≥ 3`).
 3. **Sharpness (`exists_pauli_mub_fiducial_two`)**: For `n = 2`, `|ψ₂⟩ = (1/2)(1, 1, 1, i)` IS
    a 2-qubit Pauli-covariant MUB fiducial generating 4 pairwise MUBs.
 -/

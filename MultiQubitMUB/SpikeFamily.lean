@@ -1,12 +1,16 @@
 import MultiQubitMUB.PauliGroup
 
 /-!
-# The `GL(n, 𝔽₂) ⋊ ⟨H^⊗n⟩`-Invariant Spike+Uniform Family
+# The `GL(n, 𝔽₂)`-Invariant, `(H^⊗n ∘ K)`-Symmetric Spike+Uniform Family
 
 For every `n ≥ 1` (`d = 2ⁿ`) and real parameter `s` satisfying `0 < 1 - ((d - 1) / d) * s`
 and `0 ≤ -1 + 4 * s - (4 * (d - 1) / d) * s²`, we define the explicit pure state
 `|ψ_n(s)⟩ = α |0⟩ + β ∑_{x ≠ 0} |x⟩` and prove the exact closed-form Pauli 4th moment:
   `pauliMoment4 n (spikeState n s) = 1 + (d - 1) * (2 * (1 - s)⁴ + (d/2 - 1) * (1 - 2s)⁴ + (d/2) * (-1 + 4s - 4(d-1)/d * s²)²)`.
+
+This state is strictly invariant under computational-basis permutations in `GL(n, 𝔽₂)` and
+invariant (up to global phase) under the antiunitary involution `H^⊗n ∘ K` (where `K` is
+entrywise complex conjugation), making its Pauli expectation spectrum symmetric under `(a, b) ↔ (b, a)`.
 
 Remarkably, this single 1-parameter family unifies the known optimal magic states across `n = 1, 2, 3, 4`:
 - `n = 1`, `s = 1 - 1/√3`: exact 1-qubit SIC / `|T⟩` state (`F₁ = 4/3`).
@@ -24,13 +28,13 @@ open scoped Classical
 noncomputable def pauliMoment4 (n : ℕ) (ψ : QState n) : ℝ :=
   ∑ p : PauliIdx n, (Complex.normSq (innerProd ψ (pauliApply p ψ))) ^ 2
 
-/-- Closed-form Pauli 4th moment polynomial of the `GL(n, 𝔽₂) ⋊ ⟨H^⊗n⟩`-invariant spike+uniform family. -/
+/-- Closed-form Pauli 4th moment polynomial of the `GL(n, 𝔽₂)`-invariant, `(H^⊗n ∘ K)`-symmetric spike+uniform family. -/
 noncomputable def spikeMomentPoly (n : ℕ) (s : ℝ) : ℝ :=
   let d : ℝ := (2 : ℝ) ^ n
   1 + (d - 1) * (2 * (1 - s) ^ 4 + (d / 2 - 1) * (1 - 2 * s) ^ 4 +
     (d / 2) * (-1 + 4 * s - (4 * (d - 1) / d) * s ^ 2) ^ 2)
 
-/-- The explicit `GL(n, 𝔽₂) ⋊ ⟨H^⊗n⟩`-invariant state `|ψ_n(s)⟩ = α |0⟩ + β ∑_{x ≠ 0} |x⟩`. -/
+/-- The explicit `GL(n, 𝔽₂)`-invariant, `(H^⊗n ∘ K)`-symmetric state `|ψ_n(s)⟩ = α |0⟩ + β ∑_{x ≠ 0} |x⟩`. -/
 noncomputable def spikeState (n : ℕ) (s : ℝ) : QState n :=
   let d : ℝ := (2 : ℝ) ^ n
   let p : ℝ := 1 - ((d - 1) / d) * s
@@ -95,7 +99,7 @@ lemma spikeState_unit {n : ℕ} {s : ℝ} (hf : SpikeFeasible n s) :
     simp only [p]; field_simp [hd_ne]; ring
   rw [hsum, Complex.ofReal_one]
 
-/-- Exact closed-form Pauli 4th moment for the `GL(n, 𝔽₂) ⋊ ⟨H^⊗n⟩`-invariant spike+uniform family (`n ≥ 1`). -/
+/-- Exact closed-form Pauli 4th moment for the `GL(n, 𝔽₂)`-invariant, `(H^⊗n ∘ K)`-symmetric spike+uniform family (`n ≥ 1`). -/
 theorem pauliMoment4_spikeState {n : ℕ} (hn : 1 ≤ n) {s : ℝ} (hf : SpikeFeasible n s) :
     pauliMoment4 n (spikeState n s) = spikeMomentPoly n s := by
   set d : ℝ := (2 : ℝ) ^ n
