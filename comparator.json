@@ -1,0 +1,19 @@
+{
+  "challenge_module": "Challenge",
+  "solution_module": "Solution",
+  "theorem_names": [
+    "MultiQubitMUB.Challenge.no_alltop_f2",
+    "MultiQubitMUB.Challenge.exists_alltop_two",
+    "MultiQubitMUB.Challenge.phasePauliMoment4_gt_mub",
+    "MultiQubitMUB.Challenge.no_pauli_two_valued_odd",
+    "MultiQubitMUB.Challenge.no_pauli_mub_fiducial",
+    "MultiQubitMUB.Challenge.damski_conjecture_1",
+    "MultiQubitMUB.Challenge.exists_pauli_mub_fiducial_two",
+    "MultiQubitMUB.Challenge.pauliMoment4_spikeState",
+    "MultiQubitMUB.Challenge.hoggar_sic_three",
+    "MultiQubitMUB.Challenge.four_qubit_spike_bound"
+  ],
+  "definition_names": [],
+  "permitted_axioms": ["propext", "Quot.sound", "Classical.choice"],
+  "enable_nanoda": true
+}

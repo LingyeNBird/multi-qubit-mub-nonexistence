@@ -1,0 +1,164 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/mathlib-initiative/formalization.yaml/main/schema/formalization.schema.json
+version: "v0.4"
+
+project:
+  name: "Non-Existence of Multi-Qubit Pauli-Covariant MUB Fiducial States and Alltop Phase Functions on F_2^n (n >= 3)"
+  description: >-
+    Self-contained, pure-kernel Lean 4 formalization proving that for every integer n ≥ 3 (both
+    odd and even), no unimodular Alltop phase function exists on 𝔽₂ⁿ and no n-qubit pure state
+    generates 2ⁿ pairwise mutually unbiased orthonormal bases under the n-qubit Pauli (product
+    Weyl–Heisenberg) group. Resolves Conjecture 1 and the unrestricted product-WH MUB question of
+    Damski et al. (arXiv:2603.15550) and rules out the product WH-MUB maximizer mechanism
+    conjectured by Liu, Low, and Yin (Quantum Sci. Technol. 11, 015035, 2026; Open Quantum
+    Problem E28) for n ≥ 4. Also formalizes sharpness at n = 2, the strong odd-n two-valued
+    Pauli-spectrum obstruction, the strict phase-state Gowers U³ bound > 2 - 2⁻ⁿ, and exact
+    closed-form Pauli 4th moments for a GL(n, 𝔽₂)-invariant spike+uniform family recovering the
+    3-qubit Hoggar SIC (F₃ = 16/9) and certifying a 4-qubit unit state with F₄ < 2.150521.
+    AI-assistance disclosure: the bulk of the technical work (proof discovery, Lean 4
+    formalization, companion scripts, and manuscript drafting) was carried out using AI systems
+    under the author's problem selection, direction, and oversight; mathematical validity of all
+    compared theorems rests on Lean 4's kernel verification.
+  authors:
+    - "Zhaoting Ye"
+  license: "MIT"
+  responsible_maintainers:
+    - "Zhaoting Ye"
+
+classification:
+  arxiv: ["quant-ph", "math.CO"]
+  msc2020: ["81P45", "05B20", "11T23", "81P15"]
+
+sources:
+  - title: "Non-Existence of Multi-Qubit Pauli-Covariant MUB Fiducial States and Alltop Phase Functions on F_2^n (n >= 3)"
+    authors:
+      - "Zhaoting Ye"
+    id: "https://doi.org/10.5281/zenodo.24566133"
+    type: original-proof
+    location: "https://github.com/LingyeNBird/multi-qubit-mub-nonexistence"
+    relationship: other
+    note: "First presentation of this proof (author ORCID 0009-0006-8457-0482). Companion manuscript (paper/main.pdf), PROOF.md, and reproducible scripts archived at Zenodo concept DOI 10.5281/zenodo.24566133."
+    license: "MIT"
+  - title: "Product Weyl–Heisenberg covariant mutually unbiased bases and extremal non-stabilizerness"
+    authors:
+      - "Bogdan Damski"
+      - "Rafał Bistroń"
+      - "Matteo Ponterio"
+      - "Jakub Czartowski"
+      - "Karol Życzkowski"
+    id: "https://arxiv.org/abs/2603.15550"
+    type: "paper"
+    location: "arXiv:2603.15550v2 (2026)"
+    relationship: background
+    note: "States Conjecture 1 (no ω₈-phase product WH-MUB fiducial for n > 2) and proposes the unrestricted multi-qubit product WH-MUB non-existence question, both resolved here for all n >= 3."
+  - title: "Maximal Magic for Two-qubit States"
+    authors:
+      - "Qiaofeng Liu"
+      - "Ian Low"
+      - "Zhewei Yin"
+    id: "https://doi.org/10.1088/2058-9565/ae2c4f"
+    type: "paper"
+    location: "Quantum Sci. Technol. 11, 015035 (2026); arXiv:2502.17550"
+    relationship: background
+    note: "Conjectures that Weyl–Heisenberg MUB fiducials maximize stabilizer Rényi entropy for n-qubit systems with n not in {1, 3}; ruled out here for product WH-MUBs for all n >= 4."
+  - title: "Open Quantum Problem E28: Maximal stabilizer Rényi entropy without a Weyl–Heisenberg SIC"
+    contributors:
+      - name: "Jean-Philippe Bruneton"
+        role: "catalogue maintainer"
+    id: "https://openquantumproblems.com/p/E28"
+    type: "other"
+    location: "https://openquantumproblems.com/p/E28"
+    relationship: background
+    note: "Curated catalogue web page tracking E28; lists this n >= 3 non-existence proof and the companion two-qubit proof as partial progress (26 November 2026)."
+  - title: "Equiangular lines, mutually unbiased bases, and spin models"
+    authors:
+      - "Chris Godsil"
+      - "Aidan Roy"
+    id: "https://doi.org/10.1016/j.ejc.2008.01.002"
+    type: "paper"
+    location: "Eur. J. Comb. 30, 246–262 (2009); arXiv:quant-ph/0511004"
+    relationship: background
+    note: "Proves the analogous non-existence of multi-qubit product Weyl–Heisenberg SIC-POVMs for n not in {1, 3}."
+
+related_formalizations:
+  - id: "https://doi.org/10.5281/zenodo.24565157"
+    relationship: independent
+    note: "Companion Lean 4 formalization by the same author (two-qubit-maximal-magic) proving the sharp n = 2 maximal magic conjecture for all α >= 2."
+
+status:
+  scope: >-
+    Formalizes in full the non-existence of Alltop phase functions on 𝔽₂ⁿ (n ≥ 3), sharpness at
+    n = 2, the strict phase-state Gowers U³ bound > 2 - 2⁻ⁿ, the strong odd-n two-valued Pauli
+    spectrum obstruction, unrestricted non-existence of n-qubit Pauli-covariant MUB fiducials
+    (n ≥ 3) and Damski et al.'s Conjecture 1, sharpness at n = 2, and the closed-form spike+uniform
+    Pauli 4th moment including the 3-qubit Hoggar SIC and 4-qubit bound F₄ < 2.150521. The paper's
+    general-n analytic derivation that a partition-free two-valued Pauli spectrum forces a
+    Lagrangian zero subgroup and the companion C numerical L-BFGS search on CP¹⁵ are not formalized
+    in Lean; global optimality of F₄ ≈ 2.150520 on CP¹⁵ remains open.
+  sorry_count: 0
+  sorry_in_definitions: 0
+  axioms: []
+
+automation:
+  methods:
+    - method: agent
+      models: []
+      framework: "AI coding and reasoning agents"
+      tool_setup: >-
+        Lean 4 v4.36.0 with Mathlib v4.36.0 (pure-kernel verification, zero native_decide);
+        Python 3 standard library and C companion scripts for independent sanity checks and CP¹⁵
+        numerical exploration.
+      cost:
+        wall_time: "multiple iterative agent sessions"
+        spend_usd: "not tracked"
+        hardware: "local Linux workstation"
+      prompting_notes: "Problem selection, direction, oversight, citation auditing, and verification checks directed by Zhaoting Ye; proof discovery, Lean 4 formalization, companion scripts, and manuscript drafting carried out with AI agents."
+  spend_usd: "not tracked"
+  notes: >-
+    AI systems produced the bulk of the proof discovery, Lean 4 formalization, companion scripts,
+    and manuscript under Zhaoting Ye's direction and oversight. All compared theorems in
+    Challenge.lean are mechanically verified by Lean 4's kernel (standard axioms only).
+
+fidelity:
+  divergences: >-
+    IsPauliMubFiducial encodes a fiducial whose 4ⁿ-element Pauli orbit partitions into 2ⁿ pairwise
+    mutually unbiased orthonormal bases (extending to 2ⁿ + 1 MUBs with the computational basis for
+    equatorial states); partial sets of fewer than 2ⁿ bases are not ruled out. In damski_conjecture_1,
+    the normalization factor 2^(-n/2) fixes the missing normalization typo in the printed statement of
+    Conjecture 1 in arXiv:2603.15550v2.
+
+review:
+  status: "self-assessed"
+  reviewers:
+    - "none"
+  notes: >-
+    Not formally peer reviewed. All 10 compared declarations pass Lean 4 pure-kernel verification
+    (Audit.lean) and scripts/verify_claims.py passes. On 26 November 2026, the Open Quantum Problems
+    catalogue (jpbruneton/open_quantum_problems, issue #26) audited the manuscript, hand-checked the
+    odd-n purity argument and Lagrangian lemma, ran verify_claims.py and independent CP¹⁵ restarts,
+    and recorded the result on openquantumproblems.com/p/E28 without re-running the Lean build.
+
+alignment:
+  namespace: "MultiQubitMUB.Challenge"
+  statements:
+    - source: "Theorem 1 (Non-existence of Alltop phase functions on 𝔽₂ⁿ for all n ≥ 3)"
+      lean: "MultiQubitMUB.Challenge.no_alltop_f2"
+      module: "Challenge"
+      status: proved
+      note: "Paired with sharpness exists_alltop_two and strict Gowers U³ bound phasePauliMoment4_gt_mub."
+    - source: "Theorem 2 (Unrestricted non-existence of n-qubit Pauli-covariant MUB fiducials for all n ≥ 3)"
+      lean: "MultiQubitMUB.Challenge.no_pauli_mub_fiducial"
+      module: "Challenge"
+      status: proved
+      note: "Paired with sharpness exists_pauli_mub_fiducial_two and strong odd-n theorem no_pauli_two_valued_odd."
+    - source: "Conjecture 1 of Damski et al. (arXiv:2603.15550)"
+      lean: "MultiQubitMUB.Challenge.damski_conjecture_1"
+      module: "Challenge"
+      status: proved
+      note: "Exact ω₈-phase corollary with 2^(-n/2) normalization."
+    - source: "GL(n, 𝔽₂)-invariant spike+uniform family (Hoggar SIC and n = 4 bound)"
+      lean: "MultiQubitMUB.Challenge.pauliMoment4_spikeState"
+      module: "Challenge"
+      status: proved
+      note: "Paired with hoggar_sic_three (F₃ = 16/9) and four_qubit_spike_bound (F₄ < 2.150521)."
+
+acknowledgements: "Mathlib4 community; Lean 4; Open Quantum Problems catalogue (Jean-Philippe Bruneton) for independent audit and numerical cross-checks."
