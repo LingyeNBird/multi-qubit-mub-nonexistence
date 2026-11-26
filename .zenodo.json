@@ -1,0 +1,23 @@
+{
+  "title": "Non-Existence of Multi-Qubit Pauli-Covariant MUB Fiducial States and Alltop Phase Functions on F_2^n (n >= 3)",
+  "creators": [
+    {
+      "name": "Ye, Zhaoting",
+      "affiliation": "Independent Researcher",
+      "orcid": "0009-0006-8457-0482"
+    }
+  ],
+  "description": "Self-contained, pure-kernel Lean 4 formalization (v4.36.0, 10 audited declarations, zero sorry, zero native_decide, standard foundational axioms only), reproducible companion scripts, and full manuscript proving that for all n >= 3, no n-qubit pure state generates 2^n pairwise mutually unbiased orthonormal bases under the n-qubit Pauli (product Weyl-Heisenberg) group and no Alltop phase function exists on F_2^n. Resolves Conjecture 1 and the unrestricted product-WH MUB question of Damski et al. (arXiv:2603.15550) and rules out the product WH-MUB mechanism conjectured by Liu, Low, and Yin (Quantum Sci. Technol. 11, 015035, 2026; Open Quantum Problem E28) for maximizing stabilizer Renyi entropy at n >= 4.",
+  "keywords": [
+    "quantum information",
+    "mutually unbiased bases",
+    "Alltop functions",
+    "stabilizer Renyi entropy",
+    "quantum magic",
+    "Gowers U3 norm",
+    "Lean 4",
+    "formal verification"
+  ],
+  "license": "MIT",
+  "upload_type": "software"
+}

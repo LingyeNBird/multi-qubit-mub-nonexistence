@@ -74,3 +74,10 @@ grep -rn "sorry\|native_decide\|axiom " MultiQubitMUB/ MultiQubitMUB.lean
 # 4. Run independent Python sanity checks (n=2 witness, n=1..4 spike family)
 python3 scripts/verify_claims.py
 ```
+
+---
+
+## Author & AI Transparency Statement
+
+- **Author**: Zhaoting Ye (Independent Researcher; ORCID: [0009-0006-8457-0482](https://orcid.org/0009-0006-8457-0482); Email: `lingyenbird@qq.com`)
+- **AI Assistance & Independent Verification**: In the interest of full transparency, the bulk of the technical work in this repository—including mathematical proof discovery, Lean 4 formalization, companion computational scripts, and manuscript drafting—was carried out using AI systems under the author's problem selection, direction, and oversight. The mathematical validity of the formalized theorems does not rely on trusting any AI system or human check: all 10 audited declarations in `Audit.lean` are machine-checked end-to-end inside Lean 4's pure kernel (`v4.36.0`, zero `sorry`, zero `native_decide`, standard foundational axioms `[propext, Classical.choice, Quot.sound]` only), alongside reproducible scripts in `scripts/`.

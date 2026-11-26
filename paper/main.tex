@@ -16,7 +16,9 @@
   colorlinks=true,
   linkcolor=blue!55!black,
   citecolor=teal!60!black,
-  urlcolor=blue!55!black
+  urlcolor=blue!55!black,
+  pdftitle={Non-Existence of Multi-Qubit Pauli-Covariant MUB Fiducial States and Alltop Phase Functions on F_2^n},
+  pdfauthor={Zhaoting Ye}
 ]{hyperref}
 \usepackage[nameinlink,noabbrev]{cleveref}
 
@@ -78,8 +80,8 @@
 \numberwithin{equation}{section}
 
 \title{\vspace*{-1.0cm}\bfseries Non-Existence of Multi-Qubit Pauli-Covariant MUB Fiducial States and Alltop Phase Functions on \texorpdfstring{$\F_2^n$}{F2\^{}n}}
-\author{LingyeNBird\thanks{Formalized Lean~4 verification code and companion scripts are publicly available at \repoURL.}}
-\date{}
+\author{Zhaoting Ye\thanks{Independent Researcher. ORCID: \href{https://orcid.org/0009-0006-8457-0482}{0009-0006-8457-0482}. Email: \href{mailto:lingyenbird@qq.com}{\lean{lingyenbird@qq.com}}. Formalized Lean~4 verification code and companion scripts are publicly available at \repoURL{} (release tag \lean{v1.0}).}}
+\date{November 26, 2026}
 
 \begin{document}
 \maketitle
@@ -1464,6 +1466,9 @@ Even a weaker analytic lower bound strictly beating the Welch/SIC bound $32/17 \
 \begin{openproblem}[Higher-$n$ extremal magic beyond the spike family]\label{op:higher-n}
 The spike-plus-uniform ansatz $\ket{\psi_n(s)}$ breaks down structurally once $n \ge 5$. Already at $n = 5$, minimizing \eqref{eq:spike-poly} over $[0.4249, 0.6074]$ yields $F_5 \approx 3.300037$ ($M_2 \approx 2.271802$), which is strictly beaten by elementary tensor-product states such as $\ket{\mathrm{Hoggar}}\otimes\ket{\psi_2}$ ($F_5 = 28/9 \approx 3.111111$, $M_2 \approx 2.330756$) and $\ket{\psi_4(s^*)}\otimes\ket{T}$ ($F_5 \approx 2.867360$, $M_2 \approx 2.412344$). Asymptotically as $n \to \infty$, the feasibility interval $s \in \bigl[\frac{d-\sqrt{d}}{2(d-1)}, \frac{d+\sqrt{d}}{2(d-1)}\bigr]$ pins $s = \frac{1}{2} + O(2^{-n/2})$, causing the term $2(d-1)(1-s)^4$ in \eqref{eq:spike-poly} to scale as $2^{n-3}(1+o(1))$; thus $M_2(\ket{\psi_n(s^*)}) \to \ln 8 \approx 2.079442 = O(1)$ (peaking at $n = 6$ with $M_2 \approx 2.357399$ before declining monotonically), whereas $\ket{T}^{\otimes n}$ achieves linear growth $M_2 = n\ln(3/2) = \Theta(n)$ and Haar-random states satisfy $\mathbb{E}_{\mathrm{Haar}}[F_n] = \frac{4d}{d+3} < 4$, so $-\ln(\mathbb{E}_{\mathrm{Haar}}[F_n]/2^n) = n\ln 2 - \ln 4 + O(2^{-n})$ (and typical Haar states achieve $M_2 = n\ln 2 - \ln 4 + o(1)$). Determining the true structure and symmetry groups (if any) of globally magic-maximizing states for $n \ge 5$ remains open.
 \end{openproblem}
+
+\section*{Statement on AI Assistance and Independent Verification}
+In the interest of full transparency regarding authorship and methodology, the author discloses that the bulk of the technical work in this study---including mathematical proof discovery, Lean~4 formalization, companion computational scripts, and manuscript drafting---was carried out using AI systems under the author's problem selection, direction, and oversight. The author takes full responsibility for the submission, the accuracy of all reported results, and adherence to scholarly standards. Crucially, the mathematical validity of the formalized theorems does not rely on trusting any AI system or human check: all core non-existence theorems, sharp $n = 2$ witnesses, the strict phase-state Gowers $U^3$ lower bound, and the spike-family identities and rational $n = 4$ bound are machine-checked end-to-end inside Lean~4's pure type-checking kernel (\lean{Audit.lean}: $10$ audited declarations, zero \lean{sorry}, zero \lean{native\_decide}, standard foundational axioms only), alongside reproducible verification scripts in \lean{scripts/}.
 
 {\sloppy\raggedright
 \bibliographystyle{plainurl}
