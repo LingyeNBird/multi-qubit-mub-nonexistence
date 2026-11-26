@@ -5,3 +5,6 @@ import MultiQubitMUB.Alltop
 import MultiQubitMUB.PauliGroup
 import MultiQubitMUB.SpikeFamily
 import MultiQubitMUB.GeneralLowerBound
+import MultiQubitMUB.TwoQubitSOS
+import MultiQubitMUB.FourQubitSpectralAndTuran
+import MultiQubitMUB.FourQubitContextualityMUB
