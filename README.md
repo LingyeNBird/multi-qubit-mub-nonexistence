@@ -1,5 +1,7 @@
 # Non-Existence of Multi-Qubit Pauli-Covariant MUB Fiducial States and Alltop Phase Functions on $\mathbb{F}_2^n$ ($n \ge 3$)
 
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.24566133.svg)](https://doi.org/10.5281/zenodo.24566133)
+
 A self-contained, pure-kernel **Lean 4** formalization (zero `sorry`, zero `native_decide`, standard axioms `[propext, Classical.choice, Quot.sound]` only) resolving the multi-qubit Pauli-covariant MUB fiducial problem and the Alltop phase function problem over $\mathbb{F}_2^n$ for **all** $n \ge 3$ (both odd and even).
 
 For the full publication-ready manuscript (compiled PDF + LaTeX source), see **[`paper/main.pdf`](paper/main.pdf)** ([`paper/main.tex`](paper/main.tex)). For a concise Markdown proof mirroring every Lean module and lemma, see **[`PROOF.md`](PROOF.md)**.
@@ -80,4 +82,5 @@ python3 scripts/verify_claims.py
 ## Author & AI Transparency Statement
 
 - **Author**: Zhaoting Ye (Independent Researcher; ORCID: [0009-0006-8457-0482](https://orcid.org/0009-0006-8457-0482); Email: `lingyenbird@qq.com`)
+- **Archival DOI (Zenodo)**: [`10.5281/zenodo.24566133`](https://doi.org/10.5281/zenodo.24566133) (all versions) / [`10.5281/zenodo.24566134`](https://doi.org/10.5281/zenodo.24566134) (`v1.0`)
 - **AI Assistance & Independent Verification**: In the interest of full transparency, the bulk of the technical work in this repository—including mathematical proof discovery, Lean 4 formalization, companion computational scripts, and manuscript drafting—was carried out using AI systems under the author's problem selection, direction, and oversight. The mathematical validity of the formalized theorems does not rely on trusting any AI system or human check: all 10 audited declarations in `Audit.lean` are machine-checked end-to-end inside Lean 4's pure kernel (`v4.36.0`, zero `sorry`, zero `native_decide`, standard foundational axioms `[propext, Classical.choice, Quot.sound]` only), alongside reproducible scripts in `scripts/`.
