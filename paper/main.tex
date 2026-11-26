@@ -80,22 +80,43 @@
 
 \numberwithin{equation}{section}
 
-\title{\bfseries Non-Existence of Multi-Qubit Pauli-Covariant MUB Fiducial States and Alltop Functions on \texorpdfstring{$\F_2^n$}{F2\^{}n}}
+\title{\vspace*{-1.0cm}\bfseries Non-Existence of Multi-Qubit Pauli-Covariant MUB Fiducial States and Alltop Functions on \texorpdfstring{$\F_2^n$}{F2\^{}n}}
 \author{LingyeNBird\thanks{Formalized Lean~4 verification code and companion scripts are publicly available at \repoURL.}}
-\date{\today}
+\date{}
 
 \begin{document}
 \maketitle
+\vspace*{-3.2ex}
 
 \begin{abstract}
-We prove that for every integer $n \ge 3$, no $n$-qubit pure state $\ket{\psi} \in (\C^2)^{\otimes n}$ generates a complete set of $2^n$ pairwise mutually unbiased orthonormal bases (MUBs) under the action of the $n$-qubit Pauli (product Weyl--Heisenberg) group $\Pauli_n$. This resolves---without phase-alphabet or equimodularity assumptions---Conjecture~1 and the unrestricted product-WH MUB conjecture of Damski et~al.~\cite{damski2026product}, establishes the MUB counterpart to the Godsil--Roy obstruction for product Weyl--Heisenberg SICs~\cite{godsil2009equiangular}, and refutes the product WH-MUB mechanism conjectured by Liu, Low, and Yin~\cite{liu2026maximal} (Open Quantum Problem~E28~\cite{oqpE28}) to maximize the order-$2$ stabilizer R\'enyi entropy for all $n \ge 4$.
+We prove that for every integer $n \ge 3$, no $n$-qubit pure state $\ket{\psi} \in (\C^2)^{\otimes n}$ generates a complete set of $2^n$ pairwise mutually unbiased orthonormal bases (MUBs) under the action of the $n$-qubit Pauli (product Weyl--Heisenberg) group $\Pauli_n$, nor even satisfies the weaker-looking two-valued Pauli-spectrum condition $\abs{\expval{\psi}{P}}^2 \in \{0, 2^{-n}\}$ ($P \neq I$). This resolves---without phase-alphabet or equimodularity assumptions---Conjecture~1 and the unrestricted product-WH MUB conjecture of Damski et~al.~\cite{damski2026product}, establishes the MUB counterpart to the Godsil--Roy obstruction for product Weyl--Heisenberg SICs~\cite{godsil2009equiangular}, and refutes the product WH-MUB mechanism conjectured by Liu, Low, and Yin~\cite{liu2026maximal} (Open Quantum Problem~E28~\cite{oqpE28}) to maximize the order-$2$ stabilizer R\'enyi entropy for all $n \ge 4$.
 
-Our proof combines three self-contained ingredients. First, for every odd $n \ge 3$, a short argument from state purity $\rho^2 = \rho$ and the irrationality of $\sqrt{2}$ rules out even the weaker two-valued condition $\abs{\expval{\psi}{P}}^2 \in \{0, 2^{-n}\}$ ($P \neq I$), with no basis-partition hypothesis. Second, for arbitrary $n$, a matrix-free symplectic reduction maps any Pauli-covariant MUB fiducial to a unimodular \emph{Alltop function} $\phi : \F_2^n \to \Uone$ whose nontrivial multiplicative derivatives all have flat Walsh--Hadamard spectra. Third, we prove that no Alltop function exists on $\F_2^n$ for any $n \ge 3$ (sharp against $n \in \{1, 2\}$): spectral quantization forces $g_a(x) \in \{(\pm 1 \pm i)/\sqrt{2}\}$ for odd $n$ (violating a triangle identity) and $g_a(x) \in \{\pm 1, \pm i\}$ for even $n = 2k \ge 4$, where a new \emph{$2$-adic affine subspace induction} in $\Zi$ via exact M\"obius inversion yields a divisibility contradiction. Consequently, every phase function on $\F_2^n$ ($n \ge 3$) obeys the strict Gowers $U^3$ bound $2^n\norm{\phi}_{U^3(\F_2^n)}^8 > 2 - 2^{-n}$.
+Our proof combines three self-contained ingredients. First, for every odd $n \ge 3$, a direct ten-line argument from state purity $\rho^2 = \rho$ and the irrationality of $\sqrt{2}$ rules out any two-valued Pauli spectrum without invoking symplectic bases or Alltop functions. Second, for arbitrary $n \ge 1$, we show via symplectic self-duality that the two-valued condition is in fact equivalent to the existence of a Pauli-covariant MUB partition (whose zero set is automatically an $n$-dimensional Lagrangian subspace), and a matrix-free symplectic reduction maps any such state to a unimodular \emph{Alltop function} $\phi : \F_2^n \to \Uone$ whose nontrivial multiplicative derivatives all have flat Walsh--Hadamard spectra. Third, we prove that no Alltop function exists on $\F_2^n$ for any $n \ge 3$ (sharp against $n \in \{1, 2\}$): spectral quantization forces $g_a(x) \in \{(\pm 1 \pm i)/\sqrt{2}\}$ for odd $n$ (violating a triangle identity) and $g_a(x) \in \{\pm 1, \pm i\}$ for even $n = 2k \ge 4$, where a new \emph{$2$-adic affine subspace induction} in $\Zi$ via exact M\"obius inversion yields a divisibility contradiction. Consequently, every phase function on $\F_2^n$ ($n \ge 3$) obeys the strict Gowers $U^3$ bound $2^n\norm{\phi}_{U^3(\F_2^n)}^8 > 2 - 2^{-n}$.
 
-Finally, we analyze a one-parameter spike-plus-uniform family invariant under $\GL(n,\F_2)$ and the antiunitary involution $H^{\otimes n}\circ K$, deriving an exact closed-form Pauli fourth moment $F_n(s)$ that unifies the $1$-qubit $\ket{T}$ state ($F_1 = 4/3$), the $2$-qubit MUB fiducial ($F_2 = 7/4$), and the $3$-qubit Hoggar SIC ($F_3 = 16/9$), and certifies a $4$-qubit unit state with $F_4 < 2.150521$ ($F_4(s^*) \approx 2.150520$). Every theorem in this paper is machine-verified in Lean~4 (\texttt{v4.36.0}) using only standard axioms, with zero \texttt{sorry} and zero \texttt{native\_decide}.
+Finally, we analyze a one-parameter spike-plus-uniform family invariant under $\GL(n,\F_2)$ and the antiunitary involution $H^{\otimes n}\circ K$, deriving an exact closed-form Pauli fourth moment $F_n(s)$ that unifies the $1$-qubit $\ket{T}$ state ($F_1 = 4/3$), the $2$-qubit MUB fiducial ($F_2 = 7/4$), and the $3$-qubit Hoggar SIC ($F_3 = 16/9$), certifies a $4$-qubit unit state with $F_4 < 2.150521$ ($F_4(s^*) \approx 2.150520$), and clarifies why this ansatz breaks down for $n \ge 5$. All core non-existence theorems, the sharp $n = 2$ witnesses, the strict Gowers $U^3$ bound, the general spike-family Pauli fourth-moment formula, the $3$-qubit Hoggar specialization, and the certified $4$-qubit rational upper bound $F_4 < 2.150521$ are machine-verified in Lean~4 (\texttt{v4.36.0}) using only standard axioms, with zero \texttt{sorry} and zero \texttt{native\_decide}.
 \end{abstract}
 
-\tableofcontents
+\vspace*{-1.5ex}
+\setcounter{tocdepth}{1}
+{\small\setlength{\parskip}{0pt}%
+\makeatletter
+\renewcommand{\l@section}[2]{%
+  \ifnum \c@tocdepth >\z@
+    \addpenalty\@secpenalty
+    \addvspace{0.18em \@plus\p@}%
+    \setlength\@tempdima{1.5em}%
+    \begingroup
+      \parindent \z@ \rightskip \@pnumwidth
+      \parfillskip -\@pnumwidth
+      \leavevmode \bfseries
+      \advance\leftskip\@tempdima
+      \hskip -\leftskip
+      #1\nobreak\hfil \nobreak\hb@xt@\@pnumwidth{\hss #2}\par
+    \endgroup
+  \fi}
+\makeatother
+\tableofcontents}
+\clearpage
 
 % ==============================================================================
 \section{Introduction}\label{sec:intro}
@@ -103,11 +124,11 @@ Finally, we analyze a one-parameter spike-plus-uniform family invariant under $\
 
 \subsection{Motivation and context}
 
-Highly symmetric ensembles of pure quantum states generated as orbits of a single \emph{fiducial vector} $\ket{\psi} \in \C^d$ under a finite projective unitary group play a central role in quantum state tomography, quantum cryptography, combinatorial design theory, and the resource theory of non-stabilizerness (``magic''). Two canonical archetypes are \emph{symmetric informationally complete positive operator-valued measures} (SIC-POVMs) and \emph{mutually unbiased bases} (MUBs)~\cite{ivanovic1981geometrical,wootters1989optimal,bandyopadhyay2002new,klappenecker2005mutually}.
+Highly symmetric ensembles of pure quantum states generated as orbits of a single \emph{fiducial vector} $\ket{\psi} \in \C^d$ under a finite projective unitary group play a central role in quantum state tomography, quantum cryptography, combinatorial design theory, and the resource theory of non-stabilizerness (``magic''). Two canonical archetypes are \emph{symmetric informationally complete positive operator-valued measures} (SIC-POVMs)~\cite{zauner2011quantum,renes2004symmetric} and \emph{mutually unbiased bases} (MUBs)~\cite{ivanovic1981geometrical,wootters1989optimal,bandyopadhyay2002new,klappenecker2005mutually,durt2010mutually}.
 
 In an $n$-qubit Hilbert space $(\C^2)^{\otimes n} \cong \C^{\F_2^n}$ of dimension $d = 2^n$, the natural displacement group is the $n$-qubit Pauli group $\Pauli_n$, i.e., the $n$-fold tensor product of the single-qubit Weyl--Heisenberg group, indexed up to global phases by phase space $\F_2^{2n} = \F_2^n \times \F_2^n$. A celebrated theorem of Godsil and Roy~\cite{godsil2009equiangular} establishes a rigid obstruction for product Weyl--Heisenberg (WH) SICs: a pure $n$-qubit state $\ket{\psi}$ whose Pauli orbit $\{P_p\ket{\psi}\}_{p \in \F_2^{2n}}$ forms $4^n$ equiangular lines ($\abs{\expval{\psi}{P_p}}^2 = \frac{1}{d+1}$ for all $p \neq 0$) exists \emph{only} for $n = 1$ (the single-qubit tetrahedron / $\ket{T}$ state) and $n = 3$ (the $64$ Hoggar lines~\cite{hoggar1998lines}).
 
-The present work resolves the exact counterpart of this question for \emph{mutually unbiased bases} generated by a single fiducial under $\Pauli_n$, along with its harmonic-analytic formulation in terms of \emph{Alltop functions}~\cite{alltop1980complex,klappenecker2004constructions} and the \emph{Gowers $U^3$ uniformity norm}~\cite{gowers2001new} on $\F_2^n$. Two recent developments in quantum information theory brought this question sharply into focus:
+The present work resolves the exact counterpart of this question for \emph{mutually unbiased bases} generated by a single fiducial under $\Pauli_n$, along with its harmonic-analytic formulation in terms of \emph{Alltop functions}~\cite{alltop1980complex,klappenecker2004constructions,hall2013family} and the \emph{Gowers $U^3$ uniformity norm}~\cite{gowers2001new} on $\F_2^n$. Two recent developments in quantum information theory brought this question sharply into focus:
 \begin{enumerate}[leftmargin=1.8em]
   \item \textbf{Product Weyl--Heisenberg covariant MUBs~\cite{damski2026product}.} In odd prime-power dimensions $d = p^n$ ($p \ge 3$), Damski, Bistro\'n, Ponterio, Czartowski, and \.Zyczkowski constructed fiducial states generating complete sets of $d$ pairwise MUBs under the product Weyl--Heisenberg group (using cubic Alltop phases for $p \ge 5$ and Galois rings for $p = 3$; together with the computational basis, equatorial fiducials yield a full set of $d+1$ MUBs). In the multi-qubit setting ($p = 2$), however, they observed that such constructions succeed for $n = 1, 2$ and appear to fail beyond $n = 2$. They conjectured (Conjecture~1 of~\cite{damski2026product}) that no $\omega_8$-phase state $\psi(x) = 2^{-n/2}\omega_8^{m_x}$ ($\omega_8 = e^{i\pi/4}$) generates a product-WH covariant set of MUBs for $n > 2$, and further proposed the stronger unrestricted conjecture that no multi-qubit product-WH MUB fiducial exists at all for $n > 2$.
   \item \textbf{Maximal multi-qubit magic and Open Quantum Problem~E28~\cite{leone2022stabilizer,liu2026maximal,oqpE28}.} In the resource theory of quantum magic, the order-$2$ stabilizer R\'enyi entropy (SRE)~\cite{leone2022stabilizer} of an $n$-qubit pure state $\ket{\psi}$ is defined via its Pauli fourth moment
@@ -120,7 +141,7 @@ The present work resolves the exact counterpart of this question for \emph{mutua
   \begin{equation}\label{eq:welch-bound}
     F_n(\ket{\psi}) \ge 1 + \frac{(d-1)^2}{d^2 - 1} = \frac{2d}{d+1},
   \end{equation}
-  with equality if and only if $\ket{\psi}$ is a Pauli-covariant SIC fiducial (possible only for $n \in \{1, 3\}$, giving $F_1 = 4/3$ and $F_3 = 16/9$). Open Quantum Problem~E28~\cite{oqpE28} asks for the exact minimum of $F_n$ (maximum of $M_2$) when no product WH-SIC exists ($n \neq 1, 3$). For $n = 2$, Liu, Low, and Yin~\cite{liu2026maximal} discovered $480$ two-qubit WH-MUB fiducials attaining $F_2 = 7/4$ ($M_2 = \ln(16/7) \approx 0.826679$), provided strong numerical evidence that this is the global two-qubit optimum, and conjectured that WH-MUB fiducials yield the maximal magic states for all $n \neq 1, 3$ (which would achieve $F_n = 2 - 2^{-n}$ and $M_2 = \ln\frac{4^n}{2^{n+1}-1}$).
+  with equality if and only if $\ket{\psi}$ is a Pauli-covariant SIC fiducial (possible only for $n \in \{1, 3\}$, giving $F_1 = 4/3$ and $F_3 = 16/9$). Open Quantum Problem~E28~\cite{oqpE28} asks for the exact minimum of $F_n$ (maximum of $M_2$) when no product WH-SIC exists ($n \neq 1, 3$). For $n = 2$, Liu, Low, and Yin~\cite{liu2026maximal} discovered $480$ two-qubit product WH-MUB fiducials (under $\Pauli_n = \mathrm{WH}(2)^{\otimes n}$, as distinct from the cyclic group $\mathrm{WH}(2^n)$) attaining $F_2 = 7/4$ ($M_2 = \ln(16/7) \approx 0.826679$), provided strong numerical evidence that this is the global two-qubit optimum, and conjectured that WH-MUB fiducials yield the maximal magic states for all $n \neq 1, 3$ (which would achieve $F_n = 2 - 2^{-n}$ and $M_2 = \ln\frac{4^n}{2^{n+1}-1}$).
 \end{enumerate}
 
 In this paper, we prove in complete generality that no multi-qubit Pauli-covariant MUB fiducial exists for any $n \ge 3$, settling both lines of inquiry decisively.
@@ -153,16 +174,16 @@ For every $n \ge 3$ and every unimodular function $\phi : \F_2^n \to \Uone$,
 
 Our second main theorem removes all phase-state and phase-alphabet restrictions and rules out Pauli-covariant MUB fiducials across all of $\CP^{2^n-1}$:
 
-\begin{maintheorem}[Unrestricted non-existence of Pauli-covariant MUB fiducials]\label{thm:no-pauli-mub}
+\begin{maintheorem}[Unrestricted non-existence of Pauli-covariant MUB fiducials and two-valued Pauli spectra]\label{thm:no-pauli-mub}
 For every integer $n \ge 3$, there is no unit vector $\ket{\psi} \in (\C^2)^{\otimes n}$ whose Pauli orbit $\{P_p\ket{\psi}\}_{p \in \F_2^{2n}}$ partitions into $2^n$ pairwise mutually unbiased orthonormal bases; that is, there is no map $\pi : \F_2^{2n} \to \{0, \dots, 2^n - 1\}$ satisfying
 \begin{align*}
   \pi(p) = \pi(q) \text{ and } p \neq q &\implies \braket{P_p\psi}{P_q\psi} = 0, \\
   \pi(p) \neq \pi(q) &\implies \abs{\braket{P_p\psi}{P_q\psi}}^2 = 2^{-n}.
 \end{align*}
-This threshold is sharp: for $n = 2$, $\ket{\psi_2} = \frac{1}{2}(1, 1, 1, i)$ generates $4$ pairwise MUBs under $\Pauli_2$ (and for $n = 1$, $\ket{\psi_1} = \frac{1}{\sqrt{2}}(1, \omega_8)$ generates $2$ pairwise MUBs under $\Pauli_1$).
+Equivalently (by \Cref{lem:lagrangian}), for every integer $n \ge 3$---both odd and even---no unit vector $\ket{\psi} \in (\C^2)^{\otimes n}$ satisfies the partition-free two-valued Pauli-spectrum condition $\abs{\expval{\psi}{P_p}}^2 \in \{0, 2^{-n}\}$ for all $p \in \F_2^{2n} \setminus \{0\}$. This threshold is sharp: for $n = 2$, $\ket{\psi_2} = \frac{1}{2}(1, 1, 1, i)$ generates $4$ pairwise MUBs under $\Pauli_2$ (and for $n = 1$, $\ket{\psi_1} = \frac{1}{\sqrt{2}}(1, \omega_8)$ generates $2$ pairwise MUBs under $\Pauli_1$).
 \end{maintheorem}
 
-Note that \Cref{thm:no-pauli-mub} does not assume \emph{a priori} that the fibers of $\pi$ have equal cardinality $2^n$, nor that $\ket{\psi}$ is unbiased with respect to the computational basis (i.e., equatorial); as we show in \Cref{lem:lagrangian}, the fibers are automatically the $2^n$ cosets of an $n$-dimensional Lagrangian subspace $H \le \F_2^{2n}$. When $\ket{\psi}$ is equatorial, adding the computational basis yields a complete set of $2^n + 1$ MUBs. Smaller partial sets of strictly fewer than $2^n$ Pauli-covariant MUBs are outside the scope of this definition.
+Note that \Cref{thm:no-pauli-mub} does not assume \emph{a priori} that the fibers of $\pi$ have equal cardinality $2^n$, nor that $\ket{\psi}$ is unbiased with respect to the computational basis (i.e., equatorial); indeed, \Cref{lem:lagrangian} shows that the partition-free two-valued condition $\abs{\expval{\psi}{P_p}}^2 \in \{0, 2^{-n}\}$ ($p \neq 0$) already forces the zero set $Z = \{0\} \cup \{p : \expval{\psi}{P_p} = 0\}$ to be an $n$-dimensional Lagrangian subspace of $\F_2^{2n}$ whose $2^n$ cosets give the MUB partition $\pi$. In particular, for even $n \ge 4$, no non-partitioned pure state can achieve $F_n = 2 - 2^{-n}$ via a two-valued Pauli spectrum either. When $\ket{\psi}$ is equatorial, adding the computational basis yields a complete set of $2^n + 1$ MUBs. Smaller partial sets of strictly fewer than $2^n$ Pauli-covariant MUBs are outside the scope of this definition.
 
 \begin{maincorollary}[Resolution of Conjecture~1 of~\cite{damski2026product} and refutation of WH-MUB magic maximizers~\cite{liu2026maximal}]\label{cor:damski-lly}
 Let $n \ge 3$.
@@ -172,9 +193,9 @@ Let $n \ge 3$.
 \end{enumerate}
 \end{maincorollary}
 
-For odd $n \ge 3$, an even stronger statement holds without any basis-partition hypothesis whatsoever:
+While \Cref{thm:no-pauli-mub} (via \Cref{lem:lagrangian,lem:mub-to-alltop} and \Cref{thm:no-alltop}) rules out two-valued Pauli spectra for all $n \ge 3$, every odd $n \ge 3$ admits a remarkably short, completely elementary proof directly from state purity and the irrationality of $\sqrt{2}$, bypassing symplectic bases, Alltop functions, and $2$-adic induction altogether:
 
-\begin{maintheorem}[Strong odd-$n$ two-valued obstruction]\label{thm:odd-two-valued}
+\begin{maintheorem}[Direct odd-$n$ purity obstruction]\label{thm:odd-two-valued}
 For every odd integer $n = 2k + 1 \ge 3$, no unit vector $\ket{\psi} \in (\C^2)^{\otimes n}$ satisfies
 \[
   \abs{\expval{\psi}{P_p}}^2 \in \{0, 2^{-n}\} \qquad \forall\, p \in \F_2^{2n} \setminus \{0\}.
@@ -184,7 +205,7 @@ For every odd integer $n = 2k + 1 \ge 3$, no unit vector $\ket{\psi} \in (\C^2)^
 Finally, to understand extremal multi-qubit magic in the absence of both product WH-SICs and product WH-MUBs (most notably $n = 4$), we analyze an explicit one-parameter family of highly symmetric states:
 
 \begin{maintheorem}[Unified $\GL(n,\F_2)$-invariant, $(H^{\otimes n}\circ K)$-symmetric spike family]\label{thm:spike}
-Let $n \ge 1$, $d = 2^n$, and let $s \in \R$ satisfy $p := 1 - \frac{d-1}{d}s > 0$ and $v^2 := -1 + 4s - \frac{4(d-1)}{d}s^2 \ge 0$. Set $\alpha := \sqrt{p}$, $u := 2p - 1$, $v := \sqrt{v^2}$, and $\beta := \frac{u + iv}{2\alpha}$. Then
+Let $n \ge 1$, $d = 2^n$, and let $s \in \R$ satisfy $p := 1 - \frac{d-1}{d}s > 0$ and $v^2 := -1 + 4s - \frac{4(d-1)}{d}s^2 \ge 0$ (where $p > 0$ is automatically implied by $v^2 \ge 0$ and is stated explicitly to match our formalization interface). Set $\alpha := \sqrt{p}$, $u := 2p - 1$, $v := \sqrt{v^2}$, and $\beta := \frac{u + iv}{2\alpha}$. Then
 \begin{equation}\label{eq:spike-def}
   \ket{\psi_n(s)} := \alpha\ket{0} + \beta \sum_{x \in \F_2^n \setminus \{0\}} \ket{x}
 \end{equation}
@@ -197,7 +218,7 @@ In particular:
   \item At $n = 1, s = 1 - 1/\sqrt{3}$, $\ket{\psi_1(s)}$ is a $1$-qubit WH-SIC ($\ket{T}$ state) with $F_1 = 4/3$.
   \item At $n = 2, s = 1/2$, $\ket{\psi_2(s)}$ is a $2$-qubit MUB fiducial with $F_2 = 7/4$.
   \item At $n = 3, s = 2/3$, $\ket{\psi_3(s)}$ is a $3$-qubit Hoggar WH-SIC with $F_3 = 16/9$.
-  \item At $n = 4$, the unique critical point $s^* \approx 0.6225432$ in the feasible interval $[2/5, 2/3]$ solves the irreducible cubic $453 s^3 - 708 s^2 + 368 s - 64 = 0$, giving $F_4(\ket{\psi_4(s^*)}) \approx 2.1505201547$ ($M_2 \approx 2.006879$). Evaluating at the nearby rational witness $s = 622543/1000000$ certifies an explicit $4$-qubit unit state with $F_4 < 2.150521$.
+  \item At $n = 4$, the unique global minimum on the feasible interval $[2/5, 2/3]$ occurs at the unique real root $s^* \approx 0.6225432$ of the irreducible cubic $453 s^3 - 708 s^2 + 368 s - 64 = 0$, giving $F_4(\ket{\psi_4(s^*)}) \approx 2.1505201547$ ($M_2 \approx 2.006879$). Evaluating at the nearby rational witness $s = 622543/1000000$ certifies an explicit $4$-qubit unit state with $F_4 < 2.150521$.
 \end{enumerate}
 \end{maintheorem}
 
@@ -207,10 +228,10 @@ In particular:
 
 \begin{table}[htbp]
 \centering
-\caption{Existence of multi-qubit product Weyl--Heisenberg (Pauli) covariant SIC fiducials, complete $2^n$-basis MUB fiducials, and Alltop functions on $\F_2^n$, together with key Pauli fourth-moment benchmarks ($F_n$; smaller $F_n$ means larger magic $M_2 = -\ln(F_n/2^n)$).}\label{tab:positioning}
+\caption{Existence of multi-qubit product Weyl--Heisenberg (Pauli) covariant SIC fiducials, complete $2^n$-basis MUB fiducials (equivalently two-valued Pauli states), and Alltop functions on $\F_2^n$, together with key Pauli fourth-moment benchmarks ($F_n$; smaller $F_n$ means larger magic $M_2 = -\ln(F_n/2^n)$).}\label{tab:positioning}
 \smallskip
 \small
-\setlength{\tabcolsep}{4.5pt}
+\setlength{\tabcolsep}{3.2pt}
 \renewcommand{\arraystretch}{1.18}
 \begin{tabular}{@{}cccccc@{}}
 \toprule
@@ -225,15 +246,15 @@ $\ge 5$    & No                        & \textbf{No} (Thm.~\ref{thm:no-pauli-mub
 \end{tabular}
 \end{table}
 
-Two subtleties merit emphasis from the outset. First, for $n = 4$, \Cref{cor:gowers} proves the strict lower bound $F_4(\ket{\psi}) > 31/16 = 1.9375$ for all \emph{phase} (equimodular) states; for \emph{general} pure states on $\CP^{15}$, the only known analytic lower bound remains the Welch/SIC bound $32/17 \approx 1.882353 < 31/16$. Thus $31/16$ is the unreachable hypothetical WH-MUB value rather than a proved general-state floor. Second, in companion numerical experiments (independent of our Lean~4 formalization), $2{,}936$ of $3{,}000$ multi-start Riemannian optimizations on $\CP^{15}$ converged to the exact cubic point $F_4(\ket{\psi_4(s^*)}) \approx 2.1505201547 > 31/16$ ($M_2 \approx 2.006879 < \ln(256/31) \approx 2.111190$); proving global optimality of this value over all of $\CP^{15}$ remains an open problem (see \Cref{sec:open}).
+Two subtleties merit emphasis from the outset. First, for $n = 4$, \Cref{cor:gowers} proves the strict lower bound $F_4(\ket{\psi}) > 31/16 = 1.9375$ for all \emph{phase} (equimodular) states; for \emph{general} pure states on $\CP^{15}$, the only known analytic lower bound remains the Welch/SIC bound $32/17 \approx 1.882353 < 31/16$. Thus $31/16$ is the unreachable hypothetical WH-MUB value rather than a proved general-state floor. Second, in reproducible companion numerical experiments (independent of our Lean~4 formalization; see \Cref{rem:cp15-numerics}), $2{,}935$ of $3{,}000$ Haar-random multi-start Riemannian L-BFGS optimizations on $\CP^{15}$ converged to the exact cubic point $F_4(\ket{\psi_4(s^*)}) \approx 2.1505201547 > 31/16$ ($M_2 \approx 2.006879 < \ln(256/31) \approx 2.111190$), with the remaining $65$ converging to $20/9 \approx 2.222222$ and no run below $F_4(\ket{\psi_4(s^*)})$; proving global optimality over all of $\CP^{15}$ remains an open problem (see \Cref{sec:open}).
 
 \subsection{Proof architecture and why \texorpdfstring{$n \in \{1, 2\}$}{n in \{1, 2\}} escape}
 
 \Cref{fig:proof-arch} illustrates the logical architecture of our proofs. A striking feature of the argument is how transparently each obstruction reveals the exact arithmetic reason why $n = 1$ and $n = 2$ escape:
 \begin{itemize}[leftmargin=1.8em]
-  \item In \Cref{thm:odd-two-valued} (odd $n = 2k+1$), the purity equation $\rho^2 = \rho$ yields $M^2 = 2\bigl(2^k(2^n - 2)\bigr)^2$ with $M \in \Z$. For $n = 1$, the factor $2^1 - 2$ vanishes, permitting both the single-qubit WH-SIC $\ket{T}$ and the equatorial MUB fiducial $\ket{\psi_1}$; for every odd $n \ge 3$, $2^n - 2 \ge 6 > 0$, contradicting the irrationality of $\sqrt{2}$.
+  \item In \Cref{thm:odd-two-valued} (odd $n = 2k+1$), the purity equation $\rho^2 = \rho$ yields $M^2 = 2\bigl(2^k(2^n - 2)\bigr)^2$ with $M \in \Z$. For $n = 1$, the factor $2^1 - 2$ vanishes, permitting the $1$-qubit two-valued MUB fiducial $\ket{\psi_1} = \frac{1}{\sqrt{2}}(1, \omega_8)$; for every odd $n \ge 3$, $2^n - 2 \ge 6 > 0$, contradicting the irrationality of $\sqrt{2}$.
   \item In the odd-$n$ branch of \Cref{thm:no-alltop}, quantization forces $g_a(x) \in \{(\pm 1 \pm i)/\sqrt{2}\}$ for every $a \neq 0$, which violates the triangle identity $g_a(0)\,g_{a\oplus b}(a) = g_b(0)$ as soon as two distinct nonzero shifts $a, b$ exist ($n \ge 3$); at $n = 1$, there is only one nonzero shift $a = 1$, so no triangle can be formed.
-  \item In the even-$n$ branch of \Cref{thm:no-alltop} ($n = 2k$), quantization lifts $\phi$ to $\psi : \F_2^{2k} \to \{\pm 1, \pm i\} \subset \Zi$, and $2$-adic affine subspace induction produces $2^k \mid \abs{\psi'(x) - \psi'(0)}^2$. At $n = 2$ ($k = 1$), there are $2k - 2 = 0$ correlation steps and $2^1 = 2$ \emph{does} divide $\abs{i - 1}^2 = 2$, admitting $\phi_2 = (1, 1, 1, i)$. For every $k \ge 2$ ($n \ge 4$), $4 \mid \abs{\psi'(x) - \psi'(0)}^2$ collapses $\psi'(x) = \pm\psi'(0)$ for all $x$, killing the imaginary spectrum and forcing a contradiction.
+  \item In the even-$n$ branch of \Cref{thm:no-alltop} ($n = 2k$), quantization lifts $\phi$ to $\tilde{\phi} : \F_2^{2k} \to \{\pm 1, \pm i\} \subset \Zi$, and $2$-adic affine subspace induction produces $2^k \mid \abs{\tilde{\phi}'(x) - \tilde{\phi}'(0)}^2$. At $n = 2$ ($k = 1$), there are $2k - 2 = 0$ correlation steps and $2^1 = 2$ \emph{does} divide $\abs{i - 1}^2 = 2$, admitting $\phi_2 = (1, 1, 1, i)$. For every $k \ge 2$ ($n \ge 4$), $4 \mid \abs{\tilde{\phi}'(x) - \tilde{\phi}'(0)}^2$ collapses $\tilde{\phi}'(x) = \pm\tilde{\phi}'(0)$ for all $x$, killing the imaginary spectrum and forcing a contradiction.
 \end{itemize}
 
 \begin{figure}[htbp]
@@ -284,20 +305,20 @@ Two subtleties merit emphasis from the outset. First, for $n = 4$, \Cref{cor:gow
 \node[core, text width=4.60cm] (evenall) at (5.35, 7.2) {%
   {\small\textbf{Even $n = 2k \ge 4$ (\S\ref{sec:alltop-even}--\ref{sec:final-kill})}}\\[2pt]
   $\Zi$-M\"obius $2$-adic induction\\
-  $2^k \mid \abs{\psi'(x)-\psi'(0)}^2$ ($k \ge 2$)
+  $2^k \mid \abs{\tilde{\phi}'(x)-\tilde{\phi}'(0)}^2$ ($k \ge 2$)
 };
 
 % Row 3: Theorem 3, Matrix-Free Reduction, Theorem 1
 \node[thm, text width=4.25cm] (thm3) at (-5.15, 4.1) {%
   {\small\textbf{Theorem~\ref{thm:odd-two-valued} (\S\ref{sec:odd-purity})}}\\[2pt]
-  No two-valued state ($n \ge 3$ odd)\\
+  Direct odd-$n$ purity proof\\
   ($M^2 = 2b^2$; $n=1$: $2^1{-}2=0$)
 };
 
 \node[box, text width=4.60cm] (red) at (0.05, 4.1) {%
   {\small\textbf{Matrix-Free Reduction}}\\[2pt]
-  (\S\ref{sec:reduction}) Lagrangian $H$, symplectic\\
-  basis, joint $+1$ eigenstate $v_0$
+  (\S\ref{sec:reduction}) $2$-valued $\Leftrightarrow$ MUB,\\
+  Lagrangian $H$, eigenstate $v_0$
 };
 
 \node[thm, text width=4.60cm] (thm1) at (5.35, 4.1) {%
@@ -315,7 +336,7 @@ Two subtleties merit emphasis from the outset. First, for $n = 4$, \Cref{cor:gow
 
 \node[thm, text width=4.60cm] (thm2) at (0.05, 0.9) {%
   {\small\textbf{Theorem~\ref{thm:no-pauli-mub} (\S\ref{sec:reduction}, \S\ref{sec:alltop})}}\\[2pt]
-  No Pauli-MUB fiducial ($n \ge 3$)\\
+  No MUB / $2$-valued ($n \ge 3$)\\
   (\& \textbf{Cor.~\ref{cor:damski-lly}}: Damski \& E28)
 };
 
@@ -339,10 +360,10 @@ Two subtleties merit emphasis from the outset. First, for $n = 4$, \Cref{cor:gow
 \draw[arr] (thm1.south) -- (cor1.north);
 
 \end{tikzpicture}
-\caption{Logical dependency structure of the main theorems. The dashed arrow indicates that for odd $n \ge 3$, \Cref{thm:odd-two-valued} combined with \Cref{lem:lagrangian} already suffices to establish \Cref{thm:no-pauli-mub}, whereas the odd-$n$ branch of \Cref{thm:no-alltop} is still needed for Alltop non-existence and \Cref{cor:gowers}.}\label{fig:proof-arch}
+\caption{Logical dependency structure of the main theorems. The dashed arrow indicates that for odd $n \ge 3$, \Cref{thm:odd-two-valued} already gives a direct ten-line proof of \Cref{thm:no-pauli-mub} bypassing the symplectic reduction and Alltop analysis, whereas the odd-$n$ branch of \Cref{thm:no-alltop} is still needed for Alltop non-existence and \Cref{cor:gowers}.}\label{fig:proof-arch}
 \end{figure}
 
-Every theorem, lemma, and numerical bound in \Cref{thm:no-alltop,cor:gowers,thm:no-pauli-mub,cor:damski-lly,thm:odd-two-valued,thm:spike} has been completely formalized and kernel-checked in Lean~4 (\texttt{v4.36.0})~\cite{demoura2021lean4,mathlib2020lean} across $5{,}152$ lines of self-contained code with zero \texttt{sorry}, zero \texttt{native\_decide}, and only the three standard foundational axioms (\texttt{propext}, \texttt{Classical.choice}, \texttt{Quot.sound}); see \Cref{sec:lean} for the formalization architecture and module-by-theorem mapping.
+All core non-existence results (\Cref{thm:no-alltop}, \Cref{cor:gowers}, the Pauli-MUB formulation of \Cref{thm:no-pauli-mub}, \Cref{cor:damski-lly}, and \Cref{thm:odd-two-valued}), the sharp $n = 2$ witnesses (\Cref{prop:sharpness}(i)), and the core quantitative claims of \Cref{thm:spike} (unit norm, exact closed-form Pauli fourth moment~\eqref{eq:spike-poly}, the $3$-qubit Hoggar SIC, and the $4$-qubit rational upper bound $F_4 < 2.150521$) have been completely formalized and kernel-checked in Lean~4 (\texttt{v4.36.0})~\cite{demoura2021lean4,mathlib2020lean} across $5{,}152$ lines of self-contained code with zero \texttt{sorry}, zero \texttt{native\_decide}, and only the three standard foundational axioms (\texttt{propext}, \texttt{Classical.choice}, \texttt{Quot.sound}); \Cref{sec:lean} and \Cref{tab:lean-map} detail the exact Lean-verified scope alongside the short companion paper-level derivations and reproducible numerical scripts.
 
 \paragraph{Organization.}
 \Cref{sec:prelim} establishes notation, Walsh--Hadamard inversion, Pauli identities, and formal definitions. \Cref{sec:odd-purity} presents the short direct proof of \Cref{thm:odd-two-valued}. \Cref{sec:reduction} develops the matrix-free symplectic reduction from Pauli-covariant MUB fiducials to Alltop functions (\Cref{thm:no-pauli-mub} $\Leftarrow$ \Cref{thm:no-alltop}) and verifies sharpness for $n = 1, 2$. \Cref{sec:alltop} proves \Cref{thm:no-alltop} and \Cref{cor:gowers} via spectral quantization, the odd-$n$ triangle contradiction, and the even-$n$ $2$-adic affine subspace induction in $\Zi$. \Cref{sec:spike} studies the unified spike-plus-uniform family (\Cref{thm:spike}) and its implications for four-qubit magic. \Cref{sec:lean} summarizes the pure-kernel Lean~4 formalization, and \Cref{sec:open} discusses open problems.
@@ -360,14 +381,14 @@ Let $n \ge 1$ be an integer, $d := 2^n$, and $\F_2^n := (\Z/2\Z)^n$. We write $x
 The standard basis vectors of $\F_2^n$ are denoted $e_1, \dots, e_n$. For any linear subspace $U \le \F_2^n$, its orthogonal complement is $U^\perp := \{a \in \F_2^n : a \cdot u = 0 \;\forall u \in U\}$.
 
 \begin{lemma}[Character orthogonality and WHT inversion]\label{lem:wht}
-Let $R$ be a commutative ring.
+\leavevmode
 \begin{enumerate}[label=(\roman*),leftmargin=2em]
   \item For every linear subspace $U \le \F_2^n$, shift $v_0 \in \F_2^n$, and $a \in \F_2^n$,
   \[
-    \sum_{u \in U} \chi(v_0 \oplus u, a) = \abs{U}\,\chi(v_0, a)\,\indic{a \in U^\perp}.
+    \sum_{u \in U} \chi(v_0 \oplus u, a) = \abs{U}\,\chi(v_0, a)\,\indic{a \in U^\perp} \qquad \text{in } \Z.
   \]
-  In particular, $\sum_{x \in \F_2^n} \chi(x, y) = 2^n \indic{y = 0}$.
-  \item For every function $f : \F_2^n \to R$, defining $\widehat{f}(u) := \sum_{y \in \F_2^n} \chi(u, y)\, f(y)$, we have the inversion identity
+  In particular, $\sum_{x \in \F_2^n} \chi(x, y) = 2^n \indic{y = 0}$ in $\Z$.
+  \item Let $R$ be a commutative ring and $f : \F_2^n \to R$. Setting $\widehat{f}(u) := \sum_{y \in \F_2^n} \chi(u, y)\, f(y)$, we have the inversion identity
   \[
     \sum_{u \in \F_2^n} \chi(u, x)\,\widehat{f}(u) = 2^n f(x) \qquad \forall\, x \in \F_2^n.
   \]
@@ -380,13 +401,12 @@ Let $R$ be a commutative ring.
 \end{lemma}
 
 \begin{proof}
-(i) Since $\chi(v_0 \oplus u, a) = \chi(v_0, a)\chi(u, a)$, it suffices to treat $v_0 = 0$. If $a \in U^\perp$, every summand equals $1$. If $a \notin U^\perp$, choose $v \in U$ with $v \cdot a = 1$; translating $u \mapsto u \oplus v$ negates the sum, forcing it to vanish.
+(i) Since $\chi(v_0 \oplus u, a) = \chi(v_0, a)\chi(u, a)$, it suffices to treat $v_0 = 0$. If $a \in U^\perp$, every summand equals $1$. If $a \notin U^\perp$, choose $v \in U$ with $v \cdot a = 1$; translating $u \mapsto u \oplus v$ negates the integer sum, forcing it to vanish in $\Z$.
 
-(ii) Expanding $\widehat{f}(u)$ and swapping the order of summation gives
+(ii) Expanding $\widehat{f}(u)$, swapping the order of summation, and applying the canonical ring homomorphism $\Z \to R$ to~(i) (with $U = \F_2^n$) gives
 \[
-  \sum_{u \in \F_2^n} \chi(u, x)\,\widehat{f}(u) = \sum_{y \in \F_2^n} \left(\sum_{u \in \F_2^n} \chi(u, x \oplus y)\right) f(y) = 2^n f(x)
+  \sum_{u \in \F_2^n} \chi(u, x)\,\widehat{f}(u) = \sum_{y \in \F_2^n} \left(\sum_{u \in \F_2^n} \chi(u, x \oplus y)\right) f(y) = 2^n f(x).
 \]
-by (i) with $U = \F_2^n$.
 
 (iii) Let $W_0 := \{a \in W : a \cdot b = 0\} = \ker(a \mapsto a \cdot b\vert_W)$. By rank--nullity, $\dim W_0 \ge \dim W - 1 \ge 1$, so $\abs{W_0} = 2^{\dim W_0}$ is even and $\ge 2$. Therefore $\abs{W_0 \setminus \{0\}} = 2^{\dim W_0} - 1$ is odd, and $\abs{\{a \in W : a \cdot b = 1\}} = \abs{W} - \abs{W_0} = 2^{\dim W} - 2^{\dim W_0}$ is even.
 \end{proof}
@@ -397,11 +417,11 @@ We identify $(\C^2)^{\otimes n}$ with the space $\C^{\F_2^n}$ of complex-valued 
 
 For each phase-space index $p = (a, b) \in \F_2^n \times \F_2^n = \F_2^{2n}$, set
 \[
-  \eta(p) := \begin{cases} 1 & \text{if } a \cdot b = 0, \\ i & \text{if } a \cdot b = 1, \end{cases}
+  \zeta(p) := \begin{cases} 1 & \text{if } a \cdot b = 0, \\ i & \text{if } a \cdot b = 1, \end{cases}
 \]
-and define the linear operator $P_p$ on $\C^{\F_2^n}$ (corresponding to $i^{a \cdot b} Z^b X^a$) by
+and define the linear operator $P_p$ on $\C^{\F_2^n}$ (corresponding to $i^{a \cdot b} Z^b X^a$ with $a \cdot b \in \{0, 1\}$ taken in $\F_2$, so $P_{(a,b)}$ agrees with the standard tensor product of single-qubit Paulis up to a global sign $\pm 1$) by
 \begin{equation}\label{eq:pauli-def}
-  (P_{(a,b)}\psi)(x) := \eta(a, b)\,(-1)^{b \cdot x}\,\psi(x \oplus a).
+  (P_{(a,b)}\psi)(x) := \zeta(a, b)\,(-1)^{b \cdot x}\,\psi(x \oplus a).
 \end{equation}
 Equip $\F_2^{2n}$ with the non-degenerate alternating symplectic bilinear form
 \[
@@ -409,11 +429,11 @@ Equip $\F_2^{2n}$ with the non-degenerate alternating symplectic bilinear form
 \]
 Direct coordinate evaluation verifies the following elementary properties of $\{P_p\}$:
 \begin{enumerate}[label=(\arabic*),leftmargin=2em]
-  \item \textbf{Involution:} $P_p^2 = I$, because $\eta(a,b)^2 (-1)^{b \cdot a} = (-1)^{a \cdot b}(-1)^{b \cdot a} = 1$.
-  \item \textbf{Hermiticity and unitarity:} $\braket{\phi}{P_p \psi} = \braket{P_p \phi}{\psi}$, since substituting $x \mapsto x \oplus a$ gives $\eta(a,b)(-1)^{b \cdot a} = \overline{\eta(a,b)}$. In particular, $P_p$ is unitary and every Pauli expectation value $\expval{\psi}{P_p}$ is real.
+  \item \textbf{Involution:} $P_p^2 = I$, because $\zeta(a,b)^2 (-1)^{b \cdot a} = (-1)^{a \cdot b}(-1)^{b \cdot a} = 1$.
+  \item \textbf{Hermiticity and unitarity:} $\braket{\phi}{P_p \psi} = \braket{P_p \phi}{\psi}$, since substituting $x \mapsto x \oplus a$ gives $\zeta(a,b)(-1)^{b \cdot a} = \overline{\zeta(a,b)}$. In particular, $P_p$ is unitary and every Pauli expectation value $\expval{\psi}{P_p}$ is real.
   \item \textbf{Composition and commutation:} For all $p = (p_1, p_2)$ and $q = (q_1, q_2)$ in $\F_2^{2n}$,
   \begin{equation}\label{eq:pauli-comp}
-    P_p P_q = \gamma(p, q)\, P_{p \oplus q}, \qquad \gamma(p, q) := \eta(p)\,\eta(q)\,(-1)^{q_2 \cdot p_1}\,\overline{\eta(p \oplus q)} \in \{\pm 1, \pm i\}.
+    P_p P_q = \gamma(p, q)\, P_{p \oplus q}, \qquad \gamma(p, q) := \zeta(p)\,\zeta(q)\,(-1)^{q_2 \cdot p_1}\,\overline{\zeta(p \oplus q)} \in \{\pm 1, \pm i\}.
   \end{equation}
   Moreover, $\gamma(p, 0) = \gamma(0, p) = \gamma(p, p) = 1$, $\gamma(p, q) = (-1)^{\omega(p, q)}\gamma(q, p)$ (hence $P_p P_q = (-1)^{\omega(p, q)} P_q P_p$), and the real/imaginary dichotomy holds:
   \begin{equation}\label{eq:gamma-cases}
@@ -422,7 +442,7 @@ Direct coordinate evaluation verifies the following elementary properties of $\{
     \omega(p, q) = 1 &\implies \gamma(p, q) \in \{+i, -i\} \quad (\RePart\gamma(p,q) = 0).
   \end{aligned}
   \end{equation}
-  Indeed, $(p \oplus q)_1 \cdot (p \oplus q)_2 = p_1 \cdot p_2 + q_1 \cdot q_2 + \omega(p, q)$ in $\F_2$, so the number of factors of $i$ in $\eta(p)\eta(q)\overline{\eta(p \oplus q)}$ has the same parity as $\omega(p, q)$.
+  Indeed, $(p \oplus q)_1 \cdot (p \oplus q)_2 = p_1 \cdot p_2 + q_1 \cdot q_2 + \omega(p, q)$ in $\F_2$, so the number of factors of $i$ in $\zeta(p)\zeta(q)\overline{\zeta(p \oplus q)}$ has the same parity as $\omega(p, q)$.
 \end{enumerate}
 
 The next lemma records four foundational identities, proved directly on $\C^{\F_2^n}$ without invoking matrix representations.
@@ -453,9 +473,9 @@ For all $\psi, \phi \in \C^{\F_2^n}$:
 \begin{proof}
 (i) Evaluating the left-hand side at $x \in \F_2^n$ gives
 \[
-  \sum_{a, b \in \F_2^n} \left(\sum_{y \in \F_2^n} \overline{\psi(y)}\,\eta(a,b)(-1)^{b \cdot y}\,\psi(y \oplus a)\right) \eta(a,b)(-1)^{b \cdot x}\,\phi(x \oplus a).
+  \sum_{a, b \in \F_2^n} \left(\sum_{y \in \F_2^n} \overline{\psi(y)}\,\zeta(a,b)(-1)^{b \cdot y}\,\psi(y \oplus a)\right) \zeta(a,b)(-1)^{b \cdot x}\,\phi(x \oplus a).
 \]
-Using $\eta(a,b)^2 = (-1)^{a \cdot b}$ and swapping the sums over $b$ and $y$, the inner sum over $b$ equals $\sum_{b \in \F_2^n} (-1)^{b \cdot (x \oplus y \oplus a)} = 2^n \indic{y = x \oplus a}$ by \Cref{lem:wht}(i). Substituting $y = x \oplus a$ (hence $y \oplus a = x$) and re-indexing $z = x \oplus a$ yields
+Using $\zeta(a,b)^2 = (-1)^{a \cdot b}$ and swapping the sums over $b$ and $y$, the inner sum over $b$ equals $\sum_{b \in \F_2^n} (-1)^{b \cdot (x \oplus y \oplus a)} = 2^n \indic{y = x \oplus a}$ by \Cref{lem:wht}(i). Substituting $y = x \oplus a$ (hence $y \oplus a = x$) and re-indexing $z = x \oplus a$ yields
 \[
   2^n \left(\sum_{z \in \F_2^n} \overline{\psi(z)}\,\phi(z)\right)\psi(x) = 2^n \braket{\psi}{\phi}\,\psi(x).
 \]
@@ -491,20 +511,21 @@ A unit vector $\psi \in \C^{\F_2^n}$ is a \emph{Pauli-covariant MUB fiducial sta
 \begin{remark}[Relation to the Gowers $U^3$ norm]\label{rem:gowers-u3}
 Recall~\cite{gowers2001new} that for $f : \F_2^n \to \C$, the Gowers $U^3$ uniformity norm is defined by
 \[
-  \norm{f}_{U^3(\F_2^n)}^8 := \frac{1}{8^n} \sum_{x, h_1, h_2, h_3 \in \F_2^n} \Delta_{h_1}\Delta_{h_2}\Delta_{h_3} f(x)
+  \norm{f}_{U^3(\F_2^n)}^8 := \frac{1}{16^n} \sum_{x, h_1, h_2, h_3 \in \F_2^n} \Delta_{h_1}\Delta_{h_2}\Delta_{h_3} f(x)
   = \frac{1}{2^n} \sum_{a \in \F_2^n} \norm{g_a}_{U^2(\F_2^n)}^4,
 \]
-where $\Delta_h f(x) = \overline{f(x)} f(x \oplus h)$ and $g_a = \Delta_a f$. By the Plancherel identity for the $U^2$ norm, $\norm{g_a}_{U^2(\F_2^n)}^4 = 2^{-4n} \sum_{b \in \F_2^n} \abs{\widehat{g_a}(b)}^4$. Hence for a phase state $\psi(x) = 2^{-n/2}\phi(x)$ ($\abs{\phi(x)} = 1$), since $\expval{\psi}{P_{(a,b)}} = 2^{-n}\eta(a,b)\widehat{g_a}(b)$, we obtain
+where $\Delta_h f(x) = \overline{f(x)} f(x \oplus h)$ and $g_a = \Delta_a f$. By the Plancherel identity for the $U^2$ norm, $\norm{g_a}_{U^2(\F_2^n)}^4 = 2^{-4n} \sum_{b \in \F_2^n} \abs{\widehat{g_a}(b)}^4$. Hence for a phase state $\psi(x) = 2^{-n/2}\phi(x)$ ($\abs{\phi(x)} = 1$), since $\expval{\psi}{P_{(a,b)}} = 2^{-n}\zeta(a,b)\widehat{g_a}(b)$, we obtain
 \begin{equation}\label{eq:Fn-U3}
   F_n(\ket{\psi}) = \sum_{a, b \in \F_2^n} \abs{\expval{\psi}{P_{(a,b)}}}^4 = \sum_{a, b \in \F_2^n} \left(\frac{\abs{\widehat{g_a}(b)}^2}{4^n}\right)^2 = 2^n \norm{\phi}_{U^3(\F_2^n)}^8.
 \end{equation}
+More generally, $2^{-n} F_n(\ket{\psi})$ serves as the quantum Gowers $U^3$ norm of $\ket{\psi}$ in stabilizer property testing, Clifford Schur--Weyl duality, and quantum Fourier analysis of magic~\cite{gross2021schur,bu2025stabilizer,arunachalam2025polynomial}.
 \end{remark}
 
 % ==============================================================================
 \section{Direct Purity Obstruction for Odd \texorpdfstring{$n \ge 3$}{n >= 3}}\label{sec:odd-purity}
 % ==============================================================================
 
-Before developing the general reduction to Alltop functions, we prove \Cref{thm:odd-two-valued}. Remarkably, for all odd $n \ge 3$, no basis partition or Clifford alignment is needed: state purity alone clashes with the irrationality of $\sqrt{2}$.
+Before developing the general equivalence and symplectic reduction to Alltop functions (which covers both odd and even $n \ge 3$), we present the remarkably short direct proof of \Cref{thm:odd-two-valued}. For all odd $n \ge 3$, neither a basis partition nor a Clifford alignment is needed: state purity alone clashes with the irrationality of $\sqrt{2}$.
 
 \begin{proof}[Proof of \Cref{thm:odd-two-valued}]
 Let $n = 2k + 1 \ge 3$ ($k \ge 1$) and suppose toward a contradiction that a unit vector $\psi \in \C^{\F_2^n}$ satisfies $c_p := \expval{\psi}{P_p} \in \R$ with $c_p^2 \in \{0, 2^{-n}\}$ for every $p \neq 0$.
@@ -531,60 +552,58 @@ Since $n \ge 3$, the integer $b := 2^k(2^n - 2)$ is strictly positive. By elemen
 \end{proof}
 
 \begin{remark}[Why $n = 1$ escapes and structural role of \Cref{thm:odd-two-valued}]\label{rem:odd-shortcut}
-At $n = 1$, the factor $2^1 - 2$ vanishes, so $b = 0$ and no contradiction arises; indeed both $\ket{T}$ (where $c_p^2 = 1/3$ for $p \neq 0$) and the $1$-qubit MUB fiducial $\ket{\psi_1} = \frac{1}{\sqrt{2}}(1, \omega_8)$ (where $c_Z^2 = 0$ and $c_X^2 = c_Y^2 = 1/2$) exist. Furthermore, because every Pauli-covariant MUB fiducial automatically satisfies $c_p^2 \in \{0, 2^{-n}\}$ for all $p \neq 0$ (\Cref{lem:lagrangian}), \Cref{thm:odd-two-valued} already implies \Cref{thm:no-pauli-mub} for all odd $n \ge 3$. The odd-$n$ branch of \Cref{thm:no-alltop} in \Cref{sec:alltop-odd} is still needed to rule out Alltop functions and establish the strict Gowers $U^3$ lower bound (\Cref{cor:gowers}) for odd $n \ge 3$.
+At $n = 1$, the factor $2^1 - 2$ vanishes, so $b = 0$ and no contradiction arises; indeed the $1$-qubit two-valued MUB fiducial $\ket{\psi_1} = \frac{1}{\sqrt{2}}(1, \omega_8)$ (where $c_Z^2 = 0$ and $c_X^2 = c_Y^2 = 1/2$) exists. (Note that $\ket{T}$ has $c_p^2 = 1/3$ for all $p \neq 0$ and therefore does not fall under the two-valued hypothesis of \Cref{thm:odd-two-valued}.) Furthermore, while \Cref{lem:lagrangian} below shows that the two-valued condition is equivalent to \Cref{def:pauli-mub} for \emph{every} $n \ge 1$ (so \Cref{thm:no-pauli-mub} rules out two-valued states for both odd and even $n \ge 3$), \Cref{thm:odd-two-valued} gives a completely elementary ten-line proof for all odd $n \ge 3$ that bypasses symplectic bases and Alltop functions. The odd-$n$ branch of \Cref{thm:no-alltop} in \Cref{sec:alltop-odd} is still needed to rule out Alltop functions and establish the strict Gowers $U^3$ lower bound (\Cref{cor:gowers}) for odd $n \ge 3$.
 \end{remark}
 
 % ==============================================================================
 \section{Matrix-Free Reduction: Pauli-MUB Fiducials to Alltop Functions}\label{sec:reduction}
 % ==============================================================================
 
-In this section we prove that for every $n \ge 1$, the existence of a Pauli-covariant MUB fiducial implies the existence of an Alltop function on $\F_2^n$---thereby reducing \Cref{thm:no-pauli-mub} to \Cref{thm:no-alltop}. Rather than diagonalizing $2^n \times 2^n$ matrices via a global Clifford unitary, we perform the entire reduction directly on $\C^{\F_2^n}$ in three elementary steps: extracting a Lagrangian zero subgroup $H$, constructing an explicit symplectic basis without induction, and building an $H$-aligned orthonormal basis from a single trace-certified joint $+1$ eigenstate.
+In this section we prove two facts for every $n \ge 1$: first, that the partition-free two-valued Pauli-spectrum condition $\abs{\expval{\psi}{P_p}}^2 \in \{0, 2^{-n}\}$ ($p \neq 0$) is strictly equivalent to being a Pauli-covariant MUB fiducial (\Cref{def:pauli-mub}), with zero set automatically forming an $n$-dimensional Lagrangian subspace $H$; second, that any such state yields an Alltop function on $\F_2^n$---thereby reducing \Cref{thm:no-pauli-mub} to \Cref{thm:no-alltop}. Rather than diagonalizing $2^n \times 2^n$ matrices via a global Clifford unitary, we perform the entire reduction directly on $\C^{\F_2^n}$ in three elementary steps: extracting the Lagrangian zero subgroup $H$, constructing an explicit symplectic basis without induction, and building an $H$-aligned orthonormal basis from a single trace-certified joint $+1$ eigenstate.
 
 For a subspace $H \le \F_2^{2n}$, write $H^{\perp_\omega} := \{p \in \F_2^{2n} : \omega(p, h) = 0 \;\forall h \in H\}$ for its symplectic orthogonal complement. We call $H$ \emph{Lagrangian} if $\dim_{\F_2} H = n$ and $H^{\perp_\omega} = H$.
 
-\begin{lemma}[Lagrangian zero subgroup and coset structure]\label{lem:lagrangian}
-Suppose $\psi \in \C^{\F_2^n}$ is a Pauli-covariant MUB fiducial with partition map $\pi : \F_2^{2n} \to \{0, \dots, 2^n - 1\}$. Define
+\begin{lemma}[Equivalence of two-valued Pauli spectra and Pauli-MUB fiducials, and Lagrangian coset structure]\label{lem:lagrangian}
+Let $\psi \in \C^{\F_2^n}$ be a unit vector ($n \ge 1$), and define its zero set
 \[
-  H := \{p \in \F_2^{2n} : \pi(p) = \pi(0)\}.
+  Z := \{0\} \cup \{p \in \F_2^{2n} : \expval{\psi}{P_p} = 0\}.
 \]
-Then:
 \begin{enumerate}[label=(\roman*),leftmargin=2em]
-  \item $H$ is an $n$-dimensional Lagrangian subspace of $(\F_2^{2n}, \omega)$, i.e., $\dim_{\F_2} H = n$ and $H^{\perp_\omega} = H$.
-  \item $\expval{\psi}{P_p} = 0$ for all $p \in H \setminus \{0\}$, and $\abs{\expval{\psi}{P_p}}^2 = 2^{-n}$ for all $p \notin H$.
-  \item For all $p, q \in \F_2^{2n}$, $\pi(p) = \pi(q) \iff p \oplus q \in H$. Consequently, the fibers of $\pi$ are precisely the $2^n$ cosets $p \oplus H$, each of cardinality $2^n$.
+  \item \textbf{Two-valued spectrum $\implies$ Lagrangian subspace and MUB partition:} Suppose $\abs{\expval{\psi}{P_p}}^2 \in \{0, 2^{-n}\}$ for every $p \in \F_2^{2n} \setminus \{0\}$. Then $Z$ is an $n$-dimensional Lagrangian subspace of $(\F_2^{2n}, \omega)$ ($\dim_{\F_2} Z = n$ and $Z^{\perp_\omega} = Z$). Consequently, any bijection from the quotient $\F_2^{2n}/Z$ to $\{0, \dots, 2^n - 1\}$ defines a partition map $\pi$ exhibiting $\psi$ as a Pauli-covariant MUB fiducial (\Cref{def:pauli-mub}).
+  \item \textbf{Pauli-MUB fiducial $\implies$ two-valued spectrum and coset fibers:} Conversely, suppose $\psi$ is a Pauli-covariant MUB fiducial with partition map $\pi : \F_2^{2n} \to \{0, \dots, 2^n - 1\}$, and set $H := \{p \in \F_2^{2n} : \pi(p) = \pi(0)\}$. Then $H = Z$ (hence $H$ is an $n$-dimensional Lagrangian subspace), $\expval{\psi}{P_p} = 0$ for all $p \in H \setminus \{0\}$, $\abs{\expval{\psi}{P_p}}^2 = 2^{-n}$ for all $p \notin H$, and
+  \[
+    \pi(p) = \pi(q) \iff p \oplus q \in H \qquad \forall\, p, q \in \F_2^{2n}.
+  \]
+  In particular, the fibers of $\pi$ are precisely the $2^n$ cosets $p \oplus H$, each of cardinality $2^n$.
 \end{enumerate}
 \end{lemma}
 
 \begin{proof}
-First note that for any $p \in \F_2^{2n}$,
-\begin{equation}\label{eq:mem-H-iff}
-  p \in H \iff \bigl(p = 0 \text{ or } \expval{\psi}{P_p} = 0\bigr).
+(i) Write $c_p := \expval{\psi}{P_p} \in \R$. Since $c_0 = 1$, $c_p^2 = 0$ on $Z \setminus \{0\}$, and $c_p^2 = 2^{-n}$ on $\F_2^{2n} \setminus Z$, Parseval's identity (\Cref{lem:pauli-identities}(ii)) gives
+\[
+  2^n = \sum_{p \in \F_2^{2n}} c_p^2 = 1 + (4^n - \abs{Z})\,2^{-n},
+\]
+which rearranges to $\abs{Z} = 2^n$. Moreover, for every $p \in \F_2^{2n}$ we have the exact indicator decomposition
+\[
+  c_p^2 = 2^{-n} + \indic{p = 0} - 2^{-n}\indic{p \in Z}.
+\]
+Substituting this into symplectic WHT self-duality (\Cref{lem:pauli-identities}(iii)) and using the orthogonality relation $\sum_{p \in \F_2^{2n}} (-1)^{\omega(p, q)} = 4^n \indic{q = 0}$ yields, for every $q \in \F_2^{2n}$,
+\[
+  1 + 2^n\indic{q = 0} - \indic{q \in Z}
+  = 2^n c_q^2
+  = 2^n\indic{q = 0} + 1 - 2^{-n}\sum_{p \in Z} (-1)^{\omega(p, q)}.
+\]
+Canceling $1 + 2^n\indic{q = 0}$ and multiplying by $-2^n$ gives
+\begin{equation}\label{eq:Z-symp-sum}
+  \sum_{p \in Z} (-1)^{\omega(p, q)} = 2^n\indic{q \in Z} \qquad \forall\, q \in \F_2^{2n}.
 \end{equation}
-Indeed, if $p \in H \setminus \{0\}$, then $\pi(0) = \pi(p)$ and $0 \neq p$ give $\expval{\psi}{P_p} = \braket{P_0\psi}{P_p\psi} = 0$; conversely, if $p \notin H$, then $\pi(0) \neq \pi(p)$ forces $\abs{\expval{\psi}{P_p}}^2 = \abs{\braket{P_0\psi}{P_p\psi}}^2 = 2^{-n} > 0$, proving both \eqref{eq:mem-H-iff} and~(ii).
+For any $q \in Z$, the left-hand side of \eqref{eq:Z-symp-sum} is a sum of $\abs{Z} = 2^n$ terms in $\{-1, +1\}$ that equals $2^n$; hence every term equals $+1$, so $\omega(p, q) = 0$ for all $p, q \in Z$. By bilinearity of $\omega$, the linear span $V := \spanF_{\F_2}(Z) \le \F_2^{2n}$ is isotropic, i.e., $V \subseteq V^{\perp_\omega}$. Because $\omega$ is non-degenerate, $\dim_{\F_2} V + \dim_{\F_2} V^{\perp_\omega} = 2n$, whence $2\dim_{\F_2} V \le 2n$, i.e., $\dim_{\F_2} V \le n$ and $\abs{V} \le 2^n = \abs{Z}$. Since $Z \subseteq V$, it follows that $Z = V$, $\dim_{\F_2} Z = n$, and $Z = Z^{\perp_\omega}$: thus $Z$ is an $n$-dimensional Lagrangian subspace. Finally, letting $\pi : \F_2^{2n} \to \F_2^{2n}/Z \cong \{0, \dots, 2^n - 1\}$ be the canonical coset projection and using $\abs{\braket{P_p\psi}{P_q\psi}} = \abs{\gamma(p, q)\expval{\psi}{P_{p \oplus q}}} = \abs{c_{p \oplus q}}$: if $\pi(p) = \pi(q)$ and $p \neq q$, then $p \oplus q \in Z \setminus \{0\}$ so $\braket{P_p\psi}{P_q\psi} = 0$; if $\pi(p) \neq \pi(q)$, then $p \oplus q \notin Z$ so $\abs{\braket{P_p\psi}{P_q\psi}}^2 = 2^{-n}$. Hence $\psi$ satisfies \Cref{def:pauli-mub}.
 
-Next, $H$ is a linear subspace of $\F_2^{2n}$: clearly $0 \in H$, and if $p, q \in H$, then either $p = q$ (so $p \oplus q = 0 \in H$) or $p \neq q$, in which case $\pi(p) = \pi(q)$ gives
+(ii) Suppose $\psi$ satisfies \Cref{def:pauli-mub} with partition map $\pi$, and set $H := \{p \in \F_2^{2n} : \pi(p) = \pi(0)\}$. For any $p \in H \setminus \{0\}$, $\pi(0) = \pi(p)$ and $0 \neq p$ give $\expval{\psi}{P_p} = \braket{P_0\psi}{P_p\psi} = 0$; conversely, for any $p \notin H$, $\pi(0) \neq \pi(p)$ gives $\abs{\expval{\psi}{P_p}}^2 = \abs{\braket{P_0\psi}{P_p\psi}}^2 = 2^{-n} > 0$. Thus $H = Z$ and $\psi$ satisfies the two-valued hypothesis of~(i), so $H$ is an $n$-dimensional Lagrangian subspace by~(i). (In our Lean~4 formalization \lean{mub\_zero\_lagrangian}, $H$ is proved to be a subspace directly from $\pi(p)=\pi(q)$ and $H^{\perp_\omega} = H$ by summing \Cref{lem:pauli-identities}(iii) over $q \in H$ and applying
 \[
-  0 = \braket{P_p \psi}{P_q \psi} = \braket{\psi}{P_p P_q \psi} = \gamma(p, q)\,\expval{\psi}{P_{p \oplus q}}.
+  \sum_{q \in H} (-1)^{\omega(p, q)} = \abs{H}\,\indic{p \in H^{\perp_\omega}} = 2^n \indic{p \in H^{\perp_\omega}},
 \]
-Since $\abs{\gamma(p, q)} = 1$, we get $\expval{\psi}{P_{p \oplus q}} = 0$, hence $p \oplus q \in H$ by \eqref{eq:mem-H-iff}.
-
-By Parseval's identity (\Cref{lem:pauli-identities}(ii)) and~(ii),
-\[
-  2^n = \sum_{p \in \F_2^{2n}} \expval{\psi}{P_p}^2 = 1 + (4^n - \abs{H})\,2^{-n},
-\]
-which rearranges to $\abs{H} = 2^n$, hence $\dim_{\F_2} H = n$.
-
-To show $H^{\perp_\omega} = H$, sum the symplectic self-duality identity (\Cref{lem:pauli-identities}(iii)) over all $q \in H$:
-\[
-  \sum_{p \in \F_2^{2n}} \left(\sum_{q \in H} (-1)^{\omega(p, q)}\right) \expval{\psi}{P_p}^2 = 2^n \sum_{q \in H} \expval{\psi}{P_q}^2.
-\]
-By symplectic character orthogonality (proved identically to \Cref{lem:wht}(i)), $\sum_{q \in H} (-1)^{\omega(p, q)} = \abs{H}\,\indic{p \in H^{\perp_\omega}} = 2^n \indic{p \in H^{\perp_\omega}}$. Meanwhile, by~(ii) the right-hand side equals $2^n \cdot 1$. Dividing by $2^n$ and peeling off $p = 0$ leaves
-\[
-  \sum_{p \in H^{\perp_\omega} \setminus \{0\}} \expval{\psi}{P_p}^2 = 0.
-\]
-Since every summand is nonnegative, $\expval{\psi}{P_p} = 0$ for all $p \in H^{\perp_\omega} \setminus \{0\}$, so $H^{\perp_\omega} \subseteq H$ by \eqref{eq:mem-H-iff}. On the other hand, applying rank--nullity to $p \mapsto (h \mapsto \omega(p, h)) \in H^*$ yields $\dim_{\F_2} H^{\perp_\omega} \ge 2n - \dim_{\F_2} H = n = \dim_{\F_2} H$. Hence $H^{\perp_\omega} = H$, completing~(i).
-
-Finally, for~(iii), let $p, q \in \F_2^{2n}$. Since $\braket{P_p\psi}{P_q\psi} = \gamma(p, q)\expval{\psi}{P_{p \oplus q}}$ and $\abs{\gamma(p,q)} = 1$: if $\pi(p) = \pi(q)$ and $p \neq q$, then $\expval{\psi}{P_{p \oplus q}} = 0$, so $p \oplus q \in H$; conversely, if $p \oplus q \in H \setminus \{0\}$, then $\abs{\braket{P_p\psi}{P_q\psi}}^2 = \abs{\expval{\psi}{P_{p \oplus q}}}^2 = 0 \neq 2^{-n}$, forcing $\pi(p) = \pi(q)$. The case $p = q$ is trivial. Thus $\pi(p) = \pi(q) \iff p \oplus q \in H$, so the fibers of $\pi$ are the $2^n$ cosets of $H$, each of size $\abs{H} = 2^n$.
+which gives the same conclusion.) Finally, for any $p, q \in \F_2^{2n}$, the identity $\braket{P_p\psi}{P_q\psi} = \gamma(p, q)\expval{\psi}{P_{p \oplus q}}$ (with $\abs{\gamma(p,q)} = 1$) shows that if $\pi(p) = \pi(q)$ and $p \neq q$, then $\expval{\psi}{P_{p \oplus q}} = 0$, so $p \oplus q \in H$; conversely, if $p \oplus q \in H \setminus \{0\}$, then $\expval{\psi}{P_{p \oplus q}} = 0$ gives $\abs{\braket{P_p\psi}{P_q\psi}}^2 = 0 \neq 2^{-n}$, forcing $\pi(p) = \pi(q)$. The case $p = q$ is trivial. Thus $\pi(p) = \pi(q) \iff p \oplus q \in H$, so the fibers of $\pi$ are precisely the $2^n$ cosets of $H$, each of size $\abs{H} = 2^n$.
 \end{proof}
 
 \begin{lemma}[Explicit induction-free symplectic basis]\label{lem:symp-basis}
@@ -630,7 +649,7 @@ Since $F_j$ commutes with every $F_k$ and satisfies $F_j^2 = I$, we have $F_j \P
 \[
   \sum_{x \in \F_2^n} \braket{\delta_x}{P_{(a,b)}\delta_x} = \indic{a = 0}\sum_{x \in \F_2^n} (-1)^{b \cdot x} = 2^n \indic{(a,b) = (0,0)}.
 \]
-By \eqref{eq:pauli-comp}, each $F^u$ equals a unit-modulus scalar times $P_{\sum_j u_j f_j}$. Since $f_1, \dots, f_n$ are linearly independent over $\F_2$, $\sum_j u_j f_j = 0 \iff u = 0$, whence
+By \eqref{eq:pauli-comp}, each $F^u$ equals a unit-modulus scalar times $P_{\sum_j u_j f_j}$, with $F^0 = I = (+1)\,P_0$ for $u = 0$. Since $f_1, \dots, f_n$ are linearly independent over $\F_2$, $\sum_j u_j f_j = 0 \iff u = 0$, whence
 \[
   \sum_{x \in \F_2^n} \braket{\delta_x}{\Pi \delta_x} = 2^{-n} \cdot 2^n = 1 \neq 0.
 \]
@@ -673,7 +692,7 @@ Hence $\phi$ is an Alltop function on $\F_2^n$.
 \end{proof}
 
 \begin{proof}[Proof of \Cref{thm:no-pauli-mub} and \Cref{cor:damski-lly} (assuming \Cref{thm:no-alltop})]
-For $n \ge 3$, \Cref{lem:mub-to-alltop} and \Cref{thm:no-alltop} immediately show that no Pauli-covariant MUB fiducial exists in $(\C^2)^{\otimes n}$. \Cref{cor:damski-lly} follows as a direct specialization to $\omega_8$-phase states and to $n \ge 4$. Sharpness at $n = 2$ (and $n = 1$) is verified next.
+For $n \ge 3$, \Cref{lem:mub-to-alltop} and \Cref{thm:no-alltop} immediately show that no Pauli-covariant MUB fiducial exists in $(\C^2)^{\otimes n}$; by \Cref{lem:lagrangian}(i), no unit state satisfies the partition-free two-valued condition $\abs{\expval{\psi}{P_p}}^2 \in \{0, 2^{-n}\}$ ($p \neq 0$) either. \Cref{cor:damski-lly} follows as a direct specialization to $\omega_8$-phase states and to $n \ge 4$. Sharpness at $n = 2$ (and $n = 1$) is verified next.
 \end{proof}
 
 \begin{proposition}[Sharpness for $n = 1$ and $n = 2$]\label{prop:sharpness}
@@ -699,7 +718,7 @@ This section proves \Cref{thm:no-alltop} and \Cref{cor:gowers}. The argument pro
   \item \textbf{Elementary $\Zi$ descent (\Cref{sec:gi-descent}):} We establish power-of-two sum-of-squares classification and $(1+i)$-divisibility in $\Zi$ by direct induction, avoiding unique factorization theory.
   \item \textbf{Spectral quantization (\Cref{sec:quant}):} For every $n \ge 2$, the symmetry $g_a(x \oplus a) = \overline{g_a(x)}$ separates the real and imaginary parts of $\widehat{g_a}$ onto orthogonal half-spaces, and WHT inversion quantizes $g_a(x)$ via integer solutions to $m^2 + \ell^2 = 2^{n-2}$.
   \item \textbf{Odd $n = 2k+1 \ge 3$ (\Cref{sec:alltop-odd}):} Quantization forces $g_a(x) \in \{(\pm 1 \pm i)/\sqrt{2}\}$, immediately contradicting the triangle identity $g_a(0)\,g_{a \oplus b}(a) = g_b(0)$.
-  \item \textbf{Even $n = 2k \ge 4$ (\Cref{sec:alltop-even,sec:induction,sec:final-kill}):} Quantization lifts $\phi$ (up to global phase) to $\psi : \F_2^{2k} \to \{\pm 1, \pm i\} \subset \Zi$. Its WHT factors as $z_u = (1+i)^k w_u$, and after a global unit rotation $w'_u = 1 + 2\eta_u$ satisfies $2$-adic affine correlation congruences $(\star_r)$ for all $1 \le r \le 2k - 2$. Our \emph{$2$-adic affine subspace induction theorem} (\Cref{thm:subspace-induction}) bootstraps these congruences via exact $\Zi$-M\"obius inversion to prove $2^{r-1} \mid \sum_{u \in U} \eta(v_0 \oplus u)$ up to $r = 2k - 1$. An exact WHT-to-subcube identity then forces $2^k \mid \abs{\psi'(x) - \psi'(0)}^2$, which for $k \ge 2$ collapses $\psi'(x) = \pm\psi'(0)$ and contradicts the nontrivial imaginary spectrum.
+  \item \textbf{Even $n = 2k \ge 4$ (\Cref{sec:alltop-even,sec:induction,sec:final-kill}):} Quantization lifts $\phi$ (up to global phase) to $\tilde{\phi} : \F_2^{2k} \to \{\pm 1, \pm i\} \subset \Zi$. Its WHT factors as $z_u = (1+i)^k w_u$, and after a global unit rotation $w'_u = 1 + 2\eta_u$ satisfies $2$-adic affine correlation congruences $(\star_r)$ for all $1 \le r \le 2k - 2$. Our \emph{$2$-adic affine subspace induction theorem} (\Cref{thm:subspace-induction}) bootstraps these congruences via exact $\Zi$-M\"obius inversion to prove $2^{r-1} \mid \sum_{u \in U} \eta(v_0 \oplus u)$ up to $r = 2k - 1$. An exact WHT-to-subcube identity then forces $2^k \mid \abs{\tilde{\phi}'(x) - \tilde{\phi}'(0)}^2$, which for $k \ge 2$ collapses $\tilde{\phi}'(x) = \pm\tilde{\phi}'(0)$ and contradicts the nontrivial imaginary spectrum.
 \end{enumerate}
 
 \subsection{Elementary arithmetic descent in \texorpdfstring{$\Z$}{Z} and \texorpdfstring{$\Zi$}{Z[i]}}\label{sec:gi-descent}
@@ -791,15 +810,15 @@ because $x_1^2 = y_1^2 = x_2^2 = y_2^2 = 1/2$. On the other hand, $\RePart(g_b(0
 For the remainder of \Cref{sec:alltop}, let $n = 2k$ with $k \ge 2$, and suppose toward a contradiction that $\phi : \F_2^{2k} \to \Uone$ is an Alltop function.
 
 \paragraph{Step 1: Quantization into $\{\pm 1, \pm i\} \subset \Zi$.}
-Replacing $\phi$ by $\phi_0(x) := \overline{\phi(0)}\,\phi(x)$ preserves the Alltop property (each $g_a$ is unchanged since $\abs{\phi(0)} = 1$) and normalizes $\phi_0(0) = 1$. For every $a \neq 0$ and $x \in \F_2^{2k}$, \Cref{lem:quantization}(ii) gives $m, \ell \in \Z$ with $m^2 + \ell^2 = 2^{2(k-1)}$. By \Cref{lem:sq-descent}(i), $(m, \ell) \in \{(\pm 2^{k-1}, 0), (0, \pm 2^{k-1})\}$, forcing $g_a(x) \in \{+1, -1, +i, -i\}$. Since $\phi_0(x) = g_x(0)$ for $x \neq 0$ and $\phi_0(0) = 1$, $\phi_0$ lifts to a function $\psi : \F_2^{2k} \to \{+1, -1, +i, -i\} \subset \Zi$.
+Replacing $\phi$ by $\phi_0(x) := \overline{\phi(0)}\,\phi(x)$ preserves the Alltop property (each $g_a$ is unchanged since $\abs{\phi(0)} = 1$) and normalizes $\phi_0(0) = 1$. For every $a \neq 0$ and $x \in \F_2^{2k}$, \Cref{lem:quantization}(ii) gives $m, \ell \in \Z$ with $m^2 + \ell^2 = 2^{2(k-1)}$. By \Cref{lem:sq-descent}(i), $(m, \ell) \in \{(\pm 2^{k-1}, 0), (0, \pm 2^{k-1})\}$, forcing $g_a(x) \in \{+1, -1, +i, -i\}$. Since $\phi_0(x) = g_x(0)$ for $x \neq 0$ and $\phi_0(0) = 1$, $\phi_0$ lifts to a function $\tilde{\phi} : \F_2^{2k} \to \{+1, -1, +i, -i\} \subset \Zi$. Writing $\tilde{\phi}(x) = i^{f(x)}$ with $f : \F_2^{2k} \to \Z_4$, every nontrivial difference $x \mapsto f(x \oplus a) - f(x)$ is a $\Z_4$-valued \emph{generalized bent function}~\cite{kumar1985generalized,schmidt2009quaternary,sole2009connections}; \Cref{thm:no-alltop} therefore rules out quaternary-valued Alltop constructions over $\F_2^{2k}$ for all $k \ge 2$, complementing the odd-characteristic finite-field Alltop theory of~\cite{alltop1980complex,hall2013family}.
 
 Define the $\Zi$-valued multiplicative-derivative WHT
 \[
-  \hat{g}_a(b) := \sum_{x \in \F_2^{2k}} (-1)^{b \cdot x}\,\overline{\psi(x)}\,\psi(x \oplus a) \in \Zi.
+  \widehat{g_a}(b) := \sum_{x \in \F_2^{2k}} (-1)^{b \cdot x}\,\overline{\tilde{\phi}(x)}\,\tilde{\phi}(x \oplus a) \in \Zi.
 \]
-Clearly $\hat{g}_0(b) = 2^{2k}\indic{b = 0}$, while by \Cref{lem:quantization}(i) (with $\sqrt{2^{2k}} = 2^k$), for every $a \neq 0$ and $b \in \F_2^{2k}$,
+Clearly $\widehat{g_0}(b) = 2^{2k}\indic{b = 0}$, while by \Cref{lem:quantization}(i) (with $\sqrt{2^{2k}} = 2^k$), for every $a \neq 0$ and $b \in \F_2^{2k}$,
 \begin{equation}\label{eq:ghat-zi}
-  \hat{g}_a(b) = \begin{cases}
+  \widehat{g_a}(b) = \begin{cases}
     \sigma_r(a, b)\,2^k & (a \cdot b = 0), \\
     \sigma_t(a, b)\,2^k i & (a \cdot b = 1),
   \end{cases}
@@ -807,12 +826,12 @@ Clearly $\hat{g}_0(b) = 2^{2k}\indic{b = 0}$, while by \Cref{lem:quantization}(i
 \end{equation}
 
 \paragraph{Step 2: Convolution identity, $(1+i)^k$-descent, and parity alignment.}
-Let $z_u := \sum_{x \in \F_2^{2k}} (-1)^{u \cdot x}\,\psi(x) \in \Zi$ be the WHT of $\psi$. Direct expansion and substitution $y = x \oplus a$ give the \emph{convolution identity}
+Let $z_u := \sum_{x \in \F_2^{2k}} (-1)^{u \cdot x}\,\tilde{\phi}(x) \in \Zi$ be the WHT of $\tilde{\phi}$. Direct expansion and substitution $y = x \oplus a$ give the \emph{convolution identity}
 \begin{align}
   \overline{z_{u \oplus b}}\, z_u
-  &= \sum_{x, y \in \F_2^{2k}} (-1)^{(u \oplus b)\cdot x + u \cdot y}\,\overline{\psi(x)}\,\psi(y) \nonumber\\
-  &= \sum_{a \in \F_2^{2k}} (-1)^{u \cdot a} \sum_{x \in \F_2^{2k}} (-1)^{b \cdot x}\,\overline{\psi(x)}\,\psi(x \oplus a)
-  = \sum_{a \in \F_2^{2k}} (-1)^{u \cdot a}\,\hat{g}_a(b). \label{eq:conv-z}
+  &= \sum_{x, y \in \F_2^{2k}} (-1)^{(u \oplus b)\cdot x + u \cdot y}\,\overline{\tilde{\phi}(x)}\,\tilde{\phi}(y) \nonumber\\
+  &= \sum_{a \in \F_2^{2k}} (-1)^{u \cdot a} \sum_{x \in \F_2^{2k}} (-1)^{b \cdot x}\,\overline{\tilde{\phi}(x)}\,\tilde{\phi}(x \oplus a)
+  = \sum_{a \in \F_2^{2k}} (-1)^{u \cdot a}\,\widehat{g_a}(b). \label{eq:conv-z}
 \end{align}
 Setting $b = 0$ in \eqref{eq:conv-z} and applying \eqref{eq:ghat-zi} yields
 \[
@@ -836,7 +855,7 @@ is a sum of $2^{2k-1} - 1$ (odd) signs, hence is odd. Because $\RePart(w_u)^2 + 
 
 Choose the unit rotation $u_{\mathrm{rot}} \in \{1, -i\}$ by setting $u_{\mathrm{rot}} := 1$ if $\RePart(w_0)$ is odd and $u_{\mathrm{rot}} := -i$ if $\RePart(w_0)$ is even, and define
 \[
-  \psi'(x) := u_{\mathrm{rot}}\,\psi(x) \in \{+1, -1, +i, -i\},
+  \tilde{\phi}'(x) := u_{\mathrm{rot}}\,\tilde{\phi}(x) \in \{+1, -1, +i, -i\},
   \qquad
   w'_u := u_{\mathrm{rot}}\,w_u \in \Zi.
 \]
@@ -988,28 +1007,32 @@ Note that $f$ satisfies $(IH_m)$ on $\F_2^m$, so \Cref{lem:mobius-val}(i) and co
 We now assemble the full induction.
 
 \begin{subtheorem}[$2$-adic affine subspace induction]\label{thm:subspace-induction}
-Let $M \ge 0$ and let $\eta : \F_2^n \to \Zi$ satisfy the correlation congruence \eqref{eq:corr-congr} for every integer $1 \le r \le M$. Then $\eta$ satisfies $(IH_{M+1})$.
+Let $n \ge 1$, $0 \le M \le n - 1$, and let $\eta : \F_2^n \to \Zi$ satisfy the correlation congruence
+\[
+  2^r \;\Big|\; \sum_{u \in U} \Bigl(\overline{\eta(v_0 \oplus u)} + \eta(v_0 \oplus u \oplus b) + 2\,\overline{\eta(v_0 \oplus u)}\,\eta(v_0 \oplus u \oplus b)\Bigr) \qquad \text{in } \Zi
+\]
+(i.e., \eqref{eq:corr-congr} on $\F_2^n$) for every integer $1 \le r \le M$, every $r$-dimensional linear subspace $U \le \F_2^n$, and all $v_0, b \in \F_2^n$. Then $\eta$ satisfies $(IH_{M+1})$. (More generally, for any $M \ge n$ the same implication holds vacuously for dimensions $r > n$.)
 \end{subtheorem}
 
 \begin{proof}
 We induct on $M$. For $M = 0$, $(IH_1)$ requires $2^{1-1} = 1 \mid \sum_{u \in U} \eta(v_0 \oplus u)$, which is trivial.
 
-For the induction step, assume $m \ge 1$, $(IH_m)$ holds for $\eta$, and $(\star_m)$ holds for $\eta$. To prove $(IH_{m+1})$, let $W \le \F_2^n$ be an $(m+1)$-dimensional subspace and $v_0 \in \F_2^n$. Pick an $\F_2$-basis $b_1, \dots, b_{m+1}$ of $W$, set $V := \spanF_{\F_2}(b_1, \dots, b_m)$ ($\dim V = m$) and $b := b_{m+1}$, and pull back $\eta$ along the injective affine map $\Phi(x_1, \dots, x_{m+1}) := v_0 \oplus \sum_{j=1}^{m+1} x_j b_j$ by defining $h(w) := \eta(\Phi(w))$ on $\F_2^{m+1}$. Because $\Phi$ maps every $r$-dimensional affine subspace of $\F_2^{m+1}$ bijectively onto an $r$-dimensional affine subspace of $\F_2^n$, $h$ inherits $(IH_m)$ on $\F_2^{m+1}$. Writing $f(u) := h(u, 0)$ and $\delta(u) := h(u, 1) - f(u)$ on $\F_2^m$, we have
+For the induction step, assume $1 \le m \le n - 1$, $(IH_m)$ holds for $\eta$, and $(\star_m)$ holds for $\eta$. To prove $(IH_{m+1})$, let $W \le \F_2^n$ be an $(m+1)$-dimensional subspace and $v_0 \in \F_2^n$. Pick an $\F_2$-basis $b_1, \dots, b_{m+1}$ of $W$, set $V := \spanF_{\F_2}(b_1, \dots, b_m)$ ($\dim V = m$) and $b := b_{m+1}$, and pull back $\eta$ along the injective affine map $\Phi(x_1, \dots, x_{m+1}) := v_0 \oplus \sum_{j=1}^{m+1} x_j b_j$ by defining $h(w) := \eta(\Phi(w))$ on $\F_2^{m+1}$. Because $\Phi$ maps every $r$-dimensional affine subspace of $\F_2^{m+1}$ bijectively onto an $r$-dimensional affine subspace of $\F_2^n$, $h$ inherits $(IH_m)$ on $\F_2^{m+1}$. Writing $f(u) := h(u, 0)$ and $\delta(u) := h(u, 1) - f(u)$ on $\F_2^m$, we have
 \[
   \sum_{w \in W} \eta(v_0 \oplus w) = \sum_{u \in \F_2^m} \bigl(f(u) + h(u, 1)\bigr).
 \]
 We proceed in three short steps:
 \begin{enumerate}[leftmargin=1.8em]
-  \item \emph{Norm cancellation at shift $0$.} Applying $(\star_m)$ on $V$ with shift $0$ gives
+  \item \emph{Norm cancellation at zero correlation shift.} Applying $(\star_m)$ on the affine subspace $v_0 \oplus V$ with correlation shift $0$ gives
   \[
     2^m \;\Big|\; \sum_{u \in \F_2^m} \bigl(\overline{f(u)} + f(u) + 2\abs{f(u)}^2\bigr).
   \]
-  By $(IH_m)$ on $V$, $2^{m-1} \mid \sum_u f(u)$, hence $2^m \mid 2\RePart\sum_u f(u) = \sum_u (\overline{f(u)} + f(u))$. Subtracting yields $2^m \mid 2\sum_u \abs{f(u)}^2$.
+  By $(IH_m)$ on $v_0 \oplus V$, $2^{m-1} \mid \sum_u f(u)$, hence $2^m \mid 2\RePart\sum_u f(u) = \sum_u (\overline{f(u)} + f(u))$. Subtracting yields $2^m \mid 2\sum_u \abs{f(u)}^2$.
   \item \emph{Cross-product elimination.} By \Cref{lem:prod-diff}, $2^{m-1} \mid \sum_u \overline{f(u)}\,\delta(u)$, so $2^m \mid 2\sum_u \overline{f(u)}\,\delta(u)$. Adding this to $2^m \mid 2\sum_u \abs{f(u)}^2$ gives
   \[
     2^m \;\Big|\; 2 \sum_{u \in \F_2^m} \overline{f(u)}\,h(u, 1).
   \]
-  \item \emph{Real and imaginary parts at shift $b$.} Applying $(\star_m)$ on $V$ with shift $b = b_{m+1}$ gives $2^m \mid \sum_u \bigl(\overline{f(u)} + h(u, 1) + 2\overline{f(u)}h(u, 1)\bigr)$. Subtracting step~2 leaves
+  \item \emph{Real and imaginary parts at correlation shift $b = b_{m+1}$.} Applying $(\star_m)$ on $v_0 \oplus V$ with correlation shift $b = b_{m+1}$ gives $2^m \mid \sum_u \bigl(\overline{f(u)} + h(u, 1) + 2\overline{f(u)}h(u, 1)\bigr)$. Subtracting step~2 leaves
   \[
     2^m \;\Big|\; \sum_{u \in \F_2^m} \bigl(\overline{f(u)} + h(u, 1)\bigr) \qquad \text{in } \Zi.
   \]
@@ -1055,38 +1078,38 @@ By \Cref{lem:corr-congr}, $\eta$ satisfies $(\star_r)$ for all $1 \le r \le 2k -
 \begin{equation}\label{eq:wht-diff-div}
   2^{2k} \;\Big|\; \sum_{u \in \F_2^{2k}} (-1)^{u \cdot x}(1 + 2\eta_u) - \sum_{u \in \F_2^{2k}} (-1)^{u \cdot y}(1 + 2\eta_u) \qquad \text{in } \Zi.
 \end{equation}
-On the other hand, by WHT inversion on $\psi$ (\Cref{lem:wht}(ii)), \eqref{eq:z-factor}, and the exact identity $2^{2k} = (-1)^k (1+i)^{4k}$ in $\Zi$ (since $(1+i)^4 = -4$),
+On the other hand, by WHT inversion on $\tilde{\phi}$ (\Cref{lem:wht}(ii)), \eqref{eq:z-factor}, and the exact identity $2^{2k} = (-1)^k (1+i)^{4k}$ in $\Zi$ (since $(1+i)^4 = -4$),
 \[
   (1+i)^k \sum_{u \in \F_2^{2k}} (-1)^{u \cdot x}(1 + 2\eta_u)
   = u_{\mathrm{rot}} \sum_{u \in \F_2^{2k}} (-1)^{u \cdot x} z_u
-  = u_{\mathrm{rot}}\,2^{2k}\psi(x)
-  = (-1)^k (1+i)^{4k}\,\psi'(x).
+  = u_{\mathrm{rot}}\,2^{2k}\tilde{\phi}(x)
+  = (-1)^k (1+i)^{4k}\,\tilde{\phi}'(x).
 \]
 Canceling the nonzero factor $(1+i)^k$ in the integral domain $\Zi$ gives
 \[
-  \sum_{u \in \F_2^{2k}} (-1)^{u \cdot x}(1 + 2\eta_u) = (-1)^k (1+i)^{3k}\,\psi'(x).
+  \sum_{u \in \F_2^{2k}} (-1)^{u \cdot x}(1 + 2\eta_u) = (-1)^k (1+i)^{3k}\,\tilde{\phi}'(x).
 \]
-Substituting this into \eqref{eq:wht-diff-div} yields $2^{2k} \mid (-1)^k (1+i)^{3k}\bigl(\psi'(x) - \psi'(y)\bigr)$ in $\Zi$. Taking $\Zi$-norms gives
+Substituting this into \eqref{eq:wht-diff-div} yields $2^{2k} \mid (-1)^k (1+i)^{3k}\bigl(\tilde{\phi}'(x) - \tilde{\phi}'(y)\bigr)$ in $\Zi$. Taking $\Zi$-norms gives
 \[
-  2^{4k} \;\Big|\; 2^{3k}\, N\bigl(\psi'(x) - \psi'(y)\bigr)
+  2^{4k} \;\Big|\; 2^{3k}\, N\bigl(\tilde{\phi}'(x) - \tilde{\phi}'(y)\bigr)
   \quad \Longrightarrow \quad
-  2^k \;\Big|\; N\bigl(\psi'(x) - \psi'(y)\bigr) \qquad \text{in } \Z.
+  2^k \;\Big|\; N\bigl(\tilde{\phi}'(x) - \tilde{\phi}'(y)\bigr) \qquad \text{in } \Z.
 \]
-Since $k \ge 2$, we have $4 \mid N\bigl(\psi'(x) - \psi'(0)\bigr)$ for every $x \in \F_2^{2k}$. However, $\psi'(x), \psi'(0) \in \{+1, -1, +i, -i\}$, whose pairwise squared Euclidean distances lie in $\{0, 2, 4\}$, with distance $2$ occurring precisely when one value lies in $\{\pm 1\}$ and the other in $\{\pm i\}$. Thus $4 \mid N(\psi'(x) - \psi'(0))$ forces
+Since $k \ge 2$, we have $4 \mid N\bigl(\tilde{\phi}'(x) - \tilde{\phi}'(0)\bigr)$ for every $x \in \F_2^{2k}$. However, $\tilde{\phi}'(x), \tilde{\phi}'(0) \in \{+1, -1, +i, -i\}$, whose pairwise squared Euclidean distances lie in $\{0, 2, 4\}$, with distance $2$ occurring precisely when one value lies in $\{\pm 1\}$ and the other in $\{\pm i\}$. Thus $4 \mid N(\tilde{\phi}'(x) - \tilde{\phi}'(0))$ forces
 \[
-  \psi'(x) = \pm \psi'(0) \qquad \forall\, x \in \F_2^{2k}.
+  \tilde{\phi}'(x) = \pm \tilde{\phi}'(0) \qquad \forall\, x \in \F_2^{2k}.
 \]
 Now pick $a_0 := e_1 \neq 0$. For every $x \in \F_2^{2k}$,
 \[
-  \overline{\psi(x)}\,\psi(x \oplus a_0) = \overline{\psi'(x)}\,\psi'(x \oplus a_0) \in \{+1, -1\}
+  \overline{\tilde{\phi}(x)}\,\tilde{\phi}(x \oplus a_0) = \overline{\tilde{\phi}'(x)}\,\tilde{\phi}'(x \oplus a_0) \in \{+1, -1\}
 \]
-is purely real, whence $\ImPart(\hat{g}_{a_0}(a_0)) = 0$. Yet $a_0 \cdot a_0 = 1$ in $\F_2$, so \eqref{eq:ghat-zi} requires $\ImPart(\hat{g}_{a_0}(a_0)) = \pm 2^k \neq 0$, a contradiction.
+is purely real, whence $\ImPart(\widehat{g_{a_0}}(a_0)) = 0$. Yet $a_0 \cdot a_0 = 1$ in $\F_2$, so \eqref{eq:ghat-zi} requires $\ImPart(\widehat{g_{a_0}}(a_0)) = \pm 2^k \neq 0$, a contradiction.
 \end{proof}
 
 \subsection{Proof of \texorpdfstring{\Cref{cor:gowers}}{Corollary 1} (strict Gowers \texorpdfstring{$U^3$}{U\^{}3} lower bound)}\label{sec:proof-gowers}
 
 \begin{proof}[Proof of \Cref{cor:gowers}]
-Let $n \ge 3$ and let $\phi : \F_2^n \to \Uone$. Write $c_a(b) := \abs{\widehat{g_a}(b)}^2$. At $a = 0$, $g_0 \equiv 1$, so $c_0(b) = 4^n \indic{b = 0}$, contributing $1$ to $F_n(\phi) = 2^n\norm{\phi}_{U^3(\F_2^n)}^8$ in \eqref{eq:Fn-U3}. For every $a \in \F_2^n$, Parseval's identity for the WHT of $g_a$ gives $\sum_{b \in \F_2^n} c_a(b) = 2^n \sum_{x \in \F_2^n} \abs{g_a(x)}^2 = 4^n$, from which the exact variance identity follows:
+Let $n \ge 3$ and let $\phi : \F_2^n \to \Uone$. Write $c_a(b) := \abs{\widehat{g_a}(b)}^2$. At $a = 0$, $g_0 \equiv 1$, so $c_0(b) = 4^n \indic{b = 0}$, contributing $1$ to $2^n\norm{\phi}_{U^3(\F_2^n)}^8$ in \eqref{eq:Fn-U3}. For every $a \in \F_2^n$, Parseval's identity for the WHT of $g_a$ gives $\sum_{b \in \F_2^n} c_a(b) = 2^n \sum_{x \in \F_2^n} \abs{g_a(x)}^2 = 4^n$, from which the exact variance identity follows:
 \[
   \sum_{b \in \F_2^n} \left(\frac{c_a(b)}{4^n}\right)^2
   = \frac{1}{2^n} + \frac{1}{4^{2n}} \sum_{b \in \F_2^n} \bigl(c_a(b) - 2^n\bigr)^2.
@@ -1129,7 +1152,7 @@ Direct expansion gives
 so $\abs{\beta}^2 = \frac{u^2 + v^2}{4\alpha^2} = \frac{s}{d}$. Hence $\braket{\psi_n(s)}{\psi_n(s)} = \alpha^2 + (d-1)\abs{\beta}^2 = p + \frac{d-1}{d}s = 1$.
 
 \emph{Step 2: $\GL(n, \F_2)$ invariance and antiunitary $(H^{\otimes n}\circ K)$ symmetry.}
-Any invertible linear transformation $A \in \GL(n, \F_2)$ fixes $0$ and permutes $\F_2^n \setminus \{0\}$, so $\ket{\psi_n(s)}$ is strictly invariant under the corresponding computational-basis permutation $U_A\ket{x} = \ket{Ax}$.
+Any invertible linear transformation $A \in \GL(n, \F_2)$ fixes $0$ and permutes $\F_2^n \setminus \{0\}$, so $\ket{\psi_n(s)}$ is strictly invariant under the corresponding computational-basis permutation $U_A\ket{x} = \ket{Ax}$. (Although $\ket{\psi_n(s)}$ is invariant under the full symmetric group $S_{2^n-1}$ acting on $\F_2^n \setminus \{0\}$, the subgroup $\GL(n, \F_2)$ is realized by CNOT Clifford circuits, normalizes $\Pauli_n$, and directly accounts for the five Pauli orbits in \Cref{tab:spike-orbits}.)
 
 Under the $n$-qubit Hadamard transform $(H^{\otimes n}\psi)_y = d^{-1/2}\sum_{x \in \F_2^n} (-1)^{y \cdot x}\psi(x)$, we have
 \[
@@ -1160,7 +1183,7 @@ Using $\overline{\alpha}\beta = \frac{u + iv}{2}$, $\overline{\beta}\alpha = \fr
   \item $a = 0, b \neq 0$: $\expval{\psi}{P_{(0,b)}} = \alpha^2 + \abs{\beta}^2 \sum_{x \neq 0}(-1)^{b \cdot x} = p - \frac{s}{d} = 1 - s$ (count $d - 1$).
   \item $a \neq 0, b = 0$: separating $x = 0$, $x = a$, and the remaining $d - 2$ points gives $\overline{\alpha}\beta + \overline{\beta}\alpha + (d-2)\abs{\beta}^2 = u + \frac{d-2}{d}s = 1 - s$ (count $d - 1$).
   \item $a \neq 0, b \neq 0, a \cdot b = 0$: since $(-1)^{b \cdot a} = 1$, $\sum_{x \notin \{0, a\}} (-1)^{b \cdot x} = 0 - 1 - 1 = -2$, giving $u - \frac{2s}{d} = 1 - 2s$ (count $(d-1)(d/2 - 1)$).
-  \item $a \neq 0, a \cdot b = 1$: here $\eta(a,b) = i$, $(-1)^{b \cdot a} = -1$, and $\sum_{x \notin \{0,a\}} (-1)^{b \cdot x} = 0 - 1 - (-1) = 0$, giving $i(\overline{\alpha}\beta - \overline{\beta}\alpha) = i(iv) = -v$ (count $(d-1)(d/2)$).
+  \item $a \neq 0, a \cdot b = 1$: here $\zeta(a,b) = i$, $(-1)^{b \cdot a} = -1$, and $\sum_{x \notin \{0,a\}} (-1)^{b \cdot x} = 0 - 1 - (-1) = 0$, giving $i(\overline{\alpha}\beta - \overline{\beta}\alpha) = i(iv) = -v$ (count $(d-1)(d/2)$).
 \end{itemize}
 Summing the fourth powers over the five orbits yields \eqref{eq:spike-poly}.
 
@@ -1185,7 +1208,7 @@ $a \neq 0,\; a \cdot b = 1$ & $(d - 1)(d/2)$ & $-v$ \\
 \emph{Step 4: Specializations to $n = 1, 2, 3, 4$.}
 \begin{itemize}[leftmargin=1.8em]
   \item \emph{$n = 1$ ($d = 2$):} At $s = 1 - 1/\sqrt{3}$, $1 - s = 1/\sqrt{3}$ and $v = 1/\sqrt{3}$, so all three non-identity Paulis satisfy $\abs{\expval{\psi}{P}} = 1/\sqrt{3}$ (a $1$-qubit WH-SIC / $\ket{T}$ state) and $F_1 = 1 + 3(1/9) = 4/3$.
-  \item \emph{$n = 2$ ($d = 4$):} At $s = 1/2$, $1 - 2s = 0$ ($3$ Paulis), while $1 - s = 1/2$ ($6$ Paulis) and $v = 1/2$ ($6$ Paulis), giving a $2$-qubit MUB fiducial (Clifford-equivalent to $\ket{\psi_2}$) with $F_2 = 1 + 12(1/16) = 7/4$.
+  \item \emph{$n = 2$ ($d = 4$):} At $s = 1/2$, $1 - 2s = 0$ ($3$ Paulis), while $1 - s = 1/2$ ($6$ Paulis) and $v = 1/2$ ($6$ Paulis). Thus $\abs{\expval{\psi}{P_p}}^2 \in \{0, 1/4\}$ for all $p \neq 0$, and the zero set $Z = \{(00,00),(01,10),(10,01),(11,11)\}$ is explicitly a $2$-dimensional Lagrangian subspace of $\F_2^4$ (which also follows directly from \Cref{lem:lagrangian}(i)). Hence $\ket{\psi_2(1/2)}$ is a $2$-qubit Pauli-covariant MUB fiducial (Clifford-equivalent to $\ket{\psi_2}$) with $F_2 = 1 + 12(1/16) = 7/4$.
   \item \emph{$n = 3$ ($d = 8$):} At $s = 2/3$, we have $1 - s = 1/3$, $1 - 2s = -1/3$, and $v^2 = -1 + \frac{8}{3} - \frac{7}{2}\cdot\frac{4}{9} = \frac{1}{9}$, so \emph{all $63$} non-identity Paulis have $\abs{\expval{\psi}{P}} = 1/3$. Thus $\ket{\psi_3(2/3)}$ is a $3$-qubit Hoggar WH-SIC~\cite{hoggar1998lines} with $F_3 = 1 + 63/81 = 16/9$.
   \item \emph{$n = 4$ ($d = 16$):} Expanding \eqref{eq:spike-poly} on the feasible interval $s \in [2/5, 2/3]$ gives
   \[
@@ -1195,11 +1218,11 @@ $a \neq 0,\; a \cdot b = 1$ & $(d - 1)(d/2)$ & $-v$ \\
   \[
     F_4'(s) = 30\bigl(453 s^3 - 708 s^2 + 368 s - 64\bigr).
   \]
-  The cubic $453 s^3 - 708 s^2 + 368 s - 64$ has no rational roots (by the rational root test) and negative discriminant $\Delta = -835584 = -2^{14}\cdot 3 \cdot 17 < 0$, so it is irreducible over $\Q$ with a unique real root $s^* \approx 0.622543198816 \in (2/5, 2/3)$. At $s = s^*$, the Pauli fourth moment attains
+  Reducing $q(s) := 453 s^3 - 708 s^2 + 368 s - 64$ modulo $5$ gives $3s^3 + 2s^2 + 3s + 1 \in \F_5[s]$, which evaluates to $(1, 4, 4, 4, 2) \pmod{5}$ on $s = 0, 1, 2, 3, 4$; hence $q(s)$ has no root in $\F_5$ and is irreducible over $\Q$. Its discriminant is $\Delta = -835584 = -2^{14}\cdot 3 \cdot 17 < 0$, so $q(s)$ has a unique real root $s^* \approx 0.622543198816$. Since $F_4'(2/5) = -816/25 < 0 < 80/3 = F_4'(2/3)$, $F_4'$ changes sign from negative to positive at $s^* \in (2/5, 2/3)$, proving that $s^*$ is the unique global minimum of $F_4$ on $[2/5, 2/3]$ (even though $F_4$ is not globally convex on the entire interval, as $F_4''(s) < 0$ for $s \in (0.4960, 0.5459)$). At $s = s^*$, the Pauli fourth moment attains
   \[
     F_4(\ket{\psi_4(s^*)}) \approx 2.150520154714, \qquad M_2(\ket{\psi_4(s^*)}) \approx 2.006878976936,
   \]
-  where $F = F_4(\ket{\psi_4(s^*)})$ satisfies the cubic minimal polynomial
+  where $F = F_4(\ket{\psi_4(s^*)})$ satisfies the cubic minimal polynomial (obtained as the characteristic polynomial of multiplication by $F_4(s)$ in $\Q[s]/(q(s))$, equivalently via resultant elimination)
   \[
     10328853 F^3 - 95942784 F^2 + 294109184 F - 291504128 = 0.
   \]
@@ -1209,7 +1232,17 @@ $a \neq 0,\; a \cdot b = 1$ & $(d - 1)(d/2)$ & $-v$ \\
 
 \subsection{Comparison across \texorpdfstring{$n = 1, 2, 3, 4$}{n = 1, 2, 3, 4} and four-qubit numerical landscape}
 
-\Cref{tab:spike-summary} summarizes the unification achieved by $\ket{\psi_n(s)}$ across $n = 1, 2, 3, 4$, and \Cref{fig:spike-f4} plots $F_4(s)$ across its feasible interval $[2/5, 2/3]$ alongside the key analytic benchmarks.
+\Cref{tab:spike-summary} summarizes the unification achieved by $\ket{\psi_n(s)}$ across $n = 1, 2, 3, 4$, and \Cref{fig:spike-f4} plots $F_4(s)$ across its feasible interval $[2/5, 2/3]$ alongside the key analytic benchmarks. For $n = 4$, placing $\ket{\psi_4(s^*)}$ against concrete reachable states illustrates its substantial advantage over tensor-product and generic states:
+\begin{align*}
+  \underbrace{\frac{32}{17}}_{\substack{\text{Welch} \\ \approx 1.8824}}
+  \;<\; \underbrace{\frac{31}{16}}_{\substack{\text{hyp.\ MUB} \\ = 1.9375}}
+  \;<\; \underbrace{F_4(\ket{\psi_4(s^*)})}_{\substack{\text{cubic spike} \\ \approx 2.1505}}
+  &\;<\; \underbrace{\frac{64}{27}}_{\substack{\ket{\mathrm{Hoggar}}\otimes\ket{T} \\ \approx 2.3704}}
+  \;<\; \underbrace{\frac{49}{16}}_{\substack{\ket{\psi_2}^{\otimes 2} \\ = 3.0625}}
+  \;<\; \underbrace{\frac{256}{81}}_{\substack{\ket{T}^{\otimes 4} \\ \approx 3.1605}}
+  \;<\; \underbrace{\frac{64}{19}}_{\substack{\mathbb{E}_{\mathrm{Haar}}[F_4] \\ \approx 3.3684}},
+\end{align*}
+where the Haar-random pure-state average on $\CP^{d-1}$ is $\mathbb{E}_{\mathrm{Haar}}[F_n] = 1 + \frac{3(d-1)}{d+3} = \frac{4d}{d+3}$ (and the corresponding order-$2$ SRE values are $M_2(\ket{\psi_4(s^*)}) \approx 2.0069$ versus $M_2(\ket{\mathrm{Hoggar}}\otimes\ket{T}) \approx 1.9095$, $M_2(\ket{\psi_2}^{\otimes 2}) \approx 1.6534$, and $M_2(\ket{T}^{\otimes 4}) \approx 1.6219$). In contrast, as discussed in \Cref{op:higher-n}, this spike-plus-uniform ansatz is genuinely a low-qubit ($n \le 4$) phenomenon and loses even to simple tensor-product states once $n \ge 5$.
 
 \begin{table}[htbp]
 \centering
@@ -1300,26 +1333,26 @@ $4$ & Cubic extremizer (candidate) & $s^* \approx 0.622543$ & $\approx 2.150520$
     {Welch/SIC bound $32/17 \approx 1.8824$};
 \end{axis}
 \end{tikzpicture}
-\caption{Pauli fourth moment $F_4(\ket{\psi_4(s)})$ of the $4$-qubit spike-plus-uniform family over its feasible interval $s \in [2/5, 2/3]$ (left) and zoomed near the unique cubic minimum $s^* \approx 0.622543$ (right). For phase states, \Cref{cor:gowers} forces $F_4 > 31/16$ strictly; for general states on $\CP^{15}$, the only known analytic lower bound is the Welch/SIC bound $32/17$.}\label{fig:spike-f4}
+\caption{Pauli fourth moment $F_4(\ket{\psi_4(s)})$ of the $4$-qubit spike-plus-uniform family over its feasible interval $s \in [2/5, 2/3]$ (left, vertical range $[1.70, 5.30]$) and zoomed near the unique cubic minimum $s^* \approx 0.622543$ (right, vertical range $[1.73, 2.82]$). The purple dash-dotted line in the right panel marks the cubic minimum $F_4(\ket{\psi_4(s^*)}) \approx 2.150520$. For phase states, \Cref{cor:gowers} forces $F_4 > 31/16$ strictly; for general states on $\CP^{15}$, the only known analytic lower bound is the Welch/SIC bound $32/17$.}\label{fig:spike-f4}
 \end{figure}
 
-\begin{remark}[Companion numerical observation on $\CP^{15}$]\label{rem:cp15-numerics}
-Separate from our Lean~4 formalization, we performed $3{,}000$ multi-start Riemannian optimizations of $F_4$ over the full $30$-real-dimensional complex projective space $\CP^{15}$. Remarkably, $2{,}936$ runs converged to the exact cubic optimum $F_4(\ket{\psi_4(s^*)}) \approx 2.1505201547$ ($M_2 \approx 2.006879$), with no state attaining a smaller value of $F_4$. Note the proper direction of comparison against the unreachable WH-MUB benchmark: $F_4(s^*) \approx 2.150520 > 31/16 = 1.9375$, equivalently $M_2(s^*) \approx 2.006879 < \ln(256/31) \approx 2.111190$. Certifying whether $F_4(\ket{\psi_4(s^*)})$ is indeed the true global minimum over all of $\CP^{15}$ remains an intriguing open problem (\Cref{op:e28-4qubit}).
+\begin{remark}[Reproducible companion numerical search on $\CP^{15}$]\label{rem:cp15-numerics}
+Separate from our Lean~4 formalization, we conducted a reproducible $3{,}000$-start Riemannian L-BFGS optimization of $F_4$ over the full $30$-real-dimensional complex projective space $\CP^{15}$ (implemented in the companion repository at \texttt{\small scripts/cp15\_riemannian\_lbfgs.c}, using per-start independent Haar-random initializations with base seed \texttt{20260401}, L-BFGS memory $m = 10$, sphere retraction $R_\psi(\xi) = (\psi + \xi)/\norm{\psi + \xi}_2$, tangent-space projection vector transport, Armijo backtracking line search, and convergence tolerance $\norm{\mathrm{grad}_{\CP^{15}} F_4}_2 \le 10^{-12}$). Remarkably, $2{,}935$ of $3{,}000$ runs ($97.83\%$) converged (all with $\norm{\mathrm{grad}\,F_4}_2 \le 10^{-12}$) to the exact cubic optimum $F_4(\ket{\psi_4(s^*)}) \approx 2.150520154714$ ($M_2 \approx 2.006879$, matching the algebraic root to $< 10^{-14}$), while the remaining $65$ runs ($2.17\%$) converged to a secondary local minimum at $F_4 = 20/9 \approx 2.222222$ ($M_2 = \ln(36/5) \approx 1.974081$, all terminating with $\norm{\mathrm{grad}\,F_4}_2 < 2\times 10^{-7}$); no run attained a value below $F_4(\ket{\psi_4(s^*)})$. Note the proper direction of comparison against the unreachable WH-MUB benchmark: $F_4(s^*) \approx 2.150520 > 31/16 = 1.9375$, equivalently $M_2(s^*) \approx 2.006879 < \ln(256/31) \approx 2.111190$. Certifying whether $F_4(\ket{\psi_4(s^*)})$ is indeed the true global minimum over all of $\CP^{15}$ remains an intriguing open problem (\Cref{op:e28-4qubit}).
 \end{remark}
 
 % ==============================================================================
 \section{Pure-Kernel Formalization and Verification in Lean~4}\label{sec:lean}
 % ==============================================================================
 
-Because the even-$n$ proof relies on delicate $2$-adic divisibilities, sign-parity cancellations across affine subspaces, and an inductive M\"obius calculation, we formalized the entire proof chain in Lean~4~\cite{demoura2021lean4} atop Mathlib~\cite{mathlib2020lean}.
+Because the even-$n$ proof relies on delicate $2$-adic divisibilities, sign-parity cancellations across affine subspaces, and an inductive M\"obius calculation, we formalized the core proof chain in Lean~4~\cite{demoura2021lean4} atop Mathlib~\cite{mathlib2020lean}.
 
-\subsection{Trust base and axiom audit}
+\subsection{Trust base, axiom audit, and formalization scope}
 
 The complete library \texttt{MultiQubitMUB} is pinned to Lean~4 \texttt{v4.36.0} and Mathlib \texttt{v4.36.0} and comprises $5{,}152$ lines across six core modules plus root/audit files (\Cref{tab:lean-map}). Verification satisfies strict pure-kernel hygiene:
 \begin{itemize}[leftmargin=1.8em]
   \item \textbf{Zero escapes:} Automated source inspection confirms that none of \lean{sorry}, \lean{native\_decide}, custom \lean{axiom}, \lean{unsafe}, \lean{implemented\_by}, or \lean{extern} occur anywhere in the Lean source files.
   \item \textbf{Standard axioms only:} The audit script \lean{Audit.lean} runs \lean{\#print axioms} on all $10$ starred theorems in \Cref{tab:lean-map}; every theorem depends exclusively on the three standard foundational axioms of Lean~4/Mathlib: \lean{propext}, \lean{Classical.choice}, and \lean{Quot.sound}.
-  \item \textbf{Numerical cross-check and CI:} The script \lean{scripts/verify\_claims.py} independently verifies the $n = 2$ witness, the antiunitary $(H^{\otimes n}\circ K)$ symmetry, the exact Pauli fourth moments for $n = 1, 2, 3, 4$, the minimal polynomial of $F_4(s^*)$, and the rational certificate $s = 622543/1000000$. Full build, axiom audit, keyword check, and Python cross-check run automatically via GitHub Actions CI.
+  \item \textbf{Exact formalization scope vs.\ companion paper/script checks:} \Cref{tab:lean-map} records the exact Lean declarations verified by the kernel. Four short companion facts in this paper are proved analytically in prose (and cross-checked computationally where applicable) rather than separately formalized in Lean~4: (a)~the $n = 1$ sharpness verification (\Cref{prop:sharpness}(ii)); (b)~the five-line even-$n$ equivalence showing that a partition-free two-valued spectrum implies a Lagrangian zero subgroup (\Cref{lem:lagrangian}(i)), whereas Lean verifies \lean{no\_pauli\_mub\_fiducial} directly from \Cref{def:pauli-mub} and \lean{no\_pauli\_two\_valued\_odd} directly for odd $n \ge 3$; (c)~in \Cref{thm:spike}, the $\GL(n,\F_2)$ and antiunitary $(H^{\otimes n}\circ K)$ symmetries, the $n = 1, 2$ specializations, the irreducibility of $q(s)$, and the minimal polynomial of $F_4(s^*)$ (all independently verified in \texttt{\small scripts/\allowbreak verify\_claims.py}); and (d)~the companion $\CP^{15}$ numerical search in \Cref{rem:cp15-numerics} (\texttt{\small scripts/\allowbreak cp15\_riemannian\_lbfgs.c}). Full Lean build, axiom audit, keyword check, and Python cross-check run automatically via GitHub Actions CI.
 \end{itemize}
 
 \begin{table}[htbp]
@@ -1329,9 +1362,9 @@ The complete library \texttt{MultiQubitMUB} is pinned to Lean~4 \texttt{v4.36.0}
 \footnotesize
 \setlength{\tabcolsep}{4pt}
 \renewcommand{\arraystretch}{1.22}
-\begin{tabular}{@{}l r >{\raggedright\arraybackslash}p{3.6cm} >{\raggedright\arraybackslash}p{6.6cm}@{}}
+\begin{tabular}{@{}l r >{\raggedright\arraybackslash}p{3.8cm} >{\raggedright\arraybackslash}p{6.4cm}@{}}
 \toprule
-Lean module & Lines & Paper result & Key Lean declarations ($^*$ = audited) \\
+Lean module & Lines & Lean-verified paper result & Key Lean declarations ($^*$ = audited) \\
 \midrule
 \leantab{GaussianInt.lean} & 280 & Lemmas~\ref{lem:sq-descent}, \ref{lem:gi-pi-descent} &
   \leantab{sq\_add\_sq\_eq\_pow\_two\_even}, \leantab{sq\_add\_sq\_eq\_pow\_two\_odd}, \leantab{pow\_giPi\_dvd\_of\_pow\_two\_dvd\_norm} \\
@@ -1339,12 +1372,12 @@ Lean module & Lines & Paper result & Key Lean declarations ($^*$ = audited) \\
   \leantab{wht\_inversion}, \leantab{sum\_chi\_affine}, \leantab{even\_card\_dot\_one}, \leantab{odd\_card\_nonzero\_dot\_zero} \\
 \leantab{SubspaceInduction.lean} & 1{,}072 & Lemmas~\ref{lem:mobius}--\ref{lem:prod-diff}, Thm.~\ref{thm:subspace-induction}, Lem.~\ref{lem:wht-subcube} &
   \leantab{mobius\_inversion}, \leantab{subspaceVal\_of\_corrCongr}, \leantab{pow\_two\_dvd\_wht\_sub\_of\_subspaceVal} \\
-\leantab{Alltop.lean} & 1{,}273 & Theorem~\ref{thm:no-alltop}, Corollary~\ref{cor:gowers} &
+\leantab{Alltop.lean} & 1{,}273 & Thm.~\ref{thm:no-alltop} ($n\ge 3$ \& $n=2$), Cor.~\ref{cor:gowers} &
   \leantab{no\_alltop\_f2}$^*$, \leantab{exists\_alltop\_two}$^*$, \leantab{phasePauliMoment4\_gt\_mub}$^*$ \\
-\leantab{PauliGroup.lean} & 1{,}725 & Theorems~\ref{thm:no-pauli-mub}, \ref{thm:odd-two-valued}, Cor.~\ref{cor:damski-lly}, Prop.~\ref{prop:sharpness}(i) &
+\leantab{PauliGroup.lean} & 1{,}725 & Thm.~\ref{thm:no-pauli-mub} (MUB form), Thm.~\ref{thm:odd-two-valued}, Cor.~\ref{cor:damski-lly}, Prop.~\ref{prop:sharpness}(i) &
   \leantab{no\_pauli\_mub\_fiducial}$^*$, \leantab{damski\_conjecture\_1}$^*$, \leantab{no\_pauli\_two\_valued\_odd}$^*$, \leantab{exists\_pauli\_mub\_fiducial\_two}$^*$ \\
-\leantab{SpikeFamily.lean} & 413 & Theorem~\ref{thm:spike} &
-  \leantab{pauliMoment4\_spikeState}$^*$, \leantab{hoggar\_sic\_three}$^*$, \leantab{four\_qubit\_spike\_bound}$^*$ \\
+\leantab{SpikeFamily.lean} & 413 & Thm.~\ref{thm:spike} (unit norm, \eqref{eq:spike-poly}, part~(c), part~(d) rational bound) &
+  \leantab{spikeState\_unit}, \leantab{pauliMoment4\_spikeState}$^*$, \leantab{hoggar\_sic\_three}$^*$, \leantab{four\_qubit\_spike\_bound}$^*$ \\
 \bottomrule
 \end{tabular}
 \end{table}
@@ -1365,11 +1398,18 @@ Three deliberate mathematical design choices kept the formalization compact, fas
 Our theorems close the existence question for complete $2^n$-basis multi-qubit Pauli-covariant MUB fiducials and Alltop functions on $\F_2^n$, while opening several concrete quantitative and structural problems.
 
 \begin{openproblem}[Quantitative Gowers $U^3$ gap on $\F_2^n$]\label{op:gowers-gap}
-By \Cref{cor:gowers} and compactness of the $2^n$-torus $\Uone^{\F_2^n}$, the minimum over all unimodular functions strictly exceeds $2 - 2^{-n}$ for every $n \ge 3$. What is the asymptotic behavior of the optimal excess
+By \Cref{cor:gowers} and compactness of the $2^n$-torus $\Uone^{\F_2^n}$, the minimum over all unimodular functions strictly exceeds $2 - 2^{-n}$ for every $n \ge 3$. On the other hand, sampling $\phi(x) \sim \mathrm{Unif}(\Uone)$ independently across $x \in \F_2^n$ partitions $\F_2^n$ (for any $a \neq 0$) into $m = 2^{n-1}$ disjoint conjugate pairs $\{x, x \oplus a\}$ carrying i.i.d.\ uniform phases $u_j = g_a(x_j)$, so for every $b \in \F_2^n$ (whether $a \cdot b = 0$ or $1$) one has $\mathbb{E}[\abs{\widehat{g_a}(b)}^4] = 12 m^2 - 6 m = 3 \cdot 4^n - 3 \cdot 2^n$, whence
+\[
+  \mathbb{E}_{\phi}\!\left[2^n \norm{\phi}_{U^3(\F_2^n)}^8\right]
+  = 1 + \frac{(2^n - 1) 2^n}{4^{2n}}\bigl(3 \cdot 4^n - 3 \cdot 2^n\bigr)
+  = 1 + 3(1 - 2^{-n})^2
+  = 4 - 6\cdot 2^{-n} + 3\cdot 4^{-n} < 4.
+\]
+Consequently, the optimal excess
 \[
   \Delta_{\mathrm{phase}}(n) := \min_{\phi : \F_2^n \to \Uone} 2^n \norm{\phi}_{U^3(\F_2^n)}^8 - (2 - 2^{-n})
 \]
-as $n \to \infty$? Does $\Delta_{\mathrm{phase}}(n)$ decay exponentially in $n$, or remain bounded away from zero (or even grow)?
+always obeys $0 < \Delta_{\mathrm{phase}}(n) \le 2 - 5\cdot 2^{-n} + 3\cdot 4^{-n} < 2$ for every $n \ge 3$. What is the asymptotic behavior of $\Delta_{\mathrm{phase}}(n)$ as $n \to \infty$? Does $\Delta_{\mathrm{phase}}(n)$ decay to $0$ (for example, exponentially in $n$), or remain bounded away from $0$ in $(0, 2)$?
 \end{openproblem}
 
 \begin{openproblem}[Four-qubit maximal magic / Open Quantum Problem~E28]\label{op:e28-4qubit}
@@ -1385,10 +1425,12 @@ Even a weaker analytic lower bound strictly beating the Welch/SIC bound $32/17 \
 \end{openproblem}
 
 \begin{openproblem}[Higher-$n$ extremal magic beyond the spike family]\label{op:higher-n}
-For $n = 5$, numerical minimization of \eqref{eq:spike-poly} over the feasible interval $[0.4249, 0.6074]$ yields $F_5 \approx 3.300037$ ($M_2 \approx 2.271802$), well above $2 - 2^{-5} = 1.96875$. Understanding whether higher-$n$ maximal magic states continue to exhibit large finite symmetry groups (such as $\GL(n,\F_2)$ or symplectic subgroups of the Clifford group) or transition to less symmetric configurations remains wide open.
+The spike-plus-uniform ansatz $\ket{\psi_n(s)}$ breaks down structurally once $n \ge 5$. Already at $n = 5$, minimizing \eqref{eq:spike-poly} over $[0.4249, 0.6074]$ yields $F_5 \approx 3.300037$ ($M_2 \approx 2.271802$), which is strictly beaten by elementary tensor-product states such as $\ket{\mathrm{Hoggar}}\otimes\ket{\psi_2}$ ($F_5 = 28/9 \approx 3.111111$, $M_2 \approx 2.330756$) and $\ket{\psi_4(s^*)}\otimes\ket{T}$ ($F_5 \approx 2.867360$, $M_2 \approx 2.412344$). Asymptotically as $n \to \infty$, the feasibility interval $s \in \bigl[\frac{d-\sqrt{d}}{2(d-1)}, \frac{d+\sqrt{d}}{2(d-1)}\bigr]$ pins $s = \frac{1}{2} + O(2^{-n/2})$, causing the term $2(d-1)(1-s)^4$ in \eqref{eq:spike-poly} to scale as $2^{n-3}(1+o(1))$; thus $M_2(\ket{\psi_n(s^*)}) \to \ln 8 \approx 2.079442 = O(1)$ (peaking at $n = 6$ with $M_2 \approx 2.357399$ before declining monotonically), whereas $\ket{T}^{\otimes n}$ achieves linear growth $M_2 = n\ln(3/2) = \Theta(n)$ and Haar-random states satisfy $\mathbb{E}_{\mathrm{Haar}}[F_n] = \frac{4d}{d+3} < 4$ ($M_2 \approx n\ln 2 - \ln 4$). Determining the true structure and symmetry groups (if any) of globally magic-maximizing states for $n \ge 5$ remains wide open.
 \end{openproblem}
 
+{\sloppy\raggedright
 \bibliographystyle{plainurl}
 \bibliography{references}
+}
 
 \end{document}

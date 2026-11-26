@@ -8,6 +8,7 @@ idea/
 *.ilean
 *.trace
 *.c
+!scripts/*.c
 *.o
 
 # Python / OS / Editor cruft
