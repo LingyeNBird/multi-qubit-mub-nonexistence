@@ -1,0 +1,71 @@
+# Non-Existence of Multi-Qubit Pauli-Covariant MUB Fiducial States and Alltop Functions on $\mathbb{F}_2^n$ ($n \ge 3$)
+
+A self-contained, pure-kernel **Lean 4** formalization (zero `sorry`, zero `native_decide`, standard axioms `[propext, Classical.choice, Quot.sound]` only) resolving the multi-qubit Pauli-covariant MUB fiducial problem and the Alltop function problem over $\mathbb{F}_2^n$ for **all** $n \ge 3$ (both odd and even).
+
+For a complete, self-contained, human-readable mathematical proof mirroring every module and lemma, see **[`PROOF.md`](PROOF.md)**.
+
+---
+
+## Main Results (Machine-Verified in Lean 4)
+
+| Module | Lean Theorem | Result |
+|---|---|---|
+| [`MultiQubitMUB/Alltop.lean`](MultiQubitMUB/Alltop.lean) | `no_alltop_f2` | **Theorem 1 (All $n \ge 3$):** No unimodular function $\phi : \mathbb{F}_2^n \to U(1)$ has flat Walsh–Hadamard spectra on all nontrivial multiplicative derivatives $g_a(x) = \overline{\phi(x)}\phi(x \oplus a)$. |
+| [`MultiQubitMUB/Alltop.lean`](MultiQubitMUB/Alltop.lean) | `exists_alltop_two` | **Sharpness ($n = 2$):** $\phi_2 = (1, 1, 1, i)$ IS an Alltop function on $\mathbb{F}_2^2$. |
+| [`MultiQubitMUB/Alltop.lean`](MultiQubitMUB/Alltop.lean) | `phasePauliMoment4_gt_mub` | **Strict Gowers $U^3$ / Phase-State Bound:** For all $n \ge 3$ and every $\phi : \mathbb{F}_2^n \to U(1)$, $2^n \|\phi\|_{U^3(\mathbb{F}_2^n)}^8 > 2 - 2^{-n}$ strictly. |
+| [`MultiQubitMUB/PauliGroup.lean`](MultiQubitMUB/PauliGroup.lean) | `no_pauli_two_valued_odd` | **Strong Odd-$n$ Theorem (no basis partition assumed):** For every odd $n = 2k + 1 \ge 3$, no $n$-qubit pure state even satisfies $|\langle\psi|P|\psi\rangle|^2 \in \{0, 2^{-n}\}$ for all $P \neq I$. |
+| [`MultiQubitMUB/PauliGroup.lean`](MultiQubitMUB/PauliGroup.lean) | `no_pauli_mub_fiducial` | **Theorem 2 (All $n \ge 3$, unrestricted):** No unit vector $|\psi\rangle \in (\mathbb{C}^2)^{\otimes n}$ generates $2^n$ pairwise mutually unbiased orthonormal bases under the $n$-qubit Pauli group $\mathcal{P}_n$. |
+| [`MultiQubitMUB/PauliGroup.lean`](MultiQubitMUB/PauliGroup.lean) | `damski_conjecture_1` | **Resolution of Conjecture 1** (and the stronger unrestricted conjecture) of Damski, Bistroń, Ponterio, Czartowski, and Życzkowski ([arXiv:2603.15550](https://arxiv.org/abs/2603.15550), 2026) for all $n \ge 3$. |
+| [`MultiQubitMUB/PauliGroup.lean`](MultiQubitMUB/PauliGroup.lean) | `exists_pauli_mub_fiducial_two` | **Sharpness ($n = 2$):** $|\psi_2\rangle = \frac{1}{2}(1, 1, 1, i)$ generates 4 pairwise MUBs under $\mathcal{P}_2$. |
+| [`MultiQubitMUB/SpikeFamily.lean`](MultiQubitMUB/SpikeFamily.lean) | `pauliMoment4_spikeState`, `hoggar_sic_three`, `four_qubit_spike_bound` | Exact closed-form Pauli 4th moment for the $\mathrm{GL}(n,\mathbb{F}_2) \rtimes \langle H^{\otimes n}\rangle$-invariant spike+uniform family, recovering the 3-qubit Hoggar SIC ($F_3 = 16/9$) and certifying a 4-qubit unit state with $F_4 < 2.150521$. |
+
+### Physics & Literature Context
+
+1. **Product Weyl–Heisenberg MUBs ([arXiv:2603.15550](https://arxiv.org/abs/2603.15550)):** Damski, Bistroń, Ponterio, Czartowski, and Życzkowski conjectured (Conjecture 1) that no product-WH MUB fiducial vector of the form $\psi_x = 2^{-n/2}\omega_8^{m_x}$ exists for $n > 2$, and further proposed the stronger conjecture that no multi-qubit product-WH MUB fiducial exists at all for $n > 2$ (analogous to Godsil–Roy's theorem for product-WH SICs). `no_pauli_mub_fiducial` proves both the restricted and unrestricted conjectures for **all** $n \ge 3$.
+2. **Multi-Qubit Maximal Magic ([arXiv:2502.17550](https://arxiv.org/abs/2502.17550) / Problem E28):** Liu, Low, and Yin showed numerically (and our prior formalization proved rigorously for $n = 2$) that two-qubit maximal magic is attained by 480 WH-MUB fiducials ($F_2 = 7/4$, $M_2 = \ln(16/7)$), and conjectured that WH-MUBs act as maximal magic states for $n \neq 1, 3$. Theorem 2 rules out product WH-MUB fiducials for every $n \ge 3$.
+3. **Companion Numerical Observation ($n = 4$):** In 3,000 multi-start Riemannian optimizations on $\mathbb{CP}^{15}$ (separate from the Lean formalization), 2,936 trials converged to the exact cubic point of the `spikeState` family ($453 s^3 - 708 s^2 + 368 s - 64 = 0$, $F_4 \approx 2.1505201547$, $M_2 \approx 2.006879$, strictly above the unreachable WH-MUB floor $31/16 = 1.9375$). Proving global optimality of this value on all of $\mathbb{CP}^{15}$ remains an open problem.
+
+---
+
+## Repository Structure
+
+```text
+.
+├── PROOF.md                        # Complete human-readable mathematical proof
+├── README.md                       # Project overview and verification guide
+├── Audit.lean                      # #print axioms audit on all 10 main theorems
+├── MultiQubitMUB.lean              # Root Lean library aggregator
+├── MultiQubitMUB/
+│   ├── GaussianInt.lean            # Elementary Z[i] norm & (1+i)-divisibility descent (zero UFD)
+│   ├── Basic.lean                  # F_2^n, Walsh–Hadamard inversion, subspace character sums
+│   ├── SubspaceInduction.lean      # 2-adic affine subspace induction in Z[i] via Mobius inversion
+│   ├── Alltop.lean                 # Theorem 1 (all n >= 3), sharpness (n = 2), strict U^3 bound
+│   ├── PauliGroup.lean             # Theorem 2 (all n >= 3), strong odd-n Theorem 3, Conjecture 1
+│   └── SpikeFamily.lean            # GL(n, F_2)-invariant spike family (Hoggar SIC & n=4 bound)
+├── scripts/
+│   └── verify_claims.py            # Independent Python numerical & exact sanity checks
+├── lakefile.toml
+├── lake-manifest.json
+├── lean-toolchain                  # leanprover/lean4:v4.36.0
+└── LICENSE                         # MIT
+```
+
+---
+
+## Verification
+
+Requires Lean 4 (`v4.36.0`, managed automatically by `elan` via [`lean-toolchain`](lean-toolchain)) and Mathlib `v4.36.0`.
+
+```bash
+# 1. Build the entire Lean 4 library
+lake build
+
+# 2. Run the axiom audit (every theorem must use only [propext, Classical.choice, Quot.sound])
+lake env lean Audit.lean
+
+# 3. Verify zero sorry, zero native_decide, zero custom axioms
+grep -rn "sorry\|native_decide\|axiom " MultiQubitMUB/ MultiQubitMUB.lean
+
+# 4. Run independent Python sanity checks (n=2 witness, n=1..4 spike family)
+python3 scripts/verify_claims.py
+```
