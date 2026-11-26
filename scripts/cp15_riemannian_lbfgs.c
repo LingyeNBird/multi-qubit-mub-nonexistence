@@ -23,10 +23,14 @@
  *   - Convergence tolerance: ||grad_{CP^15} F_4||_2 <= 1e-12 (max 600 iters).
  *   - Passing --extended also runs:
  *       (1) 4 independent seeds x 3,000 starts (12,000 total) with full
- *           sorted |<P>| Pauli-spectrum uniqueness check across cubic runs;
+ *           sorted |<P>| Pauli-spectrum uniqueness check across cubic runs
+ *           and full Clifford bent-support (16,6,2)-difference-set +
+ *           zero-centroid + Hessian verification across all 20/9 runs;
  *       (2) 200-chain x 25-hop basin hopping on CP^15;
  *       (3) Projected 30x30 Riemannian Hessian eigenvalue verification at
- *           analytic |psi_4(s*)> and the analytic 20/9 bent-support family.
+ *           analytic |psi_4(s*)>, representative points of the 20/9
+ *           bent-support manifold, and 1,000 random points on the
+ *           zero-centroid locus (measuring the local-min vs. saddle ratio).
  */
 
 #include <math.h>
@@ -414,9 +418,12 @@ static void jacobi_eigs(int n, double *A, double *ev) {
     qsort(ev, (size_t)n, sizeof(double), cmp_double);
 }
 
-static void print_hessian_summary(const double psi[RVEC], const char *label) {
+static void compute_hessian_eigs(const double psi[RVEC], double ev[30],
+                                 double *out_f, double *out_gnorm) {
     double g0[RVEC];
     double f = eval_f4_and_grad(psi, g0);
+    if (out_f) *out_f = f;
+    if (out_gnorm) *out_gnorm = sqrt(rdot(g0, g0));
     double B[30][RVEC], ipsi[RVEC];
     int nb = 0;
     for (int x = 0; x < DIM; x++) {
@@ -437,7 +444,7 @@ static void print_hessian_summary(const double psi[RVEC], const char *label) {
         for (int i = 0; i < RVEC; i++) B[nb][i] = v[i] / nv;
         nb++;
     }
-    double H[900], ev[30], eps = 1e-6;
+    double H[900], eps = 1e-6;
     for (int j = 0; j < 30; j++) {
         double p1[RVEC], p2[RVEC], g1[RVEC], g2[RVEC];
         retract_cp15(psi, B[j], eps, p1);
@@ -452,12 +459,211 @@ static void print_hessian_summary(const double psi[RVEC], const char *label) {
             H[i * 30 + j] = H[j * 30 + i] = m;
         }
     jacobi_eigs(30, H, ev);
-    printf("  [%s] F=%.12f |grad|=%.2e  eigs[0..4]=(%.2e, %.2e, %.2e, %.3f, %.3f) max=%.3f\n",
-           label, f, sqrt(rdot(g0, g0)), ev[0], ev[1], ev[2], ev[3], ev[4], ev[29]);
 }
 
-static void run_batch(int n_starts, uint64_t base_seed, const double ref_spec[256],
-                      int verbose_clusters) {
+static void print_hessian_summary(const double psi[RVEC], const char *label) {
+    double ev[30], f = 0.0, gnorm = 0.0;
+    compute_hessian_eigs(psi, ev, &f, &gnorm);
+    printf("  [%s] F=%.12f |grad|=%.2e  eigs[0..4]=(%.2e, %.2e, %.2e, %.3f, %.3f) max=%.3f\n",
+           label, f, gnorm, ev[0], ev[1], ev[2], ev[3], ev[4], ev[29]);
+}
+
+static inline int symp4(int p, int q) {
+    int xp = p >> 4, zp = p & 15, xq = q >> 4, zq = q & 15;
+    return parity4((xp & zq) ^ (zp & xq));
+}
+
+static void apply_pauli_4q(int p, const double in[RVEC], double out[RVEC]) {
+    int a = p >> 4, b = p & 15;
+    int is_imag = parity4(a & b);
+    for (int x = 0; x < DIM; x++) {
+        int xa = x ^ a;
+        double sgn = parity4(x & b) ? -1.0 : 1.0;
+        if (!is_imag) {
+            out[2 * x]     = sgn * in[2 * xa];
+            out[2 * x + 1] = sgn * in[2 * xa + 1];
+        } else {
+            out[2 * x]     = -sgn * in[2 * xa + 1];
+            out[2 * x + 1] =  sgn * in[2 * xa];
+        }
+    }
+}
+
+/*
+ * Check whether the joint eigenbasis of a 4-generator Lagrangian subgroup
+ * L = <g[0], g[1], g[2], g[3]> maps psi (via the corresponding Clifford unitary)
+ * to a 6-element (16,6,2)-difference-set state with uniform probabilities 1/6
+ * and zero phase centroid sum_{s in S} e^{4i theta_s} = 0.
+ */
+static int check_lagrangian_bent_basis(const double psi[RVEC], const int g[4],
+                                       double *out_prob_err, double *out_cent) {
+    /* 1. Find a normalized joint +1 eigenstate |e_0> of g[0..3]. */
+    double e0[RVEC] = {0};
+    int found_e0 = 0;
+    for (int k = 0; k < DIM && !found_e0; k++) {
+        double w[RVEC] = {0}, t[RVEC];
+        w[2 * k] = 1.0;
+        for (int j = 0; j < 4; j++) {
+            apply_pauli_4q(g[j], w, t);
+            for (int i = 0; i < RVEC; i++) w[i] = 0.5 * (w[i] + t[i]);
+        }
+        double n2 = rdot(w, w);
+        if (n2 > 1e-6) {
+            double inv = 1.0 / sqrt(n2);
+            for (int i = 0; i < RVEC; i++) e0[i] = w[i] * inv;
+            found_e0 = 1;
+        }
+    }
+    if (!found_e0) return 0;
+
+    /* 2. Build a complementary Lagrangian subgroup <h[0..3]> with symp(g_i, h_j) = delta_ij. */
+    int Lmask[256] = {0};
+    for (int m = 0; m < 16; m++) {
+        int p = 0;
+        for (int j = 0; j < 4; j++) if ((m >> j) & 1) p ^= g[j];
+        Lmask[p] = 1;
+    }
+    int h[4] = {0};
+    for (int j = 0; j < 4; j++) {
+        int ok_j = 0;
+        for (int p = 1; p < 256; p++) {
+            if (Lmask[p]) continue;
+            int ok = 1;
+            for (int i = 0; i < 4; i++) if (symp4(g[i], p) != (i == j)) { ok = 0; break; }
+            for (int i = 0; i < j; i++) if (symp4(h[i], p) != 0) { ok = 0; break; }
+            if (ok) { h[j] = p; ok_j = 1; break; }
+        }
+        if (!ok_j) return 0;
+    }
+
+    /* 3. Compute Clifford-rotated amplitudes amp[s] = <e_s | psi>, |e_s> = (prod h_j^{s_j}) |e_0>. */
+    double amp_re[DIM], amp_im[DIM];
+    int supp[DIM], nsupp = 0;
+    double max_perr = 0.0;
+    for (int s = 0; s < DIM; s++) {
+        double w[RVEC], t[RVEC];
+        memcpy(w, e0, sizeof(w));
+        for (int j = 0; j < 4; j++) {
+            if ((s >> j) & 1) {
+                apply_pauli_4q(h[j], w, t);
+                memcpy(w, t, sizeof(w));
+            }
+        }
+        double ar = 0.0, ai = 0.0;
+        for (int x = 0; x < DIM; x++) {
+            ar += w[2 * x] * psi[2 * x]     + w[2 * x + 1] * psi[2 * x + 1];
+            ai += w[2 * x] * psi[2 * x + 1] - w[2 * x + 1] * psi[2 * x];
+        }
+        amp_re[s] = ar;
+        amp_im[s] = ai;
+        double prob = ar * ar + ai * ai;
+        if (prob > 0.05) {
+            supp[nsupp++] = s;
+            double e = fabs(prob - 1.0 / 6.0);
+            if (e > max_perr) max_perr = e;
+        } else {
+            if (prob > max_perr) max_perr = prob;
+        }
+    }
+    if (nsupp != 6 || max_perr > 1e-4) return 0;
+
+    /* 4. Check (16,6,2)-difference-set property on supp. */
+    int dcnt[DIM] = {0};
+    for (int i = 0; i < 6; i++)
+        for (int j = 0; j < 6; j++)
+            if (i != j) dcnt[supp[i] ^ supp[j]]++;
+    for (int a = 1; a < DIM; a++) if (dcnt[a] != 2) return 0;
+
+    /* 5. Check zero-centroid condition |sum_{s in S} e^{4 i theta_s}| = 0. */
+    double cr = 0.0, ci = 0.0;
+    for (int i = 0; i < 6; i++) {
+        int s = supp[i];
+        double th = atan2(amp_im[s], amp_re[s]);
+        cr += cos(4.0 * th);
+        ci += sin(4.0 * th);
+    }
+    double cent = hypot(cr, ci);
+    *out_prob_err = max_perr;
+    *out_cent = cent;
+    return (cent < 1e-3);
+}
+
+/*
+ * Verify that a 20/9 endpoint is Clifford-equivalent to the bent-support
+ * (16,6,2)-difference-set zero-centroid family (Remark 6.2).
+ * Note: non-diagonal Paulis +/- (1/3) cos(delta_a) may occasionally lie within
+ * 1e-4 of 1/3 as well, so we search for a 4-dim Lagrangian subgroup inside
+ * {p != 0 : ||<P_p>| - 1/3| < 1e-4}.
+ */
+static int verify_bent_209_state(const double psi[RVEC],
+                                 double *out_prob_err, double *out_cent) {
+    int cand[256], nc = 0;
+    int in_cand[256] = {0};
+    for (int a = 0; a < DIM; a++) {
+        double gr[DIM], gi[DIM];
+        for (int x = 0; x < DIM; x++) {
+            int xa = x ^ a;
+            double xr = psi[2 * x], xi = psi[2 * x + 1];
+            double yr = psi[2 * xa], yi = psi[2 * xa + 1];
+            gr[x] = xr * yr + xi * yi;
+            gi[x] = xr * yi - xi * yr;
+        }
+        fwht16(gr);
+        fwht16(gi);
+        for (int b = 0; b < DIM; b++) {
+            if (a == 0 && b == 0) continue;
+            double c = fabs(parity4(a & b) ? -gi[b] : gr[b]);
+            if (fabs(c - 1.0 / 3.0) < 1e-4) {
+                int p = (a << 4) | b;
+                cand[nc++] = p;
+                in_cand[p] = 1;
+            }
+        }
+    }
+    for (int i0 = 0; i0 < nc; i0++) {
+        int g0 = cand[i0];
+        for (int i1 = i0 + 1; i1 < nc; i1++) {
+            int g1 = cand[i1];
+            if (symp4(g0, g1) || !in_cand[g0 ^ g1]) continue;
+            for (int i2 = i1 + 1; i2 < nc; i2++) {
+                int g2 = cand[i2];
+                if (g2 == (g0 ^ g1)) continue;
+                if (symp4(g0, g2) || symp4(g1, g2)) continue;
+                if (!in_cand[g0 ^ g2] || !in_cand[g1 ^ g2] || !in_cand[g0 ^ g1 ^ g2]) continue;
+                for (int i3 = i2 + 1; i3 < nc; i3++) {
+                    int g3 = cand[i3];
+                    if (g3 == (g0 ^ g1) || g3 == (g0 ^ g2) ||
+                        g3 == (g1 ^ g2) || g3 == (g0 ^ g1 ^ g2)) continue;
+                    if (symp4(g0, g3) || symp4(g1, g3) || symp4(g2, g3)) continue;
+                    int gen[4] = {g0, g1, g2, g3};
+                    int all_in = 1;
+                    for (int m = 1; m < 16; m++) {
+                        int p = 0;
+                        for (int j = 0; j < 4; j++) if ((m >> j) & 1) p ^= gen[j];
+                        if (!in_cand[p]) { all_in = 0; break; }
+                    }
+                    if (all_in && check_lagrangian_bent_basis(psi, gen, out_prob_err, out_cent)) {
+                        return 1;
+                    }
+                }
+            }
+        }
+    }
+    return 0;
+}
+
+typedef struct {
+    int sec_total;
+    int sec_bent_ok;
+    int sec_psd_ok;
+    double max_prob_err;
+    double max_cent;
+    double min_lam0;
+    double min_lam3;
+} BentBatchStats;
+
+static BentBatchStats run_batch(int n_starts, uint64_t base_seed, const double ref_spec[256],
+                                int verbose_clusters, int verify_bent) {
     const double F4_CUBIC = 2.1505201547139396;
     RunResult *results = (RunResult *)malloc(sizeof(RunResult) * (size_t)n_starts);
     double *vals = (double *)malloc(sizeof(double) * (size_t)n_starts);
@@ -473,6 +679,7 @@ static void run_batch(int n_starts, uint64_t base_seed, const double ref_spec[25
     int converged_count = 0, cubic_hits = 0, cubic_conv = 0, sec_hits = 0, sec_conv = 0;
     int below_cubic = 0;
     long long total_iters = 0;
+    BentBatchStats bstats = {0, 0, 0, 0.0, 0.0, 1e100, 1e100};
 
     for (int r = 0; r < n_starts; r++) {
         vals[r] = results[r].f_final;
@@ -491,6 +698,20 @@ static void run_batch(int n_starts, uint64_t base_seed, const double ref_spec[25
         } else if (fabs(results[r].f_final - 20.0 / 9.0) < 1e-6) {
             sec_hits++;
             if (results[r].gnorm_final <= GRAD_TOL) sec_conv++;
+            if (verify_bent) {
+                bstats.sec_total++;
+                double perr = 0.0, cent = 0.0;
+                if (verify_bent_209_state(results[r].psi_final, &perr, &cent)) {
+                    bstats.sec_bent_ok++;
+                    if (perr > bstats.max_prob_err) bstats.max_prob_err = perr;
+                    if (cent > bstats.max_cent) bstats.max_cent = cent;
+                }
+                double ev[30];
+                compute_hessian_eigs(results[r].psi_final, ev, NULL, NULL);
+                if (ev[0] > -1e-4 && ev[3] > 1e-4) bstats.sec_psd_ok++;
+                if (ev[0] < bstats.min_lam0) bstats.min_lam0 = ev[0];
+                if (ev[3] < bstats.min_lam3) bstats.min_lam3 = ev[3];
+            }
         }
         if (results[r].f_final < F4_CUBIC - 1e-10) below_cubic++;
         total_iters += results[r].iters;
@@ -509,6 +730,11 @@ static void run_batch(int n_starts, uint64_t base_seed, const double ref_spec[25
            cubic_hits, n_starts, 100.0 * cubic_hits / n_starts, max_spec_diff);
     printf("Hits at 20/9      : %d / %d (%.2f%%)\n",
            sec_hits, n_starts, 100.0 * sec_hits / n_starts);
+    if (verify_bent && bstats.sec_total > 0) {
+        printf("  20/9 bent-support Clifford check: %d / %d matched (max_prob_err=%.2e, max_centroid=%.2e), PSD local-min Hessian: %d / %d (min lam0=%.2e, min lam3=%.4f)\n",
+               bstats.sec_bent_ok, bstats.sec_total, bstats.max_prob_err, bstats.max_cent,
+               bstats.sec_psd_ok, bstats.sec_total, bstats.min_lam0, bstats.min_lam3);
+    }
     printf("Strictly below    : %d\n", below_cubic);
 
     if (verbose_clusters) {
@@ -528,6 +754,61 @@ static void run_batch(int n_starts, uint64_t base_seed, const double ref_spec[25
 
     free(results);
     free(vals);
+    return bstats;
+}
+
+static void merge_bent_stats(BentBatchStats *acc, BentBatchStats b) {
+    acc->sec_total += b.sec_total;
+    acc->sec_bent_ok += b.sec_bent_ok;
+    acc->sec_psd_ok += b.sec_psd_ok;
+    if (b.max_prob_err > acc->max_prob_err) acc->max_prob_err = b.max_prob_err;
+    if (b.max_cent > acc->max_cent) acc->max_cent = b.max_cent;
+    if (b.sec_total > 0 && b.min_lam0 < acc->min_lam0) acc->min_lam0 = b.min_lam0;
+    if (b.sec_total > 0 && b.min_lam3 < acc->min_lam3) acc->min_lam3 = b.min_lam3;
+}
+
+static void sample_zero_centroid_locus(int n_samples, uint64_t seed) {
+    const int S6[6] = {0, 3, 5, 7, 8, 9};
+    const double pi = 3.14159265358979323846;
+    const double two_pi = 2.0 * pi;
+    uint64_t st = seed;
+    int n_min = 0, n_saddle = 0;
+
+    for (int t = 0; t < n_samples; t++) {
+        double phi[6];
+        double sx = 0.0, sy = 0.0;
+        for (;;) {
+            sx = 1.0; sy = 0.0; phi[0] = 0.0;
+            for (int k = 1; k < 4; k++) {
+                phi[k] = two_pi * rand_uniform(&st);
+                sx += cos(phi[k]);
+                sy += sin(phi[k]);
+            }
+            double R = hypot(sx, sy);
+            if (R <= 2.0 && R > 1e-9) {
+                double base = atan2(-sy, -sx);
+                double delta = acos(0.5 * R);
+                phi[4] = base + delta;
+                phi[5] = base - delta;
+                break;
+            }
+        }
+        double psi[RVEC] = {0};
+        for (int k = 0; k < 6; k++) {
+            int sheet = (k == 0) ? 0 : (int)(splitmix64(&st) & 3ULL);
+            double th = 0.25 * phi[k] + sheet * (0.5 * pi);
+            psi[2 * S6[k]]     = cos(th) / sqrt(6.0);
+            psi[2 * S6[k] + 1] = sin(th) / sqrt(6.0);
+        }
+        double ev[30];
+        compute_hessian_eigs(psi, ev, NULL, NULL);
+        if (ev[0] < -1e-4) n_saddle++;
+        else n_min++;
+    }
+    printf("  Random zero-centroid locus sampling (%d points, uniform Z_4 sheet lifts): "
+           "local-min-like = %d (%.1f%%), saddle (lambda_min < -1e-4) = %d (%.1f%%)\n",
+           n_samples, n_min, 100.0 * n_min / n_samples,
+           n_saddle, 100.0 * n_saddle / n_samples);
 }
 
 int main(int argc, char **argv) {
@@ -553,12 +834,24 @@ int main(int argc, char **argv) {
     build_analytic_cubic(ref_psi);
     sorted_pauli_abs_spectrum(ref_psi, ref_spec);
 
-    run_batch(n_starts, base_seed, ref_spec, 1);
+    BentBatchStats total_bent = {0, 0, 0, 0.0, 0.0, 1e100, 1e100};
+    merge_bent_stats(&total_bent, run_batch(n_starts, base_seed, ref_spec, 1, extended));
 
     if (extended) {
         printf("\n=== Extended Verification: Additional Independent Seeds ===\n");
         uint64_t extra_seeds[3] = {987654321ULL, 314159265ULL, 271828182ULL};
-        for (int s = 0; s < 3; s++) run_batch(3000, extra_seeds[s], ref_spec, 0);
+        for (int s = 0; s < 3; s++) {
+            merge_bent_stats(&total_bent, run_batch(3000, extra_seeds[s], ref_spec, 0, 1));
+        }
+        printf("\n=== Aggregate 20/9 Bent-Support Verification Across All 4 Seeds ===\n");
+        printf("  Clifford bent-support (16,6,2)-diff-set + zero-centroid: %d / %d matched "
+               "(max_prob_err=%.2e, max_centroid=%.2e)\n",
+               total_bent.sec_bent_ok, total_bent.sec_total,
+               total_bent.max_prob_err, total_bent.max_cent);
+        printf("  Projected 30x30 Hessian PSD local-min check (lam0>-1e-4, lam3>1e-4): %d / %d "
+               "(min lam0=%.2e, min lam3=%.4f)\n",
+               total_bent.sec_psd_ok, total_bent.sec_total,
+               total_bent.min_lam0, total_bent.min_lam3);
 
         printf("\n=== Extended Verification: Basin Hopping (200 chains x 25 hops) ===\n");
         const double F4_CUBIC = 2.1505201547139396;
@@ -604,6 +897,14 @@ int main(int argc, char **argv) {
             psi20[2 * S6[k] + 1] = sin(th) / sqrt(6.0);
         }
         print_hessian_summary(psi20, "analytic 20/9 bent-support (theta_k = k*pi/12)");
+        double psi20_sad[RVEC] = {0};
+        for (int k = 0; k < 6; k++) {
+            double th = (k & 1) ? (0.25 * pi) : 0.0;
+            psi20_sad[2 * S6[k]] = cos(th) / sqrt(6.0);
+            psi20_sad[2 * S6[k] + 1] = sin(th) / sqrt(6.0);
+        }
+        print_hessian_summary(psi20_sad, "analytic 20/9 bent-support saddle (0, pi/4, ...)");
+        sample_zero_centroid_locus(1000, 20260402ULL);
     }
 
     return 0;
