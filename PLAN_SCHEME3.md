@@ -103,4 +103,11 @@
      - **Theorem 17.6（3 行初等全 $m$ 实 Pauli-SIC 完整分类定理）**：由 $\mathrm{Tr}(S_{\mathrm{real}}^3) \in \mathbb{Z}$ 迫出 $\sqrt{2^{m-1}+1} \in \mathbb{Q} \iff m \in \{1, 4\}$，与复 Pauli-SIC 分类 $n \in \{1, 3\}$ 形成双星对偶（`probe10` 精确验证 $m=4$ 135-点实 Pauli-SIC 达 $F_4 = 8/3$，`3.55e-15` 精度；一切 $m \ge 2, m \neq 4$ 严格有 $F_m(\phi_{\text{real}}) > \frac{3D}{D+2}$）；
      - **$\mathbb{Z}_p$ Singer 环面遍历性与 $m=6$ 排雷（`probe8`, `probe9`）**：精确识别 $\mathbb{Z}_7$ 全局极小点 `1.992207` 为 $SL(2, \mathbb{F}_7)$ Singer 特征态对，但大素数下因量子遍历性趋于 $\mathcal{J} \to 3.0$（$p=97$ 达 `2.922`）；$m=6$ 上 $\Lambda \le \tau$ 的 $C_{\min}(\tau)/(1-\tau)^2$ 进一步升至 `0.921–3.474`；
      - **元障碍 #12（$\mathcal{J}_m$ 固定阶 $t$-拷贝 PPT 与低拷贝卷积天花板）**：将 $y_H(2D)$ 按第 0 比特切片即得 $t$-拷贝 PPT 合法伪态使 $\mathcal{J}_m \le \frac{4D}{2D+1} < 2$（$t=8$ 涵盖所有 $2D \ge 100$），锁死一切固定阶 $t$ 对称 PPT/矩矩阵 SDP（含 3-拷贝 Pauli 卷积 $\rho^{\boxtimes 3} \succeq 0$）。
-   - **当前前沿选项**：(a) 将已完备证明的 Theorems 17.5–17.6 + Identities I–II 形式化固化入 Lean 4；(b) 在死胡同 #1–#12 之外，专攻真正无限阶 / $\ell_\infty$ / 秩-1 路径（素数群 $\mathbb{Z}_p$ 平坦 STFT 代数刚性与统一 $\Lambda$-互斥下界，或 $\mathbb{F}_2^n$ 相态常数间隙 $F_n^{\text{phase}} \ge 2 + \delta_0$）。
+   - **当前前沿选项与后续交接清单**：
+     - **(a) Lean 4 形式化候选包（均已有完整初等证明、零缺口）**：
+       1. Theorem 17.5（`sum_pauliSq_subspace`、`twoStateJ_ge_of_subspace`、`sum_pauliSq_quadric_coset` — 直接复用 `AsymptoticPauliSlicing.lean` 的 `twoStateJ_ge_of_partition`）；
+       2. Theorem 17.6（`no_real_pauli_sic_all` — 直接复用 `AsymptoticBarriers.lean` 的 `pow_two_add_one_ne_sq` 与 `AsymptoticChar2Theory.lean` 的 `pauliMoment4_real_state_ge`，3 行证得一切 $m \ge 2, m \neq 4$ 严格有 $F_m(\phi_{\text{real}}) > \frac{3\cdot 2^m}{2^m + 2}$）；
+       3. Identities I & II（`crossPauli_selfDual_deriv`、`crossPauli_autocorr_outer` — 2 行 `SWAP` 收缩）。
+     - **(b) 剩余纯理论硬仗（严格绕开死胡同 #1–#12，专攻非多项式 / 无限阶 / 秩-1 路线）**：
+       1. 素数群 $\mathbb{Z}_p$ 平坦 STFT 刚性（$C_{\mathbb{Z}_p} = 0 \implies$ 稳定子态）与定量 $\ell_\infty$ 稳定性，或 $\mathbb{F}_2^m$ 上统一 $\Lambda$-互斥下界 $C \ge \kappa(1-\Lambda)^2$（直接对接 Theorem 17.4–17.5 闭合 $\liminf F_n^* > 2$）；
+       2. 特征 2 常振幅相态常数间隙 $\min_{\text{phase}} F_n(\psi) \ge 2 + \delta_0$（$\forall n \ge 3$）。
