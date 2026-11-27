@@ -1,6 +1,6 @@
 # 方案 3 执行计划：先固化一般 $n$ 基础理论包（路线 1），再新开会话双线攻坚硬仗 A & B（路线 2 + 路线 3）
 
-> **分支：** `explore/asymptotic-theory`（阶段一已入库 `4ff8c18`，当前更新至 Stage 15 战线 2 结题与战线 3 精化方案，对应理论综述 [ASYMPTOTIC_THEORY_NOTES.md](ASYMPTOTIC_THEORY_NOTES.md)）  
+> **分支：** `explore/asymptotic-theory`（阶段一已入库 `4ff8c18`，Stage 15 战线 2 结题已入库 `a6625d7`，本次更新至 **Stage 16 战线 3 3A+3B 攻坚与选项 C 26 条一般 $n$/一般 $m$ 定理全量 Lean 4 形式化**，对应理论综述 [ASYMPTOTIC_THEORY_NOTES.md](ASYMPTOTIC_THEORY_NOTES.md)）  
 > **总原则：** 严格遵守 `idea/12` 五条研究宪章与 15 GB WSL2 低内存编译铁律；绝不退回有限 $n$ 刷分/造证书；绝不修改任何上游 `FourQubit*.lean`、`TwoQubitExactCert.lean`、`AsymptoticContextuality.lean` 已过审定理、`main` 分支或隔壁目录 `/home/admin/projects/e28_multiqubit_magic_main`。
 
 ---
@@ -50,22 +50,32 @@
   1. 增长律为**单指数 $d_0(4m, 2m) = \Theta(2^{4m})$**（由极点尺度 $d + 2^{4m-4}$ 主导，非 $2^{\Theta(m^2)}$ 或 $(2m)!$），击穿 $y_H(2^n)$ 需线性副本数 $t(n) = \Omega(n)$（无法在 $t(n) \ll n$ 完成）；
   2. 裕度按 $p_0 \sim 2^{-4m^2}$ 超指数衰减（$t=12, d=128$ 时已仅 $\sim 10^{-5}$），无法导出常数渐近间隙 $\liminf F_n^* > 2$。
 
-### 战线 3（硬仗 B — 直接攻坚 $\liminf F_n^* > 2$ 或 $\limsup c_n^* < 2$）
-**状态：** ⏳ **Stage 15 前置排雷已完成，两条精化纯理论主攻路线就绪（待拍板下一步选择）**
-- **Stage 15 新排除的两条子路线（死胡同 #9，切勿重踩）**：
-  1. 单 MUB 布尔 WHT 单侧三次/四次矩障碍：$n=7$ ($d=128$) 已直接构造出满足 $Y \ge +0.0277 > 0$ 且 $(\mathbb{E}[Y^2], \mathbb{E}[Y^3], \mathbb{E}[Y^4]) = (2, 5.9197, 24.0693)$ 的单 MUB 布尔函数；
-  2. 单稳定子重叠四次矩：$\mathbb{E}_{\mathrm{Stab}}[d^4 |\langle\phi|\psi\rangle|^8] = A(d) + B(d)\,F_n(\psi)$ 中 $B(d) = O(1/d) \to 0$，Welch 处 $m_4 \to 24 > 20$（Hamburger 下界），无 $O(1)$ 间隙。
-- **精化后的两条纯理论主攻方向（必须利用多 MUB 耦合 / 全局相位相干）**：
-  - **方向 3A（直接攻 $\liminf F_n^* > 2$ — Gowers $U^3$ 相位方盒精确正定分解）**：
-    在任意稳定子基下（$p_x = |\psi_x|^2, r_a = (p*p)(a), K(a) = \langle \psi^{\circ 2}|X^a|\psi^{\circ 2}\rangle \in \mathbb{R}, H(a,u) = \sum_x \psi_x \psi_{x\oplus a}^* \psi_{x\oplus u}^* \psi_{x\oplus a\oplus u} \in \mathbb{R}$），精确恒等式
-    $$F_n(|\psi\rangle) = d \sum_{a, u} H(a, u)^2 = d^5 \|\psi\|_{U^3(\mathbb{F}_2^n)}^8,$$
-    $$F_n(|\psi\rangle) - \frac{2d}{d+1} = \frac{d(d+1)}{d-1}\!\left(r_0 - \frac{2}{d+1}\right)^2 + 2d \sum_{a \neq 0}\!\left(r_a - \frac{1-r_0}{d-1}\right)^2 + d \sum_{a \neq 0} K(a)^2 + d \sum_{\substack{a,u \neq 0 \\ a \neq u}} H(a,u)^2$$
-    已验证至 $10^{-15}$ 精度（$n=3$ Hoggar SIC 处 $K \equiv 0, H_{\text{off}} \equiv 0$；实态强迫 $K(a)=r_a \implies F_n \ge 3$）。目标：利用 $\sim d^2$ 个四次相位方程在 $2d-2$ 实自由度上的过约束、导数态 $D_a \psi$ 与全 Clifford 基下 $(U\psi)^{\circ 2}$ 的近 Bent 性，证明 $\forall n \ge 4$ 有 $d\sum_{a\neq 0}K(a)^2 + d\sum_{a\neq u\neq 0}H(a,u)^2 \ge \delta_0 > 0$。
-  - **方向 3B（同时攻 $\limsup c_n^* < 2$ 与 $\liminf F_n^* > 2$ — 纯布尔辛自相关四次迹界）**：
-    由 $S(\sigma)^2 = (d^2-1)I + \sum_{r\neq 0} A_r(\sigma) P_r$（其中 $A_r(\sigma) := \sum_{p \in r^\perp \setminus \{0, r\}} \gamma(p, p\oplus r)\sigma_p\sigma_{p\oplus r} \equiv 2 \pmod 4$，且 $A_{Z_1}(\sigma) = \sum_{p \in Z_1^\perp \setminus \{0, Z_1\}} \sigma_p\sigma_{p\oplus Z_1}$）得精确恒等式
-    $$\mathrm{Tr}\!\left(S(\sigma)^4\right) = d(d^2-1)^2 + d \sum_{r \neq 0} A_r(\sigma)^2, \qquad \mathrm{Tr}\!\left(S(\sigma)^3\right) = d \sum_{r \neq 0} \sigma_r A_r(\sigma).$$
-    任何一致界 $\sum_{r \neq 0} A_r(\sigma)^2 \le (1 - \delta)\,d(d^2-1)^2$（$\delta > 0$）即可一步同时证明 $\limsup c_n^* \le 2\sqrt{1-\delta} < 2$ 与 $\liminf F_n^* > 2$。
-- **待决策下一步选项**：
-  1. 直接进入**方向 3A**（Gowers $U^3$ 相位方盒 / 过约束 $K(a), H(a,u)$ 纯理论攻坚）；
-  2. 直接进入**方向 3B**（纯布尔辛自相关 $\sum A_r(\sigma)^2$ 四次迹界纯理论攻坚）；
-  3. 同步或先行将 Stage 15 中干净的一般 $n$ / 一般 $m$ 纯代数定理（如 $F_n = d^5\|\psi\|_{U^3}^8$ 精确分解、`Tr(S^4)` 自相关恒等式、或 $O^\varepsilon(2s,2)$ 上双对角正交投影与稳定子恒等式）形式化入 Lean 4。
+### 战线 3（硬仗 B — 直接攻坚 $\liminf F_n^* > 2$ 或 $\limsup c_n^* < 2$）与选项 C 形式化
+**状态：** ✅ **Stage 16 3A+3B 理论剖析、3B 边界标定与选项 C 26 条一般 $n$/一般 $m$ 纯理论定理 Lean 4 形式化全部完成**（详见 [`ASYMPTOTIC_THEORY_NOTES.md`](ASYMPTOTIC_THEORY_NOTES.md) Section 4.3 与 Section 5 #10）
+
+1. **Stage 16 核心理论与侦察进展（3A 主攻 + 3B 边界标定）**：
+   - **3A Clifford 流转与 $\mathbb{Z}_d$ 双黄金试金石**：在 $n=3..8$ 极值态与 Haar 对照上验证 $\mathbb{E}_{\mathrm{Cl}}[E_{\mathrm{amp}}] = \mathbb{E}_{\mathrm{Cl}}[E_K] = \frac{2}{d+1}(F_n - \mathrm{Welch}_n) + O(d^{-2})$，**96.8%–98.5%** 的超 Welch 盈余集中在弥散主体 $E_H$（`PR_frac = 0.16–0.26`）；精确 $\mathbb{Z}_4, \mathbb{Z}_8$ Zauner SIC 达到 $F_{\mathbb{Z}_d} = \mathrm{Welch}_d$ 却有严格正的 $K$ 能量（`0.0800 / 0.0772`），确认 $K(a)\equiv 0$ 与复对称平坦度为特征 2 专属；常振幅相态满足 `min F_phase = 1.75 (n=2), 2.25 (n=3), 2.8125 (n=4; E_K=0, E_H=7/8), 2.625 (n=5), 2.648 (n=6), 3.134 (n=7)`。
+   - **三条通过双试金石的特征 2 无条件一般 $n$ 定理**：
+     - **Theorem A（单陪集精确下界与 3-立方 $+4$ 偏移）**：$S_{\mathrm{indiv,Re}} \ge 2d\bigl(\frac{(1-r_0)^2}{d-1} - 4r_0^2\bigr)$，Welch 处 $\ge \frac{2d(d-17)}{(d+1)^2} \to 2$（$n=3$ 处 $d-17=-9<0$ 允许 Hoggar 达到 `S_indiv_Re = 0`，$\forall n \ge 5$ 在一切 Clifford 基下禁止逐陪集抵消）；
+     - **Theorem B（复对称 $\Sigma = |\psi\rangle\langle\psi^*|$ 辛 Parseval 对偶与 Takagi 下界）**：$w_p = \frac{1}{d}\sum_q (-1)^{Q_p(q)} c_q^2$、$\sum_{Q_0=0}(w_p - \frac{2}{d+1})^2 = F_n - \mathrm{Welch}_n$、$\sum_{Q_0=0}\tilde{c}_p^2 = d\tilde{c}_0^2$ 与 $\frac{4d}{d+1}(1-\tilde{\alpha}_n(\psi)) \le F_n - \mathrm{Welch}_n$；
+     - **Theorem C（费马双平方降阶与偶数 $n$ Pauli-MUB $\mathbb{Z}_4$-刚性）**：$R^2+I^2=4^m \implies (R,I) \in \{(\pm 2^m,0),(0,\pm 2^m)\}$。
+   - **3B 反向边界标定（$n=4..9$）**：直接最大化 $\alpha_n, c_n$ 发现在 $n=7$ 达到局部峰值（`c_7 = 1.79675, α_7 = 0.96709`）后于 **$n=8$（`c_8 = 1.62881`）与 $n=9$（`c_9 = 1.59078`）回落**；$n=6$ `Hoggar ⊗ Hoggar`（`c_6 = 1.66208, F_6 = 256/81 = 3.1605`）显式实现稀疏尖峰缝隙。两条渐近猜想均获强实证支撑。
+   - **诚实记录 4 条新排雷障碍（死胡同 #10）**：朴素 $\sim d^2/2$ vs $2d-2$ 过约束计数（败于 $\mathbb{Z}_d$ Zauner 试金石 2）；3-立方 $\Theta(d)$ 振幅 $L_1$ 预算；自对偶拉格朗日稀疏尖峰对 $\tilde{\alpha}_n^*$ 的同样绕过漏洞；纯整性/费马刚性仅给 $\mathrm{poly}(1/d)$ 连续稳定性。
+
+2. **选项 C — Stage 15–16 纯理论包 Lean 4 形式化（✅ 已完成全量验证与公理审计）**：
+   - **新增模块：** [`MultiQubitMUB/AsymptoticChar2Theory.lean`](MultiQubitMUB/AsymptoticChar2Theory.lean)（**2,198 行，26 条公开定理**，零 `sorry`、零 `native_decide`、零 `set_option`、零改动任何上游已过审模块）
+   - **低内存安全构建与全量审计：**
+     - `lake env lean -M 8192 -j 1 MultiQubitMUB/AsymptoticChar2Theory.lean`：exit 0，42.5s，0 错误 0 警告；
+     - `python3 idea/safe_lake_build.py MultiQubitMUB.AsymptoticChar2Theory`：exit 0，19.0s，`peak_pgid_rss = 4936.2 MB`（< 8000 MB 上限）；
+     - `python3 idea/safe_lake_build.py MultiQubitMUB`：exit 0，3.0s，`peak_pgid_rss = 4495.9 MB`；
+     - `lake env lean -M 8192 -j 1 Audit.lean`：**100 / 100** 条定理（74 条既有 + 26 条新增）100% 仅依赖 `[propext, Classical.choice, Quot.sound]`。
+   - **已形式化的 5 组无条件一般 $n$ / 一般 $m$ 定理**：
+     1. 特征 2 Gowers-$U^3(\mathbb{F}_2^n)$ 方盒实性、$F_n = d\sum H^2$、非负超 Welch 分解与实态下界 $F_n \ge 3 - 2/d$（4 条）；
+     2. Theorem A 单陪集精确公式 $S_{\mathrm{indiv,Abs}}, S_{\mathrm{indiv,Re}}$ 与 Welch 下界 $\frac{2d(d-17)}{(d+1)^2}$（4 条）；
+     3. Theorem B 复对称 $\Sigma = |\psi\rangle\langle\psi^*|$ 辛 Parseval 对偶与 Takagi 下界（6 条）；
+     4. 3B 辛自相关展开 $S(\sigma)^2$、三次/四次迹与精确夹逼 $(\alpha_n^*)^4 \le \max_\sigma \mathrm{Tr}(S^4)/T_2^2 \le (\alpha_n^*)^2$（6 条）；
+     5. Stage 15 普适 $q=2$ Chu–Vandermonde 望远镜恒等式、$O^\varepsilon(2s,2)$ 上双对角递推、普适稳定子比值与非负性、$C_2(4m,2r) > 0$（$\forall m \ge 4$）与 Theorem C 费马双平方降阶（6 条）。
+
+3. **后续纯理论主攻待选方向（跨越 $\mathrm{poly}(1/d) \to O(1)$ 宏观鸿沟）**：
+   - **选项 A（特征 2 常振幅相态 Gowers-$U^3$ 下界）**：在 $\psi_x = \frac{1}{\sqrt{d}}e^{i\theta_x}$ 上攻克干净的特征 2 2-平面相干下界（对照奇素数 $\mathbb{Z}_p$ Alltop 的 $E_K=E_H=0$，解释并证明 $n \ge 4$ 下 `E_H ≥ Ω(1)`）；
+   - **选项 B（离散实符号 $S(\sigma)$ 宏观秩-1 偏离障碍）**：利用 $\sigma_p \in \{\pm 1\}$ 离散性与非双线性辛 2-上循环 $\gamma(p, p\oplus r)$ 跨 $r$ 耦合，冲击 $\max_\sigma \sum_{r\neq 0} A_r(\sigma)^2 \le (1-\delta)d(d^2-1)^2$ 或直接封堵稀疏尖峰漏洞。

@@ -1,4 +1,4 @@
-# General-$n$ Asymptotic Magic, Pauli Contextuality, and Clifford-PPT Phase Transitions: Theory Notes & Insights (Stages 12–15)
+# General-$n$ Asymptotic Magic, Pauli Contextuality, and Clifford-PPT Phase Transitions: Theory Notes & Insights (Stages 12–16)
 
 > **Branch:** `explore/asymptotic-theory` (building on verified Lean 4 baseline `73bad0e`, zero edits to upstream `FourQubit*.lean`, `TwoQubitExactCert.lean`, or `main`).  
 > **Scope:** Pure general-$n$ theoretical results, exact closed-form Clifford-PPT witness theorems, spectral/Kerdock structural dissections, sharp meta-obstructions, and concrete attack blueprints for the two remaining asymptotic conjectures:
@@ -19,8 +19,8 @@ Let $n \ge 1$, $d = 2^n$, and let $P_p = i^{a\cdot b} Z^b X^a$ ($p = (a,b) \in \
   $$\mathrm{Tr}(S^3) = d\,(1 - 2\rho_n(\sigma))(d^2 - 1)\left(\frac{d^2}{2} - 2\right), \qquad c_n(\sigma) := \bigl(1 - 2\rho_n(\sigma)\bigr)\sqrt{d},$$
   where $\rho_n(\sigma) \in [0, 1]$ is the fraction of frustrated commuting (isotropic) lines $\{p, q, p\oplus q\}$ ($\omega(p, q) = 0$) in $W(2n-1, 2)$.
 
-### Already Machine-Verified in Lean 4 ([`MultiQubitMUB/AsymptoticContextuality.lean`](MultiQubitMUB/AsymptoticContextuality.lean) & [`MultiQubitMUB/AsymptoticBarriers.lean`](MultiQubitMUB/AsymptoticBarriers.lean))
-Zero `sorry`, zero `native_decide`, **74/74 audited theorems** in [`Audit.lean`](Audit.lean) (53 baseline + 21 new in `AsymptoticBarriers.lean`, `peak_pgid_rss = 4800.5 MB`) depending solely on `[propext, Classical.choice, Quot.sound]`:
+### Already Machine-Verified in Lean 4 ([`MultiQubitMUB/AsymptoticContextuality.lean`](MultiQubitMUB/AsymptoticContextuality.lean), [`MultiQubitMUB/AsymptoticBarriers.lean`](MultiQubitMUB/AsymptoticBarriers.lean) & [`MultiQubitMUB/AsymptoticChar2Theory.lean`](MultiQubitMUB/AsymptoticChar2Theory.lean))
+Zero `sorry`, zero `native_decide`, zero `set_option`, **100/100 audited theorems** in [`Audit.lean`](Audit.lean) (53 baseline + 21 in `AsymptoticBarriers.lean` + 26 in `AsymptoticChar2Theory.lean`, `peak_pgid_rss = 4936.2 MB`) depending solely on `[propext, Classical.choice, Quot.sound]`:
 1. **Exact Asymptotic Contextuality Law $1 - 2\rho_n = \Theta(2^{-n/2})$:**
    - Upper bound ($\forall n \ge 2$ on $W(2n-1, 2)$ and $\forall n \ge 3$ on every elliptic quadric $\mathcal{Q}^-(2n-1, 2)$):
      $$1 - 2\rho_n(\sigma) \le \frac{2\sqrt{d+1}}{d+2} < 2 \cdot 2^{-n/2}, \qquad \lim_{n \to \infty} \rho_n = \frac{1}{2}.$$
@@ -36,6 +36,12 @@ Zero `sorry`, zero `native_decide`, **74/74 audited theorems** in [`Audit.lean`]
    - Exact linear quantitative double equivalence (`pauliL1_ge_of_pauliMoment4`, `pauliAlpha_ge_of_pauliMoment4`, `exists_unit_state_rayleigh_ge_cube`, `exists_unit_state_pauliL1_ge_of_signCubeSum`, `exists_unit_state_pauliAlpha_ge_of_frustPairs`);
    - Pure-$c_p^2$ / Bell-sampling LP meta-obstruction (`qSIC_nonneg`, `sum_qSIC_eq_one`, `sympWHT_qSIC_eq`, `sympWHT_qSIC_pow_nonneg`, `qSIC_moment4_eq_welch`);
    - Gaussian-integer congruence $(S(\sigma)+I)/2 \in M_d(\mathbb{Z}[i])$ & quantitative stabilizer-basis IPR obstruction (`signMat_diag_odd_int`, `signMat_offdiag_even_re_im`, `signMat_add_id_half_gaussInt`, `compBasisIPR_eq_sum_Z_pauliSq`, `compBasisIPR_eq_welch_of_flat_pauli`, `compBasisIPR_sub_welch_sq_le`).
+5. **Stages 15–16 Characteristic-2 Gowers-$U^3$, Complex-Symmetric Duality, 3B Quartic Sandwich & $O^\varepsilon(2s,2)$ Telescoping ([`MultiQubitMUB/AsymptoticChar2Theory.lean`](MultiQubitMUB/AsymptoticChar2Theory.lean), 2,198 lines, 26 audited theorems):**
+   - Exact characteristic-2 Gowers-$U^3(\mathbb{F}_2^n)$ box reality, $F_n = d\sum H(a,u)^2$, non-negative surplus decomposition $E_{\mathrm{amp}} + E_K + E_H$, and real-state floor $F_n \ge 3 - \frac{2}{d}$ (`gowersBox_im_zero`, `pauliMoment4_eq_gowersBox_sum`, `pauliMoment4_sub_welch_eq_gowers`, `pauliMoment4_real_state_ge`);
+   - Theorem A exact individual-coset formulas $S_{\mathrm{indiv,Abs}}$, $S_{\mathrm{indiv,Re}}$ and Welch floor $\frac{2d(d-17)}{(d+1)^2}$ (`indivCosetAbsEnergy_eq`, `indivCosetReEnergy_eq`, `indivCosetReEnergy_ge`, `indivCosetReEnergy_ge_welch_floor`);
+   - Theorem B complex-symmetric $\Sigma = |\psi\rangle\langle\psi^*|$ symplectic WHT Parseval duality, $\sum w_p = d$, $\sum (w_p - \frac{2}{d+1})^2 = F_n - \mathrm{Welch}_n$, $\sum \tilde{c}_p^2 = d\tilde{c}_0^2$, and Takagi flatness bound $\frac{4d}{d+1}(1 - \tilde{\alpha}_n) \le F_n - \mathrm{Welch}_n$ (`symPauliExpect_eq_zero_of_antisym`, `symPauliNormSq_eq_sympWHT`, `sum_symPauliNormSq_eq_dim`, `sum_symPauliNormSq_sub_ideal_sq`, `symPauliExpect_sq_sum_eq`, `pauliMoment4_sub_welch_ge_symPauliAlpha`);
+   - Path 3B symplectic autocorrelation expansion $S(\sigma)^2$, cubic/quartic traces, Rayleigh quartic bound, and exact sandwich $(\alpha_n^*)^4 \le \max_\sigma \mathrm{Tr}(S(\sigma)^4)/T_2^2 \le (\alpha_n^*)^2$ (`signMat_sq_eq_pauliExpand`, `matTr_signMat_cube_eq_autocorr`, `matTr_signMat_fourth_eq_autocorr`, `rayleigh_pow_four_le_matTr_fourth`, `pauliAlpha_pow_four_le_signMat_fourth`, `signMat_fourth_le_sq_of_alpha_bound`);
+   - Stage 15 universal $q=2$ Chu–Vandermonde telescoping, exact Witt bidiagonal recurrence, universal stabilizer evaluation ratio & non-negativity, permanent $C_2(4m, 2r) > 0$ sign flip for all $m \ge 4$ ($t \ge 16$), and Theorem C Fermat two-squares descent $R^2 + I^2 = 4^m$ (`qChuVandermonde_telescoping`, `orthProjCoeff_bidiagonal_recurrence`, `orthProjCoeff_sum_eq_stabilizer_ratio`, `orthProjCoeff_sum_nonneg`, `c2_cancellation_pos_ge_16`, `int_sq_add_sq_eq_pow_four`).
 
 ---
 
@@ -261,9 +267,63 @@ Diagonalizing the maximal isotropic subspace of top Paulis (`k = 4`, splitting $
   - Plus **1 non-stabilizer rotated block** `y=13` ($q_{13} = 0.1587$, $F_4 = 12.764$).
 - **Verdict:** $n = 8$ `seed 0` is a **9-block Kerdock real-MUB superposition** (exhausting all $2^{4-1} + 1 = 9$ real MUBs of $m=4$ in a doubled `3+5` version of the $n=7$ 5-block architecture). Because increasing from 5 to 9 blocks raises the cross-slice interference multiplicity to $r = 4$, it immediately triggers **Horn 2** of the Stage 13 two-horned Kerdock obstruction ($F_8 = 2.792 > F_7 = 2.372$, $c_8 = 1.617 < c_7 = 1.797$).
 
+### 4.3 Stage 16 Breakthrough: Characteristic-2 Gowers-$U^3(\mathbb{F}_2^n)$ Anatomy, Complex-Symmetric Duality, and 3B Boundary Calibration
+
+#### (1) Strategic Sandwich Equivalence for 3B ($\forall n \ge 1$)
+For every $n \ge 1$ and $T_2 := d(d^2 - 1)$, every $\pm 1$ sign assignment $\sigma$ and unit state $|\psi\rangle$ satisfy the exact quartic-trace sandwich:
+$$\bigl(\alpha_n^*\bigr)^4 \;\le\; \max_{\sigma \in \{\pm 1\}^{d^2 - 1}} \frac{\mathrm{Tr}\bigl(S(\sigma)^4\bigr)}{T_2^2} \;\le\; \bigl(\alpha_n^*\bigr)^2, \qquad \mathrm{Tr}\!\left(S(\sigma)^4\right) = d(d^2 - 1)^2 + d \sum_{r \neq 0} A_r(\sigma)^2.$$
+Hence Path 3B is strictly equivalent to $\limsup \alpha_n^* < 1 \iff \limsup c_n^* < 2$ (strictly stronger than $\liminf F_n^* > 2$ due to the sparse-spike gap).
+
+#### (2) 3A Clifford-Orbit Flow, 2-Plane Coset Distribution & $\mathbb{Z}_d$ Golden Litmus Test Contrast (`stage16_probe1`, `probe2`, `probe4`)
+Decomposing $F_n(\psi) - \frac{2d}{d+1} = E_{\mathrm{amp}} + E_K + E_H$ across $n = 3..8$ extremal states and Haar controls under 1,000–2,000 random Clifford bases + greedy Clifford optimization yields:
+
+| State | $n$ | $d$ | Surplus | Cliff avg $E_{\mathrm{amp}}$ | Cliff avg $E_K$ | **Cliff avg $E_H$** | Greedy $\min E_H$ | $S_{\mathrm{indiv,Re}}$ | $\eta_H = E_H / S_{\mathrm{indiv,Re}}$ | $H^2$ `PR_frac` |
+|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|
+| Hoggar SIC | 3 | 8 | `0.0000` | `0.0000` | `0.0000` | **`0.0000`** | `0.0000` | `0.000–0.519` | **`0.0000`** | — |
+| spike min-$F$ | 4 | 16 | `0.2682` | `0.0308` | `0.0321` | **`0.2053`** (76.5%) | `0.0713` | `0.525–0.827` | `0.136–0.303` | `0.200` |
+| min-$F_5$ | 5 | 32 | `0.6096` | `0.0372` | `0.0350` | **`0.5374`** (88.2%) | `0.1140` | `1.373–1.460` | `0.244–0.403` | `0.154` |
+| min-$F_6$ | 6 | 64 | `0.7545` | `0.0230` | `0.0233` | **`0.7082`** (93.9%) | `0.5420` | `1.618–1.727` | `0.426–0.456` | `0.177` |
+| **Kerdock $n=7$** | **7** | **128** | **`0.3879`** | `0.0064` | `0.0061` | **`0.3754`** (96.8%) | **`0.2480`** | **`1.799–1.814`** | **`0.150–0.212`** | **`0.259`** |
+| **$n=8$ seed 0** | **8** | **256** | **`0.7995`** | `0.0064` | `0.0065` | **`0.7866`** (98.4%) | **`0.7164`** | **`1.900–1.918`** | **`0.374–0.415`** | **`0.161`** |
+| Haar $n=8$ | 8 | 256 | `2.0881` | `0.0161` | `0.0162` | **`2.0558`** (98.5%) | `2.0228` | `1.928–1.944` | `1.065` | `0.316` |
+
+Key structural findings:
+1. **Clifford concentration:** On every state, $\mathbb{E}_{\mathrm{Cl}}[E_{\mathrm{amp}}] = \mathbb{E}_{\mathrm{Cl}}[E_K] = \frac{2}{d+1}(F_n - \mathrm{Welch}_n) + O(d^{-2})$, placing **96.8%–98.5%** of the surplus in $E_H$; and `PR_frac = 0.16–0.26` proves $E_H$ is a **diffuse bulk floor** across all $\frac{(d-1)(d-2)}{2}$ pairs rather than sparse outliers.
+2. **$\mathbb{Z}_d$ Litmus Test 2 contrast:** Exact $\mathbb{Z}_4, \mathbb{Z}_8$ Zauner SICs attain $F_{\mathbb{Z}_d} = \mathrm{Welch}_d$ to $10^{-15}$, yet have strictly positive squared-amplitude autocorrelation $d\sum_{a\neq 0}|\langle\psi^{\circ 2}|T^a|\psi^{\circ 2}\rangle|^2$ (`0.0800` at $d=4$, `0.0772` at $d=8$), confirming $K(a) \equiv 0$ and complex-symmetric flatness are characteristic-2 exclusive.
+3. **Constant-amplitude phase-state floor (`stage16_probe4`):** On $\psi_x = \frac{1}{\sqrt{d}}e^{i\theta_x}$ ($F_n = 2 - \frac{1}{d} + E_K + E_H$, where odd-prime $\mathbb{Z}_p$ Alltop hits $E_K = E_H = 0$), $\mathbb{F}_2^n$ satisfies `min F_phase = 1.75 (n=2), 2.25 (n=3), 2.8125 (n=4; E_K=0 exact, E_H=7/8!), 2.625 (n=5), 2.648 (n=6), 3.134 (n=7)`.
+
+#### (3) Three New Unconditional Characteristic-2 General-$n$ Theorems (All Pass Both Golden Litmus Tests & Machine-Verified in [`AsymptoticChar2Theory.lean`](MultiQubitMUB/AsymptoticChar2Theory.lean))
+1. **Theorem A (Exact Individual-Coset Floor & $+4$ vs $+3$ 3-Cube Shift):**  
+   For every $n$-qubit unit state $|\psi\rangle$ in every stabilizer basis,
+   $$S_{\mathrm{indiv,Abs}} = 4\,d\!\left(\sum_{a} r_a^2 - 3 r_0^2 + 2\sum_x p_x^4\right),$$
+   $$S_{\mathrm{indiv,Re}} = 2\,d\sum_{a} r_a^2 + 2 E_K - 8 d r_0^2 + 8 d\sum_x p_x^4 - 2 d\left|\sum_x \psi_x^4\right|^2 \;\ge\; 2\,d\!\left(\frac{(1 - r_0)^2}{d - 1} - 4 r_0^2\right).$$
+   At Welch IPR ($r_0 = \frac{2}{d+1}$), $S_{\mathrm{indiv,Re}} \ge \frac{2d(d - 17)}{(d+1)^2} \to 2$. At $n=3$ ($d=8$), $d - 17 = -9 < 0$ allows Hoggar's canonical basis $\frac{1}{\sqrt{6}}(1+i,0,-1,1,-1,-i,0,0)$ to attain `S_indiv_Re = 0.0000` (coset-by-coset annihilation); for all $n \ge 5$, coset-by-coset cancellation is impossible in every Clifford basis. Equivalently, in the Gowers $U^3$ 3-cube expansion, characteristic 2's extra degenerate locus $a \oplus u \oplus v = 0$ shifts the non-independent cube floor from $+3$ (on $\mathbb{Z}_d$) to $+4 - O(1/d)$, forcing the linearly independent 3-cube sum $X_H = E_H - S_{\mathrm{indiv,Re}} = 192\,d \sum_A \sum_{\lambda \in V(A)^*\setminus\{0\}} \mathrm{Re}\,P_\lambda(A)$ to cancel down to $-2$ instead of $-1$.
+2. **Theorem B (Complex-Symmetric $\Sigma = |\psi\rangle\langle\psi^*|$ Parseval Duality & Takagi Flatness Lower Bound):**  
+   For $\tilde{c}_p := \langle\psi^*|P_p|\psi\rangle$ (vanishing identically on $Q_0(p) = 1$) and $w_p := |\tilde{c}_p|^2$,
+   $$w_p = \frac{1}{d}\sum_{q \in \mathbb{F}_2^{2n}} (-1)^{Q_0(q) + \omega(p, q)} c_q^2, \qquad \sum_{Q_0(p)=0}\left(w_p - \frac{2}{d+1}\right)^2 = F_n(|\psi\rangle) - \frac{2d}{d+1}, \qquad \sum_{Q_0(p)=0}\tilde{c}_p^2 = d\,\tilde{c}_0^2,$$
+   and with $\tilde{\alpha}_n(\psi) := \frac{1}{d}\sqrt{\frac{2}{d+1}}\sum_{Q_0(p)=0}|\tilde{c}_p| \in (0, 1]$,
+   $$\frac{4d}{d+1}\bigl(1 - \tilde{\alpha}_n(\psi)\bigr) \;\le\; F_n(|\psi\rangle) - \frac{2d}{d+1}, \qquad \tilde{\alpha}_n^* = \frac{1}{d\sqrt{(d+1)/2}}\max_\theta \left\|\sum_{Q_0(p)=0} e^{i\theta_p} P_p\right\|_{\mathrm{op}}.$$
+3. **Theorem C (Fermat Two-Squares $\mathbb{Z}_4$-Rigidity for Even-$n$ Pauli-MUB Fiducials):**  
+   Every integer solution to $R^2 + I^2 = 4^m$ satisfies $(R, I) \in \{(\pm 2^m, 0), (0, \pm 2^m)\}$. Combined with `signMat_offdiag_even_re_im`, every even-$n = 2m$ Pauli-MUB fiducial must be a $\mathbb{Z}_4$-phase state $\frac{1}{\sqrt{d}}i^{h(x) + 2q(x)}$ with $h$ bent ($E_K = 0$), and $U^2 + V^2 = 2\cdot 4^m$ forces both $D_a q$ and $D_a q \oplus h$ to be bent on $H_a/\langle a\rangle$ (giving a 5-line zero-case-split proof of no MUB fiducial at $n = 4$ and explaining `E_K = 0, E_H = 7/8` on $n=4$ phase states).
+
+#### (4) 3B Reverse-Boundary Reconnaissance (`stage16_probe3`, `probe3b`): Peak at $n = 7$ Followed by Drop at $n = 8, 9$
+Directly maximizing $\alpha_n(\psi)$ and $c_n(\sigma)$ (ignoring $F_n$) via smoothed-$L_1$ BB ascent + exact Hermitian alternating projection + hypercube discrete `sgn(A_r)` polish across Haar, MUB-block, `Hoggar ⊗ psi`, and analytic CCKS Kerdock seeds:
+
+| $n$ | $d$ | Min $F_n$ | **Max $\alpha_n$** | **Max $c_n$** | $F_n$ at max-$c_n$ | Max $\tilde{\alpha}_n$ | $\mathrm{Tr}(S^4)/T_2^2$ | Extremal Structure |
+|---:|---:|---:|---:|---:|---:|---:|---:|---|
+| 3 | 8 | `1.7778` | `0.93541` | `1.69706` | `1.7778` | `1.00000` | `0.7679` | Hoggar SIC |
+| 4 | 16 | `2.1505` | `0.94234` | `1.64706` | `2.1612` | `0.98962` | `0.7952` | spike |
+| 5 | 32 | `2.5490` | `0.93352` | `1.56112` | `2.6032` | `0.97178` | `0.7704` | min-$F_5$ |
+| 6 | 64 | `2.7237` | `0.94348` | `1.66208` | `3.1605` | `0.96598` | `0.7932` | `Hoggar ⊗ Hoggar` (explicit sparse-spike gap: $c_6$ +0.19 over min-$F_6$ while $F_6 = 256/81$) |
+| **7** | **128** | **`2.3723`** | **`0.96709`** | **`1.79675`** | **`2.3837`** | **`0.98419`** | **`0.8755`** | 5-block Kerdock (global attractor across all initializations) |
+| **8** | **256** | **`2.7917`** | **`0.93866`** | **`1.62881`** | **`2.8794`** | **`0.97072`** | **`0.7790`** | 9-block Kerdock `seed 0` refined (**drops back below $n=7$**) |
+| **9** | **512** | `4.1489` | **`0.93554`** | **`1.59078`** | **`4.1489`** | **`0.95356`** | **`0.7711`** | 5-block `(3+6)` Kerdock refined (**continues dropping**) |
+
+**Calibration Verdict:** $n = 7$ (`c_7 = 1.7967`) is a finite-$n$ low-dimensional Kerdock sweet spot ($k=3, m=4$ threading both horns), not a climb toward $2$. Both $\liminf F_n^* > 2$ and $\limsup c_n^* < 2$ remain strongly supported empirically.
+
 ---
 
-## 5. Complete Verified Dead-End Ledger (Through Stage 15)
+## 5. Complete Verified Dead-End Ledger (Through Stage 16)
 
 Do **not** re-investigate any of the following (all decisively settled with exact data or proofs):
 1. Continuous spectral moment bounds on $S(\sigma)$ (`Tr(r_t^3) ≤ 1`, `Tr(M_n^4)` Cauchy–Schwarz): all collapse identically to $c \le 2$.
@@ -277,25 +337,23 @@ Do **not** re-investigate any of the following (all decisively settled with exac
 9. **Single-MUB Boolean WHT one-sided cubic/quartic obstruction & single-stabilizer 4th overlap moment (Stage 15 pre-checks):**
    - *Single-MUB WHT:* refuted directly at $n = 7$ ($d = 128$), where a single Boolean function $f : \mathbb{F}_2^7 \setminus \{0\} \to \{\pm 1\}$ attains $Y(x) = 1 + \frac{\widehat{f}(x)}{\sqrt{129}} \ge +0.0277 > 0$ everywhere with $\mathbb{E}[Y^2] = 2$, $\mathbb{E}[Y^3] = 5.9197$, $\mathbb{E}[Y^4] = 24.0693$ (Porter–Thomas moments are feasible inside a single MUB!).
    - *Single-stabilizer 4th overlap moment:* exact identity $\mathbb{E}_{|\phi\rangle \in \mathrm{Stab}_n}[d^4 |\langle\phi|\psi\rangle|^8] = A(d) + B(d)\,F_n(\psi)$ has $A(d) \to 24$, $B(d) = O(1/d) \to 0$; at Welch, $m_4(\mathrm{Welch}) \to 24$ stays strictly above the Hamburger lower bound $20$ for moments $(1, 2, 6)$, yielding zero $O(1)$ gap.
+10. **Four Naive Characteristic-2 / 3A Shortcuts (Stage 16 Meta-Obstructions):**
+    - *Naive $\sim d^2/2$ quartic equations vs $2d - 2$ real DOFs overconstraint counting:* fails Golden Litmus Test 2 ($\mathbb{Z}_d$ Zauner SICs satisfy the exact same quartic equation count yet exist for all tested $d \le 193$).
+    - *Naive $L_1$ / Cauchy–Schwarz amplitude budget on linearly independent 3-cubes:* although Theorem A forces $S_{\mathrm{indiv,Re}} \to 2$ ($X_H \to -2$), the $\Theta(d^4)$ affine 3-cubes carry total $L_1$ budget $\Theta(d)$, easily accommodating $X_H = -2$ without sign-coherence obstruction.
+    - *Proving $\limsup \tilde{\alpha}_n^* < 1$ via $F_n$-independent sparse spikes:* spikes of amplitude $d^{-1/4}$ supported on a self-dual Lagrangian $K = K'$ of size $d$ simultaneously allow $\alpha_n \to 1$ AND $\tilde{\alpha}_n \to 1$ while keeping $F_n - \mathrm{Welch}_n = \Omega(1)$; thus $\tilde{\alpha}_n^*$ shares the sparse-spike loophole (confirmed empirically: $\tilde{\alpha}_n^* \in [0.954, 0.990]$ for $n=4..9$).
+    - *Pure integrality / Galois / Fermat two-squares rigidity alone:* exact arithmetic contradictions (Theorem 2.1, Theorem C) yield only $\mathrm{poly}(1/d)$ continuous stability, not an $O(1)$ macroscopic gap.
 
 ---
 
 ## 6. Next-Stage Pure-Theory Attack Roadmap
 
 1. **Route 1 (COMPLETED & Machine-Verified in [`MultiQubitMUB/AsymptoticBarriers.lean`](MultiQubitMUB/AsymptoticBarriers.lean)):**  
-   All four general-$n$ pure-theory theorem groups from Section 2 are formalized (1,298 lines, 21 audited theorems, 74/74 total in [`Audit.lean`](Audit.lean), `peak_pgid_rss = 4800.5 MB`, standard three Lean axioms only).
-2. **Route 2 (COMPLETED — Stage 15 General-$t = 4m$ $R_{4m}$-Ideal Mechanism & Ceiling Settled):**  
-   The complete $O^\varepsilon(4m-2,2)$ bidiagonal projection $Q_{\mathrm{orth}}^{(4m,2r)}(d)$, universal stabilizer identity, exact $C_2(4m,2r)$ cancellation theorem, $t=12/16$ phase transitions ($d_0(12,6) \approx 550\text{–}650$, $d_0(4m,2m) = \Theta(2^{4m})$), and double obstruction are fully resolved (Section 3.4). *(Optional pure-math formalization candidate: the clean algebraic $O^\varepsilon(2s,2)$ bidiagonal projection & stabilizer identity for all $m, r, d$ — separate from the open asymptotic gap.)*
-3. **Route 3 (LIVE MAIN FRONT — Hard Battle B: True Quantitative $\liminf F_n^* > 2$ or $\limsup c_n^* < 2$):**  
-   With single-MUB WHT and single-stabilizer 4th moment ruled out (Dead End #9), every genuine attack must couple **multiple MUBs / global phase coherence**. Stage 15 distills the frontier into two crisp, algebraically exact targets:
-   - **Path 3A (Direct $\liminf F_n^* > 2$ via Exact Gowers-$U^3$ Phase-Box Decomposition):**  
-     In every stabilizer basis (with $p_x := |\psi_x|^2$, autocorrelation $r_a := (p * p)(a)$, square-amplitude overlap $K(a) := \sum_x \psi_x^2 (\psi_{x\oplus a}^*)^2 = \langle \psi^{\circ 2} | X^a | \psi^{\circ 2} \rangle \in \mathbb{R}$, and real quartic Gowers box $H(a, u) := \sum_x \psi_x \psi_{x\oplus a}^* \psi_{x\oplus u}^* \psi_{x\oplus a\oplus u} \in \mathbb{R}$), every unit state $|\psi\rangle \in \mathbb{CP}^{d-1}$ obeys the exact identities (verified to $10^{-15}$ on $n = 3$ Hoggar SIC and $n = 3, 4, 5$ Haar states):
-     $$F_n(|\psi\rangle) = d \sum_{a, u \in \mathbb{F}_2^n} H(a, u)^2 = d^5 \|\psi\|_{U^3(\mathbb{F}_2^n)}^8,$$
-     $$F_n(|\psi\rangle) - \frac{2d}{d+1} = \frac{d(d+1)}{d-1}\!\left(r_0 - \frac{2}{d+1}\right)^2 + 2d \sum_{a \neq 0}\!\left(r_a - \frac{1 - r_0}{d-1}\right)^2 + d \sum_{a \neq 0} K(a)^2 + d \sum_{\substack{a, u \neq 0 \\ a \neq u}} H(a, u)^2.$$
-     Every term on the RHS is a non-negative square. Real states force $K(a) = r_a \implies F_n \ge 3 - O(1/d)$, whereas the $n = 3$ Hoggar SIC simultaneously kills $K(a) \equiv 0$ and $H(a, u) \equiv 0$ ($a \neq u \neq 0$). Target: prove an unconditional lower bound $d\sum_{a \neq 0} K(a)^2 + d\sum_{a \neq u \neq 0} H(a,u)^2 \ge \delta_0 > 0$ ($\forall n \ge 4$) via the massively overconstrained quartic phase system ($\sim d^2$ real equations on $2d - 2$ DOFs), derivative vectors $D_a \psi$, and universal near-Bentness of $(U\psi)^{\circ 2}$ across all Clifford bases.
-   - **Path 3B (Simultaneous $\limsup c_n^* < 2$ and $\liminf F_n^* > 2$ via Pure Boolean Symplectic Autocorrelation Bound):**  
-     Expanding $S(\sigma)^2 = (d^2 - 1)I + \sum_{r \neq 0} A_r(\sigma) P_r$, where
-     $$A_r(\sigma) := \sum_{p \in r^\perp \setminus \{0, r\}} \gamma(p, p \oplus r)\,\sigma_p \sigma_{p \oplus r} \in 2\mathbb{Z}, \qquad A_r(\sigma) \equiv 2 \pmod 4$$
-     (and in particular for $r = Z_1$, $\gamma \equiv +1$ so $A_{Z_1}(\sigma) = \sum_{p \in Z_1^\perp \setminus \{0, Z_1\}} \sigma_p \sigma_{p \oplus Z_1}$ is a pure unsigned Boolean autocorrelation), yields the exact identities
-     $$\mathrm{Tr}\!\left(S(\sigma)^4\right) = d(d^2 - 1)^2 + d \sum_{r \neq 0} A_r(\sigma)^2, \qquad \mathrm{Tr}\!\left(S(\sigma)^3\right) = d \sum_{r \neq 0} \sigma_r A_r(\sigma).$$
-     Any uniform bound $\sum_{r \neq 0} A_r(\sigma)^2 \le (1 - \delta)\,d(d^2 - 1)^2$ ($\delta > 0$) immediately proves **both** $\limsup c_n^* \le 2\sqrt{1 - \delta} < 2$ and $\liminf F_n^* > 2$ (exploiting $\sigma_p^2 = 1$ hypercube discreteness + non-bilinear symplectic 2-cocycle coupling across $r$).
+   All four general-$n$ pure-theory theorem groups from Section 2 are formalized (1,298 lines, 21 audited theorems, `peak_pgid_rss = 4800.5 MB`, standard three Lean axioms only).
+2. **Route 2 (COMPLETED — Stage 15 General-$t = 4m$ $R_{4m}$-Ideal Mechanism & Ceiling Settled & Machine-Verified):**  
+   The complete $O^\varepsilon(4m-2,2)$ bidiagonal projection $Q_{\mathrm{orth}}^{(4m,2r)}(d)$, universal stabilizer identity, exact $C_2(4m,2r) > 0$ ($t \ge 16$) sign-flip theorem, $t=12/16$ phase transitions ($d_0(12,6) \approx 550\text{–}650$, $d_0(4m,2m) = \Theta(2^{4m})$), and double obstruction are resolved (Section 3.4) and their general-$m, s, \varepsilon, d$ algebraic core is machine-verified in [`AsymptoticChar2Theory.lean`](MultiQubitMUB/AsymptoticChar2Theory.lean).
+3. **Option C — Stage 15–16 General-$n$ / General-$m$ Pure-Theory Package (COMPLETED & Machine-Verified in [`MultiQubitMUB/AsymptoticChar2Theory.lean`](MultiQubitMUB/AsymptoticChar2Theory.lean)):**  
+   2,198 lines, 26 audited theorems across all 5 unconditional theorem groups (Gowers-$U^3$ & real floor, Theorem A individual-coset floor, Theorem B complex-symmetric $\Sigma$ duality & Takagi bound, 3B autocorrelation & quartic sandwich, Stage 15 $q=2$ Chu–Vandermonde / $O^\varepsilon(2s,2)$ / $C_2 > 0$ & Theorem C Fermat two-squares descent); **100 / 100 audited theorems** in [`Audit.lean`](Audit.lean) (`peak_pgid_rss = 4936.2 MB`, standard three Lean axioms only).
+4. **Remaining Open Frontier (Hard Battle B — Bridging Continuous Stability to an $O(1)$ Macroscopic Gap):**  
+   With both conjectures strongly backed by Stage 16 boundary calibration ($c_n^*$ peaking at $n = 7$ at `1.79675` and dropping to `1.62881` at $n = 8$ and `1.59078` at $n = 9$) and all 10 dead ends cleanly eliminated, the two sharpest open pure-theory targets are:
+   - **Option A (Characteristic-2 Phase-State Gowers-$U^3$ Lower Bound):** prove an unconditional constant lower bound on constant-amplitude phase states $\psi_x = \frac{1}{\sqrt{d}}e^{i\theta_x}$ on $\mathbb{F}_2^n$ (empirically `min F_phase = 2.25..3.134` for $n=3..7$, with $n=4$ hitting exact $E_K = 0, E_H = 7/8$), isolating the genuine characteristic-2 2-plane phase obstruction where odd-prime $\mathbb{Z}_p$ Alltop states achieve $E_K = E_H = 0$.
+   - **Option B (Discrete Real-Sign Macroscopic Rank-1 Obstruction on $S(\sigma)$):** exploit $\sigma_p \in \{\pm 1\}$ hypercube discreteness and non-bilinear symplectic 2-cocycle coupling $\gamma(p, p\oplus r)$ across $r$ to prove either $\max_\sigma \sum_{r \neq 0} A_r(\sigma)^2 \le (1-\delta)d(d^2-1)^2$ ($\delta > 0$, simultaneously proving $\limsup c_n^* < 2$ and $\liminf F_n^* > 2$) or a direct macroscopic rank-1 defect on $r_t(\sigma)$ avoiding the sparse-spike loophole.
