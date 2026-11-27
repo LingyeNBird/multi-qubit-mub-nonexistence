@@ -46,3 +46,17 @@ Verifies that every main theorem depends ONLY on the three standard Lean 4 / Mat
 #print axioms MultiQubitMUB.GeneralContextualityLift.general_n_triangle_line_homomorphism
 #print axioms MultiQubitMUB.frustPairs_ge_five_seventeenths
 #print axioms MultiQubitMUB.signCubeSum_le_seven_seventeenths
+#print axioms MultiQubitMUB.signCubeSum_le_spectral
+#print axioms MultiQubitMUB.frustPairs_ge_spectral
+#print axioms MultiQubitMUB.frustPairs_ge_spectral_two_inv_sqrt
+#print axioms MultiQubitMUB.ellipticSignCubeSum_le_spectral
+#print axioms MultiQubitMUB.elliptic_frustPairs_ge_spectral
+#print axioms MultiQubitMUB.matTr_cube_ge_of_rayleigh
+#print axioms MultiQubitMUB.signCubeSum_ge_of_L1
+#print axioms MultiQubitMUB.pauliMoment4_ge_of_contextuality_const
+#print axioms MultiQubitMUB.avg_pauliExpect_z4Phase_eq_centralBinom
+#print axioms MultiQubitMUB.centralBinom_sq_ge
+#print axioms MultiQubitMUB.exists_signAssign_omega_inv_sqrt
+#print axioms MultiQubitMUB.frustPairs_spikeSign_all
+#print axioms MultiQubitMUB.spikeSign_frust_gap_eq
+#print axioms MultiQubitMUB.spikeSign_strictly_suboptimal_asymptotic
