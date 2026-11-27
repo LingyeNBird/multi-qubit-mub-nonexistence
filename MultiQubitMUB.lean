@@ -13,3 +13,4 @@ import MultiQubitMUB.FourQubitCDExact
 import MultiQubitMUB.GeneralContextualityLift
 import MultiQubitMUB.TwoQubitExactMin
 import MultiQubitMUB.AsymptoticContextuality
+import MultiQubitMUB.AsymptoticBarriers

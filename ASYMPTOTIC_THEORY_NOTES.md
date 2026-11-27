@@ -19,8 +19,8 @@ Let $n \ge 1$, $d = 2^n$, and let $P_p = i^{a\cdot b} Z^b X^a$ ($p = (a,b) \in \
   $$\mathrm{Tr}(S^3) = d\,(1 - 2\rho_n(\sigma))(d^2 - 1)\left(\frac{d^2}{2} - 2\right), \qquad c_n(\sigma) := \bigl(1 - 2\rho_n(\sigma)\bigr)\sqrt{d},$$
   where $\rho_n(\sigma) \in [0, 1]$ is the fraction of frustrated commuting (isotropic) lines $\{p, q, p\oplus q\}$ ($\omega(p, q) = 0$) in $W(2n-1, 2)$.
 
-### Already Machine-Verified in Lean 4 ([`MultiQubitMUB/AsymptoticContextuality.lean`](MultiQubitMUB/AsymptoticContextuality.lean))
-Zero `sorry`, zero `native_decide`, 53/53 audited theorems in [`Audit.lean`](Audit.lean) depending solely on `[propext, Classical.choice, Quot.sound]`:
+### Already Machine-Verified in Lean 4 ([`MultiQubitMUB/AsymptoticContextuality.lean`](MultiQubitMUB/AsymptoticContextuality.lean) & [`MultiQubitMUB/AsymptoticBarriers.lean`](MultiQubitMUB/AsymptoticBarriers.lean))
+Zero `sorry`, zero `native_decide`, **74/74 audited theorems** in [`Audit.lean`](Audit.lean) (53 baseline + 21 new in `AsymptoticBarriers.lean`, `peak_pgid_rss = 4800.5 MB`) depending solely on `[propext, Classical.choice, Quot.sound]`:
 1. **Exact Asymptotic Contextuality Law $1 - 2\rho_n = \Theta(2^{-n/2})$:**
    - Upper bound ($\forall n \ge 2$ on $W(2n-1, 2)$ and $\forall n \ge 3$ on every elliptic quadric $\mathcal{Q}^-(2n-1, 2)$):
      $$1 - 2\rho_n(\sigma) \le \frac{2\sqrt{d+1}}{d+2} < 2 \cdot 2^{-n/2}, \qquad \lim_{n \to \infty} \rho_n = \frac{1}{2}.$$
@@ -31,10 +31,15 @@ Zero `sorry`, zero `native_decide`, 53/53 audited theorems in [`Audit.lean`](Aud
 3. **Exact All-$n$ `spike` Frustration Formula & Asymptotic Suboptimality:**
    $$1 - 2\rho_n(\mathrm{spike}_n) = \frac{9(d - 2)}{(d + 1)(d + 2)} = \Theta(2^{-n}),$$
    strictly suboptimal for all $n \ge 12$ (and already at $n = 5$ via the rank-3 minimizer `31479` on $W(9,2)$ / `7087` on $\mathcal{Q}^-(9,2)$).
+4. **General-$n$ Barriers, Complete Quantitative Double Equivalence, and Arithmetic Obstructions ([`MultiQubitMUB/AsymptoticBarriers.lean`](MultiQubitMUB/AsymptoticBarriers.lean), 1,298 lines, 21 audited theorems):**
+   - Strict all-$n \ge 2, n \neq 3$ non-squareness, spectral contextuality, and 3-line cubic-trace no-Pauli-SIC (`pow_two_add_one_ne_sq`, `sqrt_pow_two_add_one_ne_rat`, `signCubeSum_lt_spectral`, `frustPairs_gt_spectral`, `no_pauli_sic_via_cubic_trace`);
+   - Exact linear quantitative double equivalence (`pauliL1_ge_of_pauliMoment4`, `pauliAlpha_ge_of_pauliMoment4`, `exists_unit_state_rayleigh_ge_cube`, `exists_unit_state_pauliL1_ge_of_signCubeSum`, `exists_unit_state_pauliAlpha_ge_of_frustPairs`);
+   - Pure-$c_p^2$ / Bell-sampling LP meta-obstruction (`qSIC_nonneg`, `sum_qSIC_eq_one`, `sympWHT_qSIC_eq`, `sympWHT_qSIC_pow_nonneg`, `qSIC_moment4_eq_welch`);
+   - Gaussian-integer congruence $(S(\sigma)+I)/2 \in M_d(\mathbb{Z}[i])$ & quantitative stabilizer-basis IPR obstruction (`signMat_diag_odd_int`, `signMat_offdiag_even_re_im`, `signMat_add_id_half_gaussInt`, `compBasisIPR_eq_sum_Z_pauliSq`, `compBasisIPR_eq_welch_of_flat_pauli`, `compBasisIPR_sub_welch_sq_le`).
 
 ---
 
-## 2. Crystallized General-$n$ Pure-Theory Results & Meta-Obstructions (Ready for Formalization)
+## 2. General-$n$ Pure-Theory Results & Meta-Obstructions (Machine-Verified in [`AsymptoticBarriers.lean`](MultiQubitMUB/AsymptoticBarriers.lean))
 
 ### 2.1 Three-Line Elementary Classification of Multi-Qubit Pauli-SICs & All-$n \ge 4$ Strict Welch Separation
 
@@ -220,12 +225,12 @@ Do **not** re-investigate any of the following (all decisively settled with exac
 
 ## 6. Next-Stage Pure-Theory Attack Roadmap
 
-1. **Route 1 (Immediate General-$n$ Lean 4 Formalization Package):**  
-   Formalize the four clean, zero-search all-$n$ theorems from Section 2 into a new module (under the 8 GB single-module build discipline):
-   - Theorem 2.1: 3-line classification of multi-qubit Pauli-SICs & strict Welch separation $F_n(|\psi\rangle) > \frac{2d}{d+1}$ ($\forall n \neq 1, 3$) and strict $1 - 2\rho_n(\sigma) < \frac{2\sqrt{d+1}}{d+2}$;
-   - Theorem 2.2: complete quantitative double equivalence $\liminf F_n^* = 2 \Rightarrow \limsup \alpha_n^* = 1 \Longleftrightarrow \limsup c_n^* = 2$;
-   - Proposition 2.3: pure-$c_p^2$ Bell-sampling LP meta-obstruction ($\widehat{q_{\mathrm{SIC}}^k} \ge 0$);
-   - Exact Gaussian-integer parity congruence $\frac{1}{2}(S(\sigma)+I) \in M_d(\mathbb{Z}[i])$.
+1. **Route 1 (COMPLETED & Machine-Verified in [`MultiQubitMUB/AsymptoticBarriers.lean`](MultiQubitMUB/AsymptoticBarriers.lean)):**  
+   All four general-$n$ pure-theory theorem groups from Section 2 are now formalized (1,298 lines, 21 audited theorems, 74/74 total in [`Audit.lean`](Audit.lean), `peak_pgid_rss = 4800.5 MB`, standard three Lean axioms only):
+   - Theorem 2.1: `pow_two_add_one_ne_sq`, `sqrt_pow_two_add_one_ne_rat`, `signCubeSum_lt_spectral`, `frustPairs_gt_spectral`, `no_pauli_sic_via_cubic_trace`;
+   - Theorem 2.2: `pauliL1_ge_of_pauliMoment4`, `pauliAlpha_ge_of_pauliMoment4`, `exists_unit_state_rayleigh_ge_cube`, `exists_unit_state_pauliL1_ge_of_signCubeSum`, `exists_unit_state_pauliAlpha_ge_of_frustPairs` (sharp linear $1 - O(2 - c_n)$ bound with exact equality on the Hoggar SIC at $n=3$);
+   - Proposition 2.3: `qSIC_nonneg`, `sum_qSIC_eq_one`, `sympWHT_qSIC_eq`, `sympWHT_qSIC_pow_nonneg`, `qSIC_moment4_eq_welch`;
+   - Section 2.4: `signMat_diag_odd_int`, `signMat_offdiag_even_re_im`, `signMat_add_id_half_gaussInt`, `compBasisIPR_eq_sum_Z_pauliSq`, `compBasisIPR_eq_welch_of_flat_pauli`, `compBasisIPR_sub_welch_sq_le`.
 2. **Route 2 (Hard Battle A — General $t = 4m$ $R_{4m}$-Ideal Theory):**  
    Compute $Q_{4m}$ directly inside the tiny $R_{4m}$-ideal (bypassing the full commutant) at $t = 12$ ($6:6$ cut) and derive the general-$m$ asymptotic law for $d_0(4m)$ (testing $2^{\Theta(m^2)}$ vs $(2m)!$ vs $4^{2m}$), and evaluate whether the $R_{4m}$-ideal alone gives an explicit closed-form PPT theorem for all $t = 4m$.
 3. **Route 3 (Hard Battle B — True Quantitative $\liminf F_n^* > 2$ or $\limsup c_n^* < 2$):**  
