@@ -1,6 +1,8 @@
 # Non-Existence of Multi-Qubit Pauli-Covariant MUB Fiducial States and Alltop Phase Functions on $\mathbb{F}_2^n$ ($n \ge 3$)
 
+[![Lean 4 CI](https://github.com/LingyeNBird/multi-qubit-mub-nonexistence/actions/workflows/lean_ci.yml/badge.svg)](https://github.com/LingyeNBird/multi-qubit-mub-nonexistence/actions/workflows/lean_ci.yml)
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.24566133.svg)](https://doi.org/10.5281/zenodo.24566133)
+[![Palomar Registry](https://img.shields.io/badge/Palomar-PALOMAR--2026--11--27--000023%20v1-blue)](https://palomar-registry.org/entry?id=PALOMAR-2026-11-27-000023&version=1)
 
 A self-contained, pure-kernel **Lean 4** formalization (zero `sorry`, zero `native_decide`, standard axioms `[propext, Classical.choice, Quot.sound]` only) resolving the multi-qubit Pauli-covariant MUB fiducial problem and the Alltop phase function problem over $\mathbb{F}_2^n$ for **all** $n \ge 3$ (both odd and even).
 
@@ -40,6 +42,10 @@ For the full publication-ready manuscript (compiled PDF + LaTeX source), see **[
 ├── PROOF.md                        # Concise Markdown proof mirroring Lean modules
 ├── README.md                       # Project overview and verification guide
 ├── Audit.lean                      # #print axioms audit on all 10 main theorems
+├── Challenge.lean                  # Palomar trusted statement file (Mathlib-only, 10 theorems)
+├── Solution.lean                   # Palomar solution module bridging to MultiQubitMUB
+├── comparator.json                 # Palomar / lake comparator configuration
+├── formalization.yaml              # Palomar Registry structured metadata (v0.4)
 ├── MultiQubitMUB.lean              # Root Lean library aggregator
 ├── MultiQubitMUB/
 │   ├── GaussianInt.lean            # Elementary Z[i] norm & (1+i)-divisibility descent (zero UFD)
@@ -83,4 +89,5 @@ python3 scripts/verify_claims.py
 
 - **Author**: Zhaoting Ye (Independent Researcher; ORCID: [0009-0006-8457-0482](https://orcid.org/0009-0006-8457-0482); Email: `lingyenbird@qq.com`)
 - **Archival DOI (Zenodo)**: [`10.5281/zenodo.24566133`](https://doi.org/10.5281/zenodo.24566133) (concept DOI, resolves to latest release `v1.1`)
+- **Palomar Registry (Independent Multi-Kernel Verification)**: [`PALOMAR-2026-11-27-000023 v1`](https://palomar-registry.org/entry?id=PALOMAR-2026-11-27-000023&version=1) (10 compared declarations, `Mathlib`-only statement dependencies, independently verified by Lean 4, `nanoda`, and `con-ron` kernels; automated editorial review, not human peer review)
 - **AI Assistance & Independent Verification**: In the interest of full transparency, the bulk of the technical work in this repository—including mathematical proof discovery, Lean 4 formalization, companion computational scripts, and manuscript drafting—was carried out using AI systems under the author's problem selection, direction, and oversight. The mathematical validity of the formalized theorems does not rely on trusting any AI system or human check: all 10 audited declarations in `Audit.lean` are machine-checked end-to-end inside Lean 4's pure kernel (`v4.36.0`, zero `sorry`, zero `native_decide`, standard foundational axioms `[propext, Classical.choice, Quot.sound]` only), alongside reproducible scripts in `scripts/`.
