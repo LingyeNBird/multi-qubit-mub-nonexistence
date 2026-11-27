@@ -1,4 +1,4 @@
-# General-$n$ Asymptotic Magic, Pauli Contextuality, and Clifford-PPT Phase Transitions: Theory Notes & Insights (Stages 12–16)
+# General-$n$ Asymptotic Magic, Pauli Contextuality, and Clifford-PPT Phase Transitions: Theory Notes & Insights (Stages 12–17)
 
 > **Branch:** `explore/asymptotic-theory` (building on verified Lean 4 baseline `73bad0e`, zero edits to upstream `FourQubit*.lean`, `TwoQubitExactCert.lean`, or `main`).  
 > **Scope:** Pure general-$n$ theoretical results, exact closed-form Clifford-PPT witness theorems, spectral/Kerdock structural dissections, sharp meta-obstructions, and concrete attack blueprints for the two remaining asymptotic conjectures:
@@ -323,6 +323,58 @@ Directly maximizing $\alpha_n(\psi)$ and $c_n(\sigma)$ (ignoring $F_n$) via smoo
 
 ---
 
+### 4.4 Stage 17 Invention — New Tool 1: Pauli-Slicing Renormalization ($n \to n - 1$) & the Two-State Support-Disjointness Uncertainty Functional $\mathcal{J}_m$
+
+#### (1) Motivation: Diagnosing the Structural Mismatch of Existing Tools
+Stages 12–16 revealed why every off-the-shelf toolkit stalls before an $O(1)$ gap:
+- **Spectral / SDP / Clifford-PPT moments** only see low-degree continuous moments, are blind to $\mathbb{F}_2^n$ vs $\mathbb{Z}_d$ until $t = \Omega(n)$ (Dead End #8), and suffer super-exponentially vanishing margins;
+- **Additive combinatorics ($U^3$ inverse theorems)** are built for *large* $U^3$ norms of $L_\infty$-bounded functions, whereas we need an *anti-pseudorandomness lower bound* on unbounded $L_2$-normalized quantum amplitudes;
+- **Integrality / Galois / Fermat rigidity** sees characteristic 2 sharply but yields only $\mathrm{poly}(1/d)$ continuous stability (Dead End #10).
+
+A bespoke tool for $\liminf F_n^* > 2$ must (i) explicitly exploit characteristic-2 real Pauli expectations $c_p \in \mathbb{R}$, (ii) fail sharply on both Golden Litmus Tests ($n=3$ Hoggar and $\mathbb{Z}_d$ Zauner), and (iii) output a direct $O(1)$ macroscopic obstruction without modular arithmetic.
+
+#### (2) Exact Pauli-Slicing Renormalization Identity & Unconditional 2-Line Reduction Theorem
+For any $n$-qubit pure state $|\psi\rangle$ ($d = 2^n$, $D = d/2 = 2^{n-1}$) and any non-zero Pauli $P_q$ (conjugated by Clifford to $Z_1$), write
+$$|\psi\rangle = \sqrt{w_+}\,|0\rangle|\psi_+\rangle + \sqrt{w_-}\,|1\rangle|\psi_-\rangle, \qquad w_\pm = \frac{1 \pm c_{Z_1}(\psi)}{2}, \quad \|\psi_\pm\| = 1.$$
+Define the $(n-1)$-qubit cross-Pauli overlaps $z_r := \langle \psi_+ | P_r | \psi_- \rangle \in \mathbb{C}$, the support-overlap functional
+$$G_{n-1}(\psi_+, \psi_-) := \sum_{r \in \mathbb{F}_2^{2(n-1)}} c_r(\psi_+)^2 c_r(\psi_-)^2 = \sum_{r \in \mathbb{F}_2^{2(n-1)}} |z_r|^4 = 1 + C(\psi_+, \psi_-),$$
+and the relative-phase term $Q_{\mathrm{phase}}(\psi_+, \psi_-) := \sum_r \bigl((\mathrm{Re}\,z_r)^2 - (\mathrm{Im}\,z_r)^2\bigr)^2 \ge 0$. Expanding all $4^n$ Paulis $\{I, Z, X, Y\} \otimes P_r$ using real expectations $(x+y)^4 + (x-y)^4 = 2x^4 + 2y^4 + \mathbf{12}x^2 y^2$, $a^4 + b^4 = \frac{1}{2}(a^2+b^2)^2 + \frac{1}{2}(a^2-b^2)^2$, and symplectic Parseval $\sum_r |z_r|^4 = G_{n-1}(\psi_+, \psi_-)$ yields:
+
+- **Theorem 4.4A (Exact Pauli-Slicing Identity, verified to `0.00e+00`–`1.51e-14` on $n = 3..6$):**
+  $$F_n(\psi) = 2 w_+^4 F_{n-1}(\psi_+) + 2 w_-^4 F_{n-1}(\psi_-) + \mathbf{20}\, w_+^2 w_-^2 G_{n-1}(\psi_+, \psi_-) + 8 w_+^2 w_-^2 Q_{\mathrm{phase}}(\psi_+, \psi_-).$$
+- **Theorem 4.4B (Unconditional Universal Reduction to Two-State Functional $\mathcal{J}_{n-1}^*$, $\forall n \ge 1$):**
+  Since $\sum_{q \neq 0} c_q(\psi)^2 = d - 1$, every pure state admits a non-zero Pauli $P_q$ with $|c_q(\psi)| \le \frac{1}{\sqrt{d+1}}$, hence $w_\pm \ge \frac{1 - (d+1)^{-1/2}}{2}$. Dropping $Q_{\mathrm{phase}} \ge 0$ and decoupling $|\psi_\pm\rangle$ immediately yields:
+  $$F_n^* \;\ge\; \left(1 - \frac{1}{\sqrt{2^n + 1}}\right)^4 \mathcal{J}_{n-1}^*, \qquad \mathcal{J}_m(\phi_+, \phi_-) := \frac{F_m(\phi_+) + F_m(\phi_-)}{8} + \frac{5}{4} G_m(\phi_+, \phi_-).$$
+  Furthermore, writing $F_m(\phi_+) = 1 + A$, $F_m(\phi_-) = 1 + B$, $G_m = 1 + C$, Cauchy–Schwarz $A + B + 2C \ge \frac{4(D-1)}{D+1}$ gives
+  $$\mathcal{J}_m(\phi_+, \phi_-) = \frac{3}{2} + \frac{A + B + 2C}{8} + C \;\ge\; 2 - \frac{1}{2^m + 1} + C(\phi_+, \phi_-).$$
+  Thus **$\liminf_{m\to\infty} \mathcal{J}_m^* > 2 \implies \liminf_{n\to\infty} F_n^* > 2$** unconditionally, with zero near-Welch hypothesis and zero sparse-spike loophole!
+
+#### (3) Why New Tool 1 Passes Both Golden Litmus Tests & Exposes Quantum Coherence
+1. **Litmus Test 2 ($\mathbb{Z}_d$ Zauner SIC fails cleanly):** On $\mathbb{Z}_d$, substate expectations $c_r(\psi_\pm) \in \mathbb{C}$ can differ by a $90^\circ$ phase, dropping the commuting cross-term coefficient in $|u+v|^4 + |u-v|^4$ from **$12$ down to $4$** and destroying the support-disjointness penalty $+C$. Only characteristic-2 real Pauli expectations $c_r \in \mathbb{R}$ force the $+20 w_+^2 w_-^2 G_{n-1}$ disjointness barrier.
+2. **Litmus Test 1 ($n = 3$ Hoggar SIC exact saturation):** At $n = 3$ ($w_+ = 2/3, w_- = 1/3$), $|\psi_-\rangle$ is a 2-qubit stabilizer state ($F_2 = 4$, supported on 3 Paulis) and $|\psi_+\rangle$ is a 2-qubit Alltop state ($F_2 = 7/4$, supported on the complementary 12 Paulis), giving $G_2 = 1$, $Q_{\mathrm{phase}} = 0$, and $2(2/3)^4(7/4) + 2(1/3)^4(4) + 20(4/81)(1) = \mathbf{16/9}$ with zero slack. For large $m$, stabilizer states explode ($F_m = 2^m \to \infty$), permanently closing Hoggar's asymmetric escape hatch.
+3. **Abstract Polytope vs Pure-State Coherence Contrast:**
+   - Inside the Bell+Theorem-B convex polytope $\mathcal{P}_m$ of non-negative vectors of squares ($x \ge 0, x_0 = 1, \widehat{x} = D x, \sum_r (-1)^{Q_p(r)} x_r \ge 0$), an elliptic quadric $Q_0 = 1$ is cut off by Theorem B, **but** taking $x = \frac{2}{D}\sum_{k < D/2} \mathbf{1}_{L_k}$ and $y = \frac{2}{D}\sum_{k \ge D/2} \mathbf{1}_{L_k}$ (averaging disjoint halves of a complete MUB spread) achieves $C = 0$ and $\mathcal{J}_m(x, y) = 2 - \frac{1}{2D} < 2$.
+   - For **actual quantum states**, linear mixing destroys purity ($\mathrm{Tr}(\rho^2) = O(1/D) \ll 1$), while coherent pure-state superpositions of disjoint MUB halves produce cross-MUB interference that **destroys support disjointness ($C \ge 0.13\text{–}0.56$)**.
+   - Moreover, $C \to 0$ forces **simultaneous Pauli unbiasedness of $|\phi_-\rangle$ against BOTH $|\phi_+\rangle$ and $|\phi_+^*\rangle$**: $|\langle\phi_+|P_s|\phi_-\rangle|^2 \approx 1/D$ AND $|\langle\phi_+^*|P_s|\phi_-\rangle|^2 \approx 1/D$ for all $s \in \mathbb{F}_2^{2m}$, while $F_m(\phi_\pm) \approx 3$.
+
+#### (4) First Empirical Stress-Test (`stage17_probe1`, `stage17_probe2`, $m = 1..7$)
+Unconstrained Riemannian Barzilai–Borwein minimization of $\mathcal{J}_m(\phi_+, \phi_-)$ (completely dropping $Q_{\mathrm{phase}}$ and decoupling $|\phi_\pm\rangle$), including adversarial coherent superpositions of disjoint Desarguesian MUB halves:
+
+| $m$ | $D = 2^m$ | $n = m+1$ | **Free equal-$w$ $\mathcal{J}_m^*$** | Free weighted $\mathcal{J}_m^{\mathrm{wt}*}$ | $F_+$ / $F_-$ | **$C = G_m - 1$** | MUB-half raw $\to$ opt | Real pair $\mathcal{J}_m^{\text{real}}$ | Actual $F_{m+1}^*$ |
+|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|
+| 1 | 2 | 2 | `1.687500` | `1.630669` | `1.500 / 2.000` | `0.00000` | — | `1.750` | `1.7500` |
+| **2** | **4** | **3** | **`1.968750`** | **`1.777778` (`16/9`)** | `1.750 / 4.000` | **`0.00000`** | — | `2.250` | `1.7778` |
+| **3** | **8** | **4** | **`2.102293`** | **`2.008220` (`> 2`)** | `2.705 / 2.813` | **`0.13009`** | `2.553 -> 2.102` | `2.594` | `2.1505` |
+| **4** | **16** | **5** | **`2.335287`** | **`2.321481`** | `2.756 / 3.260` | **`0.26658`** | `2.926 -> 2.335` | `2.897` | `2.5490` |
+| **5** | **32** | **6** | **`2.395299`** | **`2.413045`** | `3.077 / 3.077` | **`0.30081`** | `3.179 -> 2.415` | `3.440` | `2.6016`* |
+| **6** | **64** | **7** | **`2.269891`** | **`2.261085`** | `2.882 / 3.382` | **`0.18959`** | `3.397 -> 2.270` | `3.458` | `2.3723` |
+| **7** | **128** | **8** | **`2.816018`** | — | `3.445 / 3.491` | **`0.55920`** | `3.439 -> 2.816` | — | `2.7917` |
+
+*(Bonus: `stage17_probe1` Part 3 also improved the empirical 6-qubit minimum to `F_6 = 2.601601` vs prior `2.7237`.)*  
+**Key Anatomical Signals:** (i) $\mathcal{J}_m^*$ tracks $F_{m+1}^*$ within `0.05–0.21` across $m=3..6$ and bounces strongly back up at $m=7$ (`2.816`), showing almost the entire $> 2$ obstruction survives after dropping $Q_{\mathrm{phase}}$ and decoupling $|\phi_\pm\rangle$; (ii) at $m=3$, $|\phi_-\rangle$ is a real state (`28` exact zeros, `max w_p = 1.0`) colliding directly with Theorem B; (iii) at $m=5, 6$, neither state is real (`max w_p ≈ 0.20`), yet both slam onto the **boundary of the Theorem B cone (`min w_p = 0.0000`)** while still suffering $C \ge 0.19$.
+
+---
+
 ## 5. Complete Verified Dead-End Ledger (Through Stage 16)
 
 Do **not** re-investigate any of the following (all decisively settled with exact data or proofs):
@@ -353,7 +405,7 @@ Do **not** re-investigate any of the following (all decisively settled with exac
    The complete $O^\varepsilon(4m-2,2)$ bidiagonal projection $Q_{\mathrm{orth}}^{(4m,2r)}(d)$, universal stabilizer identity, exact $C_2(4m,2r) > 0$ ($t \ge 16$) sign-flip theorem, $t=12/16$ phase transitions ($d_0(12,6) \approx 550\text{–}650$, $d_0(4m,2m) = \Theta(2^{4m})$), and double obstruction are resolved (Section 3.4) and their general-$m, s, \varepsilon, d$ algebraic core is machine-verified in [`AsymptoticChar2Theory.lean`](MultiQubitMUB/AsymptoticChar2Theory.lean).
 3. **Option C — Stage 15–16 General-$n$ / General-$m$ Pure-Theory Package (COMPLETED & Machine-Verified in [`MultiQubitMUB/AsymptoticChar2Theory.lean`](MultiQubitMUB/AsymptoticChar2Theory.lean)):**  
    2,198 lines, 26 audited theorems across all 5 unconditional theorem groups (Gowers-$U^3$ & real floor, Theorem A individual-coset floor, Theorem B complex-symmetric $\Sigma$ duality & Takagi bound, 3B autocorrelation & quartic sandwich, Stage 15 $q=2$ Chu–Vandermonde / $O^\varepsilon(2s,2)$ / $C_2 > 0$ & Theorem C Fermat two-squares descent); **100 / 100 audited theorems** in [`Audit.lean`](Audit.lean) (`peak_pgid_rss = 4936.2 MB`, standard three Lean axioms only).
-4. **Remaining Open Frontier (Hard Battle B — Bridging Continuous Stability to an $O(1)$ Macroscopic Gap):**  
-   With both conjectures strongly backed by Stage 16 boundary calibration ($c_n^*$ peaking at $n = 7$ at `1.79675` and dropping to `1.62881` at $n = 8$ and `1.59078` at $n = 9$) and all 10 dead ends cleanly eliminated, the two sharpest open pure-theory targets are:
-   - **Option A (Characteristic-2 Phase-State Gowers-$U^3$ Lower Bound):** prove an unconditional constant lower bound on constant-amplitude phase states $\psi_x = \frac{1}{\sqrt{d}}e^{i\theta_x}$ on $\mathbb{F}_2^n$ (empirically `min F_phase = 2.25..3.134` for $n=3..7$, with $n=4$ hitting exact $E_K = 0, E_H = 7/8$), isolating the genuine characteristic-2 2-plane phase obstruction where odd-prime $\mathbb{Z}_p$ Alltop states achieve $E_K = E_H = 0$.
-   - **Option B (Discrete Real-Sign Macroscopic Rank-1 Obstruction on $S(\sigma)$):** exploit $\sigma_p \in \{\pm 1\}$ hypercube discreteness and non-bilinear symplectic 2-cocycle coupling $\gamma(p, p\oplus r)$ across $r$ to prove either $\max_\sigma \sum_{r \neq 0} A_r(\sigma)^2 \le (1-\delta)d(d^2-1)^2$ ($\delta > 0$, simultaneously proving $\limsup c_n^* < 2$ and $\liminf F_n^* > 2$) or a direct macroscopic rank-1 defect on $r_t(\sigma)$ avoiding the sparse-spike loophole.
+4. **Remaining Open Frontier (Hard Battle B — Stage 17 Primary Thrust: New Tool 1 & Companion Attacks):**  
+   - **Primary Thrust (New Tool 1 — Pauli-Slicing Renormalization & Two-State Disjointness $\mathcal{J}_m^* > 2$, Section 4.4):** Unconditionally reduces $\liminf F_n^* > 2$ to $\liminf \mathcal{J}_m^* > 2$ (Theorem 4.4B), passes both Golden Litmus Tests, and empirically holds $\mathcal{J}_m^* \in [2.10, 2.82]$ across $m = 3..7$. Immediate pure-theory attack: (i) confirm $m = 7$ convergence against 9-block Kerdock slices and dissect the exact zero-sets / Theorem-B boundary geometry of $m = 3..6$ minimizers; (ii) prove an unconditional general-$m$ lower bound on real-state pairs $\mathcal{J}_m(\phi_{\text{real}}, \phi_-)$ via Theorem B; (iii) exploit simultaneous Pauli unbiasedness against $|\phi_+\rangle$ & $|\phi_+^*\rangle$, rank-1 multiplication $\rho_\pm^2 = \rho_\pm$, and/or 2-step slicing ($n \to n-1 \to n-2$) to attack general pure-state pairs $\mathcal{J}_m(\phi_+, \phi_-) \ge 2 + \delta_0$.
+   - **Companion Option A (Characteristic-2 Phase-State Gowers-$U^3$ Lower Bound):** prove an unconditional constant lower bound on constant-amplitude phase states $\psi_x = \frac{1}{\sqrt{d}}e^{i\theta_x}$ on $\mathbb{F}_2^n$ (empirically `min F_phase = 2.25..3.134` for $n=3..7$, with $n=4$ hitting exact $E_K = 0, E_H = 7/8$), isolating the genuine characteristic-2 2-plane phase obstruction where odd-prime $\mathbb{Z}_p$ Alltop states achieve $E_K = E_H = 0$.
+   - **Companion Option B (Discrete Real-Sign Macroscopic Rank-1 Obstruction on $S(\sigma)$):** exploit $\sigma_p \in \{\pm 1\}$ hypercube discreteness and non-bilinear symplectic 2-cocycle coupling $\gamma(p, p\oplus r)$ across $r$ to prove either $\max_\sigma \sum_{r \neq 0} A_r(\sigma)^2 \le (1-\delta)d(d^2-1)^2$ ($\delta > 0$, simultaneously proving $\limsup c_n^* < 2$ and $\liminf F_n^* > 2$) or a direct macroscopic rank-1 defect on $r_t(\sigma)$ avoiding the sparse-spike loophole.

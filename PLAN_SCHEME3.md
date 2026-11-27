@@ -1,6 +1,6 @@
 # 方案 3 执行计划：先固化一般 $n$ 基础理论包（路线 1），再新开会话双线攻坚硬仗 A & B（路线 2 + 路线 3）
 
-> **分支：** `explore/asymptotic-theory`（阶段一已入库 `4ff8c18`，Stage 15 战线 2 结题已入库 `a6625d7`，本次更新至 **Stage 16 战线 3 3A+3B 攻坚与选项 C 26 条一般 $n$/一般 $m$ 定理全量 Lean 4 形式化**，对应理论综述 [ASYMPTOTIC_THEORY_NOTES.md](ASYMPTOTIC_THEORY_NOTES.md)）  
+> **分支：** `explore/asymptotic-theory`（阶段一 `4ff8c18`、Stage 15 战线 2 `a6625d7`、Stage 16 + 选项 C 100/100 审计 `038aae3` 均已入库；本次记录 **Stage 17 新工具 1：Pauli 切片重整化与双态支集互斥测不准泛函 $\mathcal{J}_m$** 并随即转入纯理论深挖，对应综述 [ASYMPTOTIC_THEORY_NOTES.md](ASYMPTOTIC_THEORY_NOTES.md)）  
 > **总原则：** 严格遵守 `idea/12` 五条研究宪章与 15 GB WSL2 低内存编译铁律；绝不退回有限 $n$ 刷分/造证书；绝不修改任何上游 `FourQubit*.lean`、`TwoQubitExactCert.lean`、`AsymptoticContextuality.lean` 已过审定理、`main` 分支或隔壁目录 `/home/admin/projects/e28_multiqubit_magic_main`。
 
 ---
@@ -76,6 +76,10 @@
      4. 3B 辛自相关展开 $S(\sigma)^2$、三次/四次迹与精确夹逼 $(\alpha_n^*)^4 \le \max_\sigma \mathrm{Tr}(S^4)/T_2^2 \le (\alpha_n^*)^2$（6 条）；
      5. Stage 15 普适 $q=2$ Chu–Vandermonde 望远镜恒等式、$O^\varepsilon(2s,2)$ 上双对角递推、普适稳定子比值与非负性、$C_2(4m,2r) > 0$（$\forall m \ge 4$）与 Theorem C 费马双平方降阶（6 条）。
 
-3. **后续纯理论主攻待选方向（跨越 $\mathrm{poly}(1/d) \to O(1)$ 宏观鸿沟）**：
-   - **选项 A（特征 2 常振幅相态 Gowers-$U^3$ 下界）**：在 $\psi_x = \frac{1}{\sqrt{d}}e^{i\theta_x}$ 上攻克干净的特征 2 2-平面相干下界（对照奇素数 $\mathbb{Z}_p$ Alltop 的 $E_K=E_H=0$，解释并证明 $n \ge 4$ 下 `E_H ≥ Ω(1)`）；
-   - **选项 B（离散实符号 $S(\sigma)$ 宏观秩-1 偏离障碍）**：利用 $\sigma_p \in \{\pm 1\}$ 离散性与非双线性辛 2-上循环 $\gamma(p, p\oplus r)$ 跨 $r$ 耦合，冲击 $\max_\sigma \sum_{r\neq 0} A_r(\sigma)^2 \le (1-\delta)d(d^2-1)^2$ 或直接封堵稀疏尖峰漏洞。
+3. **Stage 17 专研新工具 1（当前主攻 — Pauli 切片重整化与双态支集互斥测不准泛函 $\mathcal{J}_m$，详见 [`ASYMPTOTIC_THEORY_NOTES.md`](ASYMPTOTIC_THEORY_NOTES.md) Section 4.4）**：
+   - **发明动机**：打破现有三大工具（谱矩/SDP/Clifford-PPT、大 $U^3$ 逆定理、$\mathrm{poly}(1/d)$ 整性刚性）与问题本质的错配，构造一条显式利用特征 2 实期望 $c_p \in \mathbb{R}$、精确过双试金石、且直接输出 $O(1)$ 宏观量的专用工具。
+   - **精确切片重整化恒等式与无条件 2 行普适归约**：对任意 $n$-比特纯态按最小 $|c_q(\psi)| \le (d+1)^{-1/2}$ 的 Pauli $P_q$ 切片，扔掉相位项 $Q_{\mathrm{phase}} \ge 0$ 并解耦两子态，无条件得
+     $$F_n^* \;\ge\; \left(1 - \frac{1}{\sqrt{2^n + 1}}\right)^4 \mathcal{J}_{n-1}^*, \qquad \mathcal{J}_m(\phi_+, \phi_-) := \frac{F_m(\phi_+) + F_m(\phi_-)}{8} + \frac{5}{4} G_m(\phi_+, \phi_-) \;\ge\; 2 - \frac{1}{2^m + 1} + C(\phi_+, \phi_-).$$
+   - **双试金石与首轮验金硬数据（`stage17_probe1`, `probe2`）**：$\mathbb{Z}_d$ 上因复相位 $90^\circ$ 抵消使系数 $12 \to 4$（无支集互斥惩罚）；$n=3$ Hoggar 处加权 $\mathcal{J}_2^{\mathrm{wt}*}$ 精确命中 **`16/9 = 1.777778`**（$C=0$）；自 $m=3$（$n=4$）起自由双态极小值全线卡在 **`2.102 (m=3), 2.335 (m=4), 2.395 (m=5), 2.270 (m=6), 2.816 (m=7)`**（$C \in [0.130, 0.559]$），对抗性 MUB 半数相干叠加攻击全部失败，且 $m=5, 6$ 极值双态同时撞在 Theorem B 锥边界（`min w_p = 0.0000`）。
+   - **即时深挖主线**：(a) 复核 $m=7$ 收敛度（含 9-block Kerdock 切片）并深度解剖 $m=3..6$ 极值双态的零点集/群结构；(b) 先证一般 $m$ 实态双态下界 $\mathcal{J}_m(\phi_{\text{real}}, \phi_-)$；(c) 结合“同时对 $|\phi_+\rangle, |\phi_+^*\rangle$ Pauli-无偏”、秩-1 乘法律 $\rho_\pm^2 = \rho_\pm$ 及二级切片重整化（$n \to n-1 \to n-2$）冲击一般纯态对的 $\mathcal{J}_m^* \ge 2 + \delta_0$。
+   - **并行储备方向**：选项 A（特征 2 常振幅相态 Gowers-$U^3$ 下界）与选项 B（离散实符号 $S(\sigma)$ 宏观秩-1 偏离障碍）。
