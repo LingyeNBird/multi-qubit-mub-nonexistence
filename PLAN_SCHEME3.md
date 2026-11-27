@@ -70,7 +70,7 @@
      - `python3 idea/safe_lake_build.py MultiQubitMUB`：exit 0，3.0s，`peak_pgid_rss = 4495.9 MB`；
      - `lake env lean -M 8192 -j 1 Audit.lean`：**100 / 100** 条定理（74 条既有 + 26 条新增）100% 仅依赖 `[propext, Classical.choice, Quot.sound]`。
    - **已形式化的 5 组无条件一般 $n$ / 一般 $m$ 定理**：
-     1. 特征 2 Gowers-$U^3(\mathbb{F}_2^n)$ 方盒实性、$F_n = d\sum H^2$、非负超 Welch 分解与实态下界 $F_n \ge 3 - 2/d$（4 条）；
+     1. 特征 2 Gowers-$U^3(\mathbb{F}_2^n)$ 方盒实性、$F_n = d\sum H^2$、非负超 Welch 分解与实态下界 $F_n \ge \frac{3d}{d+2} = 3 - \frac{6}{d+2}$（4 条）；
      2. Theorem A 单陪集精确公式 $S_{\mathrm{indiv,Abs}}, S_{\mathrm{indiv,Re}}$ 与 Welch 下界 $\frac{2d(d-17)}{(d+1)^2}$（4 条）；
      3. Theorem B 复对称 $\Sigma = |\psi\rangle\langle\psi^*|$ 辛 Parseval 对偶与 Takagi 下界（6 条）；
      4. 3B 辛自相关展开 $S(\sigma)^2$、三次/四次迹与精确夹逼 $(\alpha_n^*)^4 \le \max_\sigma \mathrm{Tr}(S^4)/T_2^2 \le (\alpha_n^*)^2$（6 条）；
@@ -98,5 +98,9 @@
      3. **显式手造 $m = 2k+1 \ge 5$ 无稳定子 $C = 0$ 精确反例族与相位死锁**：$|\phi_+\rangle = \frac{1}{\sqrt{2}}(|0\rangle|0^{2k}\rangle + |1\rangle|+^{2k}\rangle)$ 与实 bent 态对 $|\phi_-\rangle = \frac{1}{\sqrt{2}}(|0\rangle|\beta_0\rangle + i|1\rangle|\beta_1\rangle)$ 在 $m = 5, 7$ 精确实现 `C = 0` 且零稳定子（`max c_q^2 = 0.25`），但两扇区零干涉将相位死锁为 100% Clifford-实态（`max w_p = 1`），恰好被已形式化 Theorem 17.4 另一半捕获（$\mathcal{J}_5 = 2.6875 \ge 17/8$）；
      4. **统一 $\Lambda$-互斥定量权衡律**：对合并 Theorem 17.4 两半的统一峰值 $\Lambda := \max(\max_{q\neq 0} c_q^\pm{}^2, \max_{Q_0=0} w_p^\pm)$，硬约束 $\Lambda \le \tau$ 下 $m = 2..5$ 全线满足 $C_{\min}(\tau)/(1-\tau)^2 \ge 0.82\text{–}2.19$（与 $m$ 无关），任意常数下界 $C \ge \kappa(1-\Lambda)^2$ 联立 Theorem 17.4 即刻闭合 $\liminf F_n^* > 2$；
      5. **精确自对偶扭转自相关恒等式（Identities I & II）**：对所有纯态对和 $s, h$，2 行 `SWAP` 证得 $\Phi_h(p) = \gamma(p, h)f(p)f(p\oplus h)$ 为辛 WHT 自对偶本征函数（$C=0$ 时每个 $\Phi_h$ 均为自对偶单位模复 bent 函数）。
-   - **当前主攻路线**：(1) 先做 $\Lambda < 1$ 复 bent 反例排雷与素数群 $\mathbb{Z}_p$ 极小点解剖；(2) 以无真子群、无实态 $Q_0$ 干扰的**素数群 $\mathbb{Z}_p$** 为突破口主攻普适有限阿贝尔群双态时频测不准定理（$C_{\mathbb{Z}_p} = 0$ 刚性与 $\mathcal{J}_G^* > 2$），同步利用 Identities I & II 推进 $\mathbb{F}_2^m$ 统一 $\Lambda$-刚性证明。
-   - **并行储备方向**：选项 A（特征 2 常振幅相态 Gowers-$U^3$ 下界）与选项 B（离散实符号 $S(\sigma)$ 宏观秩-1 偏离障碍）。
+   - **Stage 17 二轮纯理论攻坚新定理与元障碍（`probe8`–`probe10`，详见 [`ASYMPTOTIC_THEORY_NOTES.md`](ASYMPTOTIC_THEORY_NOTES.md) Section 4.4(8) 与 Section 5 #12）**：
+     - **Theorem 17.5（全维各向同性子空间与统一二次曲面-子空间陪集下界，$\forall 1 \le k \le m$）**：$\sum_{r\in H^\perp\setminus\{0\}} c_r^2 = \frac{D}{2^k}(1+\sum_{q\in H\setminus\{0\}} c_q^2) - 1 \implies \mathcal{J}_m \ge 2 + \frac{S_H^2}{2(2^k-1)} - O(D^{-1})$（$k$ 个稳定子立得 $\ge 2 + \frac{2^k-1}{8}$；甚至不靠实态性即可直接对无稳定子 bent $C=0$ 族证出 $\mathcal{J}_{2k+1} \ge 2 + \frac{D}{256} \to \infty$），以及统一陪集恒等式 $\sum_{r\in H^\perp, Q_{p_0}(r)=0} c_r^2 = \frac{D}{2^{k+1}}\sum_{q\in H}(c_q^2 + w_{p_0\oplus q})$（`probe10` 验算至 `4.4e-16`）；
+     - **Theorem 17.6（3 行初等全 $m$ 实 Pauli-SIC 完整分类定理）**：由 $\mathrm{Tr}(S_{\mathrm{real}}^3) \in \mathbb{Z}$ 迫出 $\sqrt{2^{m-1}+1} \in \mathbb{Q} \iff m \in \{1, 4\}$，与复 Pauli-SIC 分类 $n \in \{1, 3\}$ 形成双星对偶（`probe10` 精确验证 $m=4$ 135-点实 Pauli-SIC 达 $F_4 = 8/3$，`3.55e-15` 精度；一切 $m \ge 2, m \neq 4$ 严格有 $F_m(\phi_{\text{real}}) > \frac{3D}{D+2}$）；
+     - **$\mathbb{Z}_p$ Singer 环面遍历性与 $m=6$ 排雷（`probe8`, `probe9`）**：精确识别 $\mathbb{Z}_7$ 全局极小点 `1.992207` 为 $SL(2, \mathbb{F}_7)$ Singer 特征态对，但大素数下因量子遍历性趋于 $\mathcal{J} \to 3.0$（$p=97$ 达 `2.922`）；$m=6$ 上 $\Lambda \le \tau$ 的 $C_{\min}(\tau)/(1-\tau)^2$ 进一步升至 `0.921–3.474`；
+     - **元障碍 #12（$\mathcal{J}_m$ 固定阶 $t$-拷贝 PPT 与低拷贝卷积天花板）**：将 $y_H(2D)$ 按第 0 比特切片即得 $t$-拷贝 PPT 合法伪态使 $\mathcal{J}_m \le \frac{4D}{2D+1} < 2$（$t=8$ 涵盖所有 $2D \ge 100$），锁死一切固定阶 $t$ 对称 PPT/矩矩阵 SDP（含 3-拷贝 Pauli 卷积 $\rho^{\boxtimes 3} \succeq 0$）。
+   - **当前前沿选项**：(a) 将已完备证明的 Theorems 17.5–17.6 + Identities I–II 形式化固化入 Lean 4；(b) 在死胡同 #1–#12 之外，专攻真正无限阶 / $\ell_\infty$ / 秩-1 路径（素数群 $\mathbb{Z}_p$ 平坦 STFT 代数刚性与统一 $\Lambda$-互斥下界，或 $\mathbb{F}_2^n$ 相态常数间隙 $F_n^{\text{phase}} \ge 2 + \delta_0$）。
