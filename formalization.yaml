@@ -96,9 +96,9 @@ sources:
     note: "Constructs the 3-qubit (d = 8) Hoggar SIC-POVM recovered at n = 3, s = 2/3 in hoggar_sic_three."
 
 related_formalizations:
-  - id: "https://doi.org/10.5281/zenodo.24565157"
+  - id: "https://palomar-registry.org/entry?id=PALOMAR-2026-11-27-000019&version=1"
     relationship: independent
-    note: "Companion Lean 4 formalization by the same author (two-qubit-maximal-magic) proving the sharp n = 2 maximal magic conjecture for all α >= 2."
+    note: "Companion Lean 4 formalization by the same author (two-qubit-maximal-magic, PALOMAR-2026-11-27-000019 v1; Zenodo concept DOI 10.5281/zenodo.24565157) proving the sharp n = 2 maximal magic conjecture for all α >= 2."
 
 status:
   scope: >-
