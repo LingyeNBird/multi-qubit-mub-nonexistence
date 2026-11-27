@@ -28,3 +28,6 @@ Verifies that every main theorem depends ONLY on the three standard Lean 4 / Mat
 #print axioms MultiQubitMUB.FourQubitMUB.symp_turan_unified
 #print axioms MultiQubitMUB.FourQubitMUB.mainTree_valid
 #print axioms MultiQubitMUB.pauliMoment4_four_gt_mub_of_contextuality_1575
+#print axioms MultiQubitMUB.signCubeSum_four_le_6615
+#print axioms MultiQubitMUB.pauliMoment4_four_ge_193_100
+#print axioms MultiQubitMUB.pauliMoment4_four_gt_mub
