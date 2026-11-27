@@ -1,6 +1,6 @@
 # 方案 3 执行计划：先固化一般 $n$ 基础理论包（路线 1），再新开会话双线攻坚硬仗 A & B（路线 2 + 路线 3）
 
-> **分支：** `explore/asymptotic-theory`（阶段一 `4ff8c18`、Stage 15 战线 2 `a6625d7`、Stage 16 + 选项 C 100/100 审计 `038aae3` 均已入库；本次记录 **Stage 17 新工具 1：Pauli 切片重整化与双态支集互斥测不准泛函 $\mathcal{J}_m$** 并随即转入纯理论深挖，对应综述 [ASYMPTOTIC_THEORY_NOTES.md](ASYMPTOTIC_THEORY_NOTES.md)）  
+> **分支：** `explore/asymptotic-theory`（阶段一 `4ff8c18`、Stage 15 战线 2 `a6625d7`、Stage 16 + 选项 C 100/100 审计 `038aae3`、Stage 17 新工具 1 笔记 `caa71c3` 均已入库；本次完成 **Stage 17 4 组核心定理（16 条公开定理）Lean 4 形式化与 116/116 全量公理审计**，随即转入 $C = 0$ 平坦 Pauli 秩-1 算子刚性深挖，对应综述 [ASYMPTOTIC_THEORY_NOTES.md](ASYMPTOTIC_THEORY_NOTES.md)）  
 > **总原则：** 严格遵守 `idea/12` 五条研究宪章与 15 GB WSL2 低内存编译铁律；绝不退回有限 $n$ 刷分/造证书；绝不修改任何上游 `FourQubit*.lean`、`TwoQubitExactCert.lean`、`AsymptoticContextuality.lean` 已过审定理、`main` 分支或隔壁目录 `/home/admin/projects/e28_multiqubit_magic_main`。
 
 ---
@@ -76,10 +76,21 @@
      4. 3B 辛自相关展开 $S(\sigma)^2$、三次/四次迹与精确夹逼 $(\alpha_n^*)^4 \le \max_\sigma \mathrm{Tr}(S^4)/T_2^2 \le (\alpha_n^*)^2$（6 条）；
      5. Stage 15 普适 $q=2$ Chu–Vandermonde 望远镜恒等式、$O^\varepsilon(2s,2)$ 上双对角递推、普适稳定子比值与非负性、$C_2(4m,2r) > 0$（$\forall m \ge 4$）与 Theorem C 费马双平方降阶（6 条）。
 
-3. **Stage 17 专研新工具 1（当前主攻 — Pauli 切片重整化与双态支集互斥测不准泛函 $\mathcal{J}_m$，详见 [`ASYMPTOTIC_THEORY_NOTES.md`](ASYMPTOTIC_THEORY_NOTES.md) Section 4.4）**：
-   - **发明动机**：打破现有三大工具（谱矩/SDP/Clifford-PPT、大 $U^3$ 逆定理、$\mathrm{poly}(1/d)$ 整性刚性）与问题本质的错配，构造一条显式利用特征 2 实期望 $c_p \in \mathbb{R}$、精确过双试金石、且直接输出 $O(1)$ 宏观量的专用工具。
-   - **精确切片重整化恒等式与无条件 2 行普适归约**：对任意 $n$-比特纯态按最小 $|c_q(\psi)| \le (d+1)^{-1/2}$ 的 Pauli $P_q$ 切片，扔掉相位项 $Q_{\mathrm{phase}} \ge 0$ 并解耦两子态，无条件得
-     $$F_n^* \;\ge\; \left(1 - \frac{1}{\sqrt{2^n + 1}}\right)^4 \mathcal{J}_{n-1}^*, \qquad \mathcal{J}_m(\phi_+, \phi_-) := \frac{F_m(\phi_+) + F_m(\phi_-)}{8} + \frac{5}{4} G_m(\phi_+, \phi_-) \;\ge\; 2 - \frac{1}{2^m + 1} + C(\phi_+, \phi_-).$$
-   - **双试金石与首轮验金硬数据（`stage17_probe1`, `probe2`）**：$\mathbb{Z}_d$ 上因复相位 $90^\circ$ 抵消使系数 $12 \to 4$（无支集互斥惩罚）；$n=3$ Hoggar 处加权 $\mathcal{J}_2^{\mathrm{wt}*}$ 精确命中 **`16/9 = 1.777778`**（$C=0$）；自 $m=3$（$n=4$）起自由双态极小值全线卡在 **`2.102 (m=3), 2.335 (m=4), 2.395 (m=5), 2.270 (m=6), 2.816 (m=7)`**（$C \in [0.130, 0.559]$），对抗性 MUB 半数相干叠加攻击全部失败，且 $m=5, 6$ 极值双态同时撞在 Theorem B 锥边界（`min w_p = 0.0000`）。
-   - **即时深挖主线**：(a) 复核 $m=7$ 收敛度（含 9-block Kerdock 切片）并深度解剖 $m=3..6$ 极值双态的零点集/群结构；(b) 先证一般 $m$ 实态双态下界 $\mathcal{J}_m(\phi_{\text{real}}, \phi_-)$；(c) 结合“同时对 $|\phi_+\rangle, |\phi_+^*\rangle$ Pauli-无偏”、秩-1 乘法律 $\rho_\pm^2 = \rho_\pm$ 及二级切片重整化（$n \to n-1 \to n-2$）冲击一般纯态对的 $\mathcal{J}_m^* \ge 2 + \delta_0$。
+3. **Stage 17 专研新工具 1 — Pauli 切片重整化、双态支集互斥测不准泛函 $\mathcal{J}_m$ 与 4 组无条件一般 $m$ 定理 Lean 4 形式化（✅ 已完成 116/116 全量审计，详见 [`ASYMPTOTIC_THEORY_NOTES.md`](ASYMPTOTIC_THEORY_NOTES.md) Section 4.4 与 Section 5 #11）**：
+   - **新增模块：** [`MultiQubitMUB/AsymptoticPauliSlicing.lean`](MultiQubitMUB/AsymptoticPauliSlicing.lean)（**1,712 行，16 条公开定理**，零 `sorry`、零 `native_decide`、零 `set_option`、零改动任何上游已过审模块）
+   - **低内存安全构建与全量审计：**
+     - `lake env lean -M 8192 -j 1 MultiQubitMUB/AsymptoticPauliSlicing.lean`：exit 0，28.0s，0 错误 0 警告；
+     - `python3 idea/safe_lake_build.py MultiQubitMUB.AsymptoticPauliSlicing`：exit 0，14.0s，`peak_pgid_rss = 4854.8 MB`（< 8000 MB 上限）；
+     - `python3 idea/safe_lake_build.py MultiQubitMUB`：exit 0，4.0s，`peak_pgid_rss = 4498.8 MB`；
+     - `lake env lean -M 8192 -j 1 Audit.lean`：**116 / 116** 条定理（100 条既有 + 16 条新增）100% 仅依赖 `[propext, Classical.choice, Quot.sound]`。
+   - **已形式化的 4 组面向一般 $n$ / 一般 $m$ 的无条件定理（Theorems 17.1–17.4）**：
+     1. **Theorem 17.1（精确 $k=1$ Pauli 切片重整化恒等式，$\forall m$）**：`pauliMoment4_slicing_identity`（且证明 $k=1$ 是唯一无四体抵消项的 100% 正定切片）；
+     2. **Theorem 17.2（显式初等 Clifford 共轭与无条件普适归约，$\forall m$）**：`exists_clifford_to_Z0`、`pauliMoment4_ge_twoStateJ_universal`、`pauliCrossOverlap4_eq_pauliOverlap4`、`pauliOverlap4_eq_one_add_supportOverlap`、`twoStateJ_ge_two_sub_inv_add_overlap`，无条件证得 $(1 - (2^{m+1}+1)^{-1/2})^4 \mathcal{J}_m(\phi_0, \phi_1) \le F_{m+1}(\psi)$；
+     3. **Theorem 17.3（$\mathcal{J}_m$ 与 $G_m$ 的复对称精确自对偶，$\forall m$）**：`pauliOverlap4_eq_sum_symPauliNormSq`、`twoStateJ_eq_dual_symPauli`，证得 $\mathcal{J}_m(\phi_1, \phi_2) = \frac{1}{8}\sum_{Q_0=0}(w_p^+ + w_p^-)^2 + \sum_{Q_0=0} w_p^+ w_p^-$；
+     4. **Theorem 17.4（超平面 / 双曲二次曲面质量分裂与无条件 $\frac{17}{8} = 2.125 > 2$ 常数间隙定理，$\forall m$）**：`sum_pauliSq_hyperplane`、`sum_pauliSq_quadric`、`twoStateJ_ge_of_hyperplane`、`twoStateJ_ge_of_quadric`，以及实切片对（`twoStateJ_ge_seventeen_eighths_of_real`、`twoStateJ_gt_two_of_real`：$\mathcal{J}_m \ge \frac{17}{8} - \frac{16 D - 18}{8(D-1)(D+2)} > 2, \forall m \ge 4$）与稳定子切片对（`twoStateJ_ge_seventeen_eighths_of_stabilizer`、`twoStateJ_gt_two_of_stabilizer`：$\mathcal{J}_m \ge \frac{17}{8} - \frac{12 D - 17}{8(D^2 - 2)} > 2, \forall m \ge 4$）。
+   - **Stage 17 深度解剖与死胡同 #11（`probe3`, `probe4`）**：
+     - $m=7$ 多起点收敛确认 $\mathcal{J}_7^* = 2.8160\text{–}2.8168$（9-block Kerdock 切片为 `5.805 -> 4.406`）；相态对满足 $\mathcal{J}_m^{\text{phase}*} \in [2.344, 2.948]$；
+     - **Pareto 前沿与 $C = 0$ 稳定子塌缩**：$C = 0$ 时 $\min(F_+ + F_-)$ 随 $m$ 单调暴涨（`3.50 -> 5.75 -> 8.25 -> 9.00 -> 11.25 -> 11.36`），且 $m=2..5$ 所有无约束 $C = 0$ 极小点均自发塌缩到含精确稳定子 Pauli 的态（直接触发 Theorem 17.4 的 $\frac{17}{8} > 2$ 常数间隙！）；
+     - **死胡同 #11**：Bell + Theorem-B 凸多面体 $\mathcal{P}_m$ 中，半数 MUB 均匀混合满足 $C=0, \mathcal{J}_m = 2 - \frac{1}{2D} < 2$，证得 $\max c_q^2, \max w_p = o(1)$ 区域内必须使用真正的秩-1 量子纯度（$\rho_\pm^2 = \rho_\pm$ 或 $T = |\phi_+\rangle\langle\phi_-|$ 秩-1）。
+   - **提交后即刻深挖焦点**：紧扣 $C = 0$ 等价刻画 $T = |\phi_+\rangle\langle\phi_-| = \frac{1}{D\sqrt{D}}\sum_p \overline{f(p)} P_p$（$|f(p)| \equiv 1$ 单位模相位函数！）与扭转辛自相关方程，检验无稳定子 $C = 0$ 对是否存在，剖析 $f(p)$ 的特征 2 Gowers/bent/$\mathbb{Z}_4$ 结构，并冲击由 $T^\dagger T T^\dagger = T^\dagger$ 导出的稳定化刚性（接入 Theorem 17.4 闭合 $\liminf \mathcal{J}_m^* > 2$）。
    - **并行储备方向**：选项 A（特征 2 常振幅相态 Gowers-$U^3$ 下界）与选项 B（离散实符号 $S(\sigma)$ 宏观秩-1 偏离障碍）。
