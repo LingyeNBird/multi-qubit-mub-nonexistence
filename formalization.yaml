@@ -40,9 +40,9 @@ sources:
     license: "MIT"
   - title: "Product Weyl–Heisenberg covariant mutually unbiased bases and extremal non-stabilizerness"
     authors:
-      - "Bogdan Damski"
+      - "Bogdan S. Damski"
       - "Rafał Bistroń"
-      - "Matteo Ponterio"
+      - "Diego Ponterio"
       - "Jakub Czartowski"
       - "Karol Życzkowski"
     id: "https://arxiv.org/abs/2603.15550"
@@ -55,7 +55,7 @@ sources:
       - "Qiaofeng Liu"
       - "Ian Low"
       - "Zhewei Yin"
-    id: "https://doi.org/10.1088/2058-9565/ae2c4f"
+    id: "https://doi.org/10.1088/2058-9565/ae3028"
     type: "paper"
     location: "Quantum Sci. Technol. 11, 015035 (2026); arXiv:2502.17550"
     relationship: background
@@ -78,6 +78,22 @@ sources:
     location: "Eur. J. Comb. 30, 246–262 (2009); arXiv:quant-ph/0511004"
     relationship: background
     note: "Proves the analogous non-existence of multi-qubit product Weyl–Heisenberg SIC-POVMs for n not in {1, 3}."
+  - title: "Complex sequences with low periodic correlations"
+    authors:
+      - "William O. Alltop"
+    id: "https://doi.org/10.1109/TIT.1980.1056185"
+    type: "paper"
+    location: "IEEE Trans. Inf. Theory 26(3), 350–354 (1980)"
+    relationship: background
+    note: "Introduces Alltop phase sequences with flat multiplicative-derivative correlation spectra."
+  - title: "64 Lines from a Quaternionic Polytope"
+    authors:
+      - "Stuart G. Hoggar"
+    id: "https://doi.org/10.1023/A:1005009727232"
+    type: "paper"
+    location: "Geom. Dedicata 69(3), 287–289 (1998)"
+    relationship: background
+    note: "Constructs the 3-qubit (d = 8) Hoggar SIC-POVM recovered at n = 3, s = 2/3 in hoggar_sic_three."
 
 related_formalizations:
   - id: "https://doi.org/10.5281/zenodo.24565157"
@@ -101,8 +117,10 @@ status:
 automation:
   methods:
     - method: agent
-      models: []
-      framework: "AI coding and reasoning agents"
+      models:
+        - "Gemini 4 Neon"
+        - "Claude Opus 5.5"
+      framework: "Google Antigravity"
       tool_setup: >-
         Lean 4 v4.36.0 with Mathlib v4.36.0 (pure-kernel verification, zero native_decide);
         Python 3 standard library and C companion scripts for independent sanity checks and CP¹⁵
