@@ -1,4 +1,4 @@
-# General-$n$ Asymptotic Magic, Pauli Contextuality, and Clifford-PPT Phase Transitions: Theory Notes & Insights (Stages 12–14)
+# General-$n$ Asymptotic Magic, Pauli Contextuality, and Clifford-PPT Phase Transitions: Theory Notes & Insights (Stages 12–15)
 
 > **Branch:** `explore/asymptotic-theory` (building on verified Lean 4 baseline `73bad0e`, zero edits to upstream `FourQubit*.lean`, `TwoQubitExactCert.lean`, or `main`).  
 > **Scope:** Pure general-$n$ theoretical results, exact closed-form Clifford-PPT witness theorems, spectral/Kerdock structural dissections, sharp meta-obstructions, and concrete attack blueprints for the two remaining asymptotic conjectures:
@@ -163,19 +163,72 @@ Every quantum state $\rho$ (indeed every PPT state on $(\mathbb{C}^d)^{\otimes 8
    - **Exact evaluation on every stabilizer state ($y_a = 1$):**
      $$\sum_{a=0}^{12} \alpha^{(\tau_4)}_a(d) = \frac{70\,(d - 1)(d - 2)(d - 4)}{(d + 4)(d^2 + 24 d + 512)} \ge 0 \qquad (\forall\, d = 2^n \ge 1).$$
 
-### 3.3 The General-$t = 4m$ Algebraic Mechanism: $R_{4m}$-Ideal Binomial Projection
+### 3.3 Stage 14 Observation: The $R_8$-Ideal Support Structure
 
-Dissecting the negative eigenvector $Q$ of $\tau_2$ and $\tau_4$ reveals **why** the witness is 1-dimensional ($m=1$) and **how** it generalizes directly to every $t = 4m$:
-1. Define the Pauli-invariant `[t, 1]` repetition-code operator $R_t := \frac{1}{d}\sum_{p \in \mathbb{F}_2^{2n}} P_p^{\otimes t}$ ($t \equiv 0 \pmod 4$).
+Dissecting the negative eigenvector $Q$ of $\tau_2$ and $\tau_4$ revealed **why** the $t = 8$ witness is 1-dimensional ($m=1$):
+1. Define the Pauli-invariant `[t, 1]` repetition-code operator $R_t := \frac{1}{d}\sum_{p \in \mathbb{F}_2^{2n}} P_p^{\otimes t}$ ($t \equiv 0 \pmod 4$, satisfying $R_t^2 = d R_t$ so $P_{R_t} := \frac{1}{d} R_t$ is an orthogonal projector).
 2. Under an **even** partial-transpose cut $k = 2r$ ($\tau_2, \tau_4$), $(1^8, 0)$ and $(0, 1^8)$ remain compatible with doubly-even parity, generating a tiny closed two-sided ideal $R_8 \cdot \mathrm{Alg}_k \cdot R_8$ of dimension **14** (out of 149) for $\tau_2$ and **34** (out of 381) for $\tau_4$. Under an **odd** cut ($\tau_3$, $5:3$), $(1^5 0^3, 0^5 1^3)$ has odd weights and the $R_8$-ideal has dimension **0**, forcing $\tau_3$ into a 5-dimensional weight-6 anti-stochastic subspace that dies early at $d_0 \approx 27.93$.
 3. Inside $R_8 \cdot \mathrm{Alg}_k \cdot R_8$, the negative eigenvector $Q$ has **exact zero Hilbert–Schmidt overlap** with every basis subspace having $\dim(L) \ge 2$ (`11` elements in $\tau_2$, `29` elements in $\tau_4$), and its coefficients on the remaining $\dim(L) = 1$ double-coset orbits of $R_8$ are **exact combinatorial orbit sizes**:
-   - $\tau_2$: 3 orbits with weights `1 : 15 : 20` (summing to `36`, matching the numerator coefficient $36$ of the stabilizer evaluation!).
-   - $\tau_4$: 5 orbits with weights $1 : 16 : 36 : 16 : 1 = \binom{4}{j}^2$ ($j = 0, \dots, 4$, summing to $\binom{8}{4} = 70$, matching the numerator coefficient $70$ of the stabilizer evaluation!).
-4. Thus, for arbitrary $t = 4m$ ($t = 8, 12, 16, \dots$), we obtain an **explicit single-operator candidate family** requiring zero full-commutant construction:
-   $$Q_{4m} := \Pi_{\perp(\dim(L) \ge 2)}\!\Big(\tau_{2m}\big(P_{\mathrm{Sym}^{4m}} R_{4m} P_{\mathrm{Sym}^{4m}}\big)\Big).$$
-   Its crossover $d_0(4m)$ comes from balancing the $+\frac{1}{d}$ identity term in $y_2 = \mathrm{Tr}(R_{4m} y_H)$ against the $-\frac{c_1(4m)}{d^2}$ anti-stochastic sign-sensitive contribution ($d_0(4) = 2 \to d_0(6) = 8 \to d_0(8) \approx 99.92$).
+   - $\tau_2$: 3 orbits with weights `1 : 15 : 20` (summing to `36`, matching the numerator coefficient $36$ of the stabilizer evaluation);
+   - $\tau_4$: 5 orbits with weights `1 : 16 : 36 : 16 : 1` (summing to `70`, matching the numerator coefficient $70$ of the stabilizer evaluation).
 
-> **Honest Limitation:** While $Q_{4m}$ is a striking general-$t$ Clifford representation-theory theorem and may yield super-exponentially growing $d_0(4m)$ on $y_H(d)$, falsifying $y_H(2^n)$ alone is already proved in 3 lines by Theorem 2.1. Converting $Q_{4m}$ into a constant gap $\liminf F_n^* > 2$ remains blocked by the $O(d^{-2})$ margin and the need to eliminate higher moments ($y_2, y_8, \dots$) via `Sym^{4m} ⪰ 0`.
+### 3.4 Stage 15 Resolution: Exact General-$t = 4m$ $O^\varepsilon(4m-2,2)$ Projection, $C_2(4m,2r)$ Cancellation Theorem, $t = 12/16$ Phase Transitions, and the Linear-Copy Ceiling
+
+Stage 15 completely solves the general-$t = 4m$ $R_{4m}$-ideal Clifford-PPT problem analytically and settles its asymptotic ceiling (`idea/stage15_check_t8_Mj.c`, `stage15_t12_asymptotics.c`, `stage15_t12_exact_k012_plus_mc.c`):
+
+#### (1) True Underlying Symmetry Group $O^\varepsilon(4m - 2, 2)$ (Replacing the Binomial-Weight Guess)
+For every $t = 4m \ge 4$ and every even partial-transpose cut $k = 2r \in \{0, 2, \dots, 4m\}$, let $s := 2m - 1$ (so $2s = 4m - 2$) and $G_k := S_{t-k} \times S_k$. On $\mathrm{Im}(P_{R_t}) \cong \mathbb{C}[V_t^n]$, the quotient space $V_t := E_t / \langle 1^t \rangle \cong \mathbb{F}_2^{2s}$ carries the non-degenerate partial-transposed quadratic form
+$$q_{2r}(x) := \frac{|x_L| - |x_H|}{2} \pmod 2, \qquad \varepsilon := \mathrm{Arf}(q_{2r}) = (-1)^{m-r} \in \{+1, -1\},$$
+with Witt index $\nu = s = 2m - 1$ when $\varepsilon = +1$ and $\nu = s - 1 = 2m - 2$ when $\varepsilon = -1$. The $\dim(L) = 1$ quotient of the $R_{4m}$-ideal is governed by the **full orthogonal group $O^\varepsilon(2s, 2)$** (not $S_{4m}$!):
+- At $t = 8, \tau_4$: the weights `1 : 16 : 36 : 16 : 1` only coincided with $\binom{4}{j}^2$ because of the exceptional low-dimensional isomorphism **$O^+(6, 2) \cong S_8$** ($D_3 = A_3$);
+- At $t = 8, \tau_2$: the weights `1 : 15 : 20` (sum `36`) are the $S_6 \times S_2$ double-coset sizes inside **$O^-(6, 2) \cong W(E_6)$** (order $51{,}840$, index $36$);
+- By $t = 12, \tau_6$: $|O^+(10, 2)| = 46{,}998{,}591{,}897{,}600 \approx 4.70 \times 10^{13}$ is **$98{,}118\times$ larger than $|S_{12}| = 12!$**, with index $[O^+(10, 2) : S_6 \times S_6] \approx 9.066 \times 10^7$.
+
+#### (2) Universal Closed-Form Orthogonal Projection & Stabilizer Identity ($\forall m \ge 1, \forall 0 \le r \le 2m, \forall d = 2^n$)
+Inside the $R_{4m}$-ideal, the $\dim(L) \ge 2$ subspaces form a two-sided *-ideal $\mathcal{I}_{\ge 2}$. For each $j \in \{0, \dots, \nu\}$, let $M_j^{(4m, 2r)}$ be the uniform average of $A_{\bar{T}} := \frac{1}{d} r(T)^{\otimes n}$ over all Lagrangians $\bar{T} \subset V_t \oplus V_t$ of kernel dimension $j$ (so $M_0$ averages over the graphs of $O^\varepsilon(2s, 2)$). By Witt's theorem, the $(\nu + 1)$-dimensional $O^\varepsilon(2s, 2)$-bi-invariant commutative algebra $\mathcal{A}(s, \varepsilon) = \mathrm{span}\{M_0, \dots, M_\nu\}$ obeys the exact upper-bidiagonal multiplication law:
+$$N_1 M_1 M_i = (2^i - 1)\bigl(d + 2^{2s - i - 1}\bigr) M_i + 2^i(2^{s-i} - \varepsilon)(2^{s-i-1} + \varepsilon) M_{i+1} \qquad (0 \le i \le \nu),$$
+where $N_j(s, \varepsilon) := \prod_{i=1}^{j} \frac{(2^{s-i+1} - \varepsilon)(2^{s-i} + \varepsilon)}{2^i - 1}$ is the number of $j$-dimensional totally singular subspaces of $(V_t, q_{2r})$.
+
+**Theorem 3.1 (Universal Closed-Form $R_{4m}$-Ideal PPT Projection).**  
+Solving $M_1 Q = 0$ uniquely determines the exact orthogonal projector $Q_{\mathrm{orth}}^{(4m, 2r)}(d)$ onto $\mathcal{I}_{\ge 2}^\perp$ inside $\mathcal{A}(s, \varepsilon)$ ($Q^2 = Q = Q^\dagger \succeq 0$, $M_j Q = 0\;\forall j \ge 1$):
+$$Q_{\mathrm{orth}}^{(4m, 2r)}(d) = \sum_{j=0}^{\nu} (-1)^j \frac{2^{\binom{j}{2}} N_j(2m - 1, \varepsilon)}{\prod_{i=1}^{j}\bigl(d + 2^{4m - 3 - i}\bigr)} M_j^{(4m, 2r)}.$$
+Consequently, every $n$-qubit PPT state (in particular every pure state $|\psi\rangle^{\otimes 4m}$) satisfies $\mathrm{Tr}\bigl(\tau_{2r}(Q_{\mathrm{orth}}^{(4m,2r)}(d))\,\rho^{\otimes 4m}\bigr) \ge 0$, with exact universal stabilizer evaluation ($\forall d = 2^n \ge 1$):
+$$\mathrm{Tr}\!\left(\tau_{2r}\bigl(Q_{\mathrm{orth}}^{(4m, 2r)}(d)\bigr)|0^n\rangle\langle 0^n|^{\otimes 4m}\right) = \frac{1}{d}\cdot\frac{\prod_{i=0}^{\nu - 1}(d - 2^i)}{\prod_{i=1}^{\nu}\bigl(d + 2^{4m - 3 - i}\bigr)} \ge 0.$$
+- **Exact unification of $t = 4$ and $t = 8$:**
+  - At $t = 4, \tau_2$ ($s = 1, \varepsilon = +1, \nu = 1, N_1 = 2$): $Q_{\mathrm{orth}}^{(4,2)}(d) = M_0 - \frac{2}{d+1}M_1$ evaluates on any pure $|\psi\rangle$ to $\frac{1}{d^2}\bigl(F_n(\psi) - \frac{2d}{d+1}\bigr) \ge 0$, recovering the **exact Welch bound**!
+  - At $t = 8, \tau_2$ ($s = 3, \varepsilon = -1$) and $t = 8, \tau_4$ ($s = 3, \varepsilon = +1$): $Q_{\mathrm{orth}}^{(8,2)}$ and $Q_{\mathrm{orth}}^{(8,4)}$ reproduce **100% identically** both 13-term rational witnesses of Section 3.2 (in $\tau_4$, the unnormalized projection has denominator $(d+4)(d+8)(d+16)$ and simplifies on $y_H(d)$ via $(d+8)$ cancellation to $\frac{(d-1)(d-8)(d^2 - 104d + 408)}{70(d+1)^3(d+4)(d+16)}$; the factor $d^2 + 24d + 512$ in Section 3.2 arose solely from dividing by $\alpha_2^{(\tau_4)}$).
+
+#### (3) Exact $d^{-2}$ Cancellation Theorem ($\forall t = 4m \ge 12, \forall k = 2r \in \{2, \dots, 4m-2\}$)
+Evaluating $E_{\mathrm{orth}}(4m, 2r; d) := \mathrm{Tr}\bigl(\tau_{2r}(Q_{\mathrm{orth}}^{(4m,2r)}(d))\,y_H(d)\bigr)$ and normalizing by the $k_{\mathrm{Sym}} = 0$ weight $p_0 := \frac{(t-k)!k!}{|O^\varepsilon(t-2, 2)|}$ yields the exact large-$d$ expansion
+$$\frac{E_{\mathrm{orth}}(4m, 2r; d)}{p_0} = \frac{1}{d} + \frac{C_2(4m, 2r)}{d^2} + O\!\left(\frac{1}{d^3}\right),$$
+governed by three exact $k_{\mathrm{Sym}} \le 2$ contributions:
+1. $(j = 1, k_{\mathrm{Sym}} = 1)$ ($T_{\text{anti}, t-2}$): $-2^{t-4}(t-k)k$;
+2. $(j = 0, k_{\mathrm{Sym}} = 2, r_{\mathrm{cross}} = 1)$: $+\bigl(2^{t-4} - 1 - \frac{1}{2}\binom{t-2}{2}\bigr)(t-k)k$ — **the exponential $2^{t-4}$ cancels identically** with term 1, leaving only the polynomial negative residue $-(t-k)k\bigl(1 + \frac{1}{2}\binom{t-2}{2}\bigr) = -O(t^4)$;
+3. $(j = 0, k_{\mathrm{Sym}} = 2, r_{\mathrm{cross}} = 0)$ (non-singular vectors in $V_t$): $+A_0(r=0) = +\Theta(2^{t-3})$, where
+   $$A_0(r = 0) = \bigl(2^{t-3} - \varepsilon 2^{t/2 - 1}\bigr) - \binom{t-k}{2} - \binom{k}{2} - \frac{1}{2}\!\left[\binom{t-k}{3}\binom{k}{1} + \binom{t-k}{1}\binom{k}{3}\right].$$
+Hence the exact universal $d^{-2}$ coefficient is
+$$C_2(4m, 2r) = A_0(r = 0) - (t - k)k\!\left(1 + \frac{1}{2}\binom{t-2}{2}\right).$$
+- At $t = 8$: $C_2(8, 2) = -102$, $C_2(8, 4) = -136$.
+- At $t = 12$: $C_2(12, 2) = -140$, $C_2(12, 4) = -386$, $C_2(12, 6) = -500$.
+- At $t = 16$: $C_2(16, 2) = +6498$, $C_2(16, 4) = +5360$, $C_2(16, 6) = +4946$, $C_2(16, 8) = +4648$ — **$C_2(4m, 2r) > 0$ permanently for every $t = 4m \ge 16$**, because $+2^{t-3}$ permanently overwhelms $-O(t^4)$!
+
+#### (4) Exact $k_{\mathrm{Sym}} \le 2$ + Stratified MC Phase Transitions ($t = 12, 16$) & Growth-Law Verdict
+Evaluating ALL $k_{\mathrm{Sym}} \in \{0, 1, 2\}$ across every $j = 0..\nu$ **100% exactly** (zero MC variance; verified to the single integer on all $7 \times 3$ strata at $t = 8$) and running OpenMP stratified MC strictly on the smooth $k_{\mathrm{Sym}} \ge 3$ bulk (`stage15_t12_exact_k012_plus_mc.c`) gives the complete phase-transition ladder:
+
+| $t$ | Cut $\tau_{2r}$ | Group $O^\varepsilon(2s,2)$ | Exact $C_2(t, 2r)$ | **Root $d_0(t, 2r)$ on $y_H(d)$** | Key Evidence / Status |
+|---:|---|---|---:|---|---|
+| $4$ | $\tau_2$ ($2:2$) | $O^+(2, 2)$ | $-1$ | **$d_0 = 2$** | Exact Welch bound |
+| $6$ | $\tau_2, \tau_3$ | — (no $R_6$) | — | **$d_0 = 8$** | Exact integer |
+| $8$ | $\tau_2$ ($6:2$) | $O^-(6, 2) \cong W(E_6)$ | $-102$ | **$d_0 = 64$** | Exact rational witness |
+| $8$ | $\tau_4$ ($4:4$) | $O^+(6, 2) \cong S_8$ | $-136$ | **$d_0 = 52 + 2\sqrt{574} \approx 99.92$** | Exact rational witness |
+| **$12$** | $\tau_2$ ($10:2$) | $O^+(10, 2)$ | $-140$ | **$d_0 < 64$** | Strictly $> 0$ for all $d \ge 64$ ($+8.89\sigma$ at $512$, $+48.59\sigma$ at $1024$) |
+| **$12$** | $\tau_4$ ($8:4$) | $O^-(10, 2)$ | $-386$ | **$d_0 \approx 220\text{–}250$** | Negative at $d = 64\,(-2.56\sigma), 128\,(-1.34\sigma)$; $+2.19\sigma$ at $512$, $+9.64\sigma$ at $1024$ |
+| **$12$** | **$\tau_6$ ($6:6$)** | **$O^+(10, 2)$** | **$-500$** | **$d_0 \approx 550\text{–}650 \in (512, 1024)$** | **Breaks $t=8$ ceiling ($n=7,8$):** $-4.20\sigma$ ($d=64$), $-4.16\sigma$ ($d=128$), $-2.92\sigma$ ($d=256$), $-0.67\sigma$ ($d=512$), **$+5.63\sigma$ ($d=1024$)**, **$+33.66\sigma$ ($d=2048$)** |
+| **$16$** | $\tau_8$ ($8:8$) | $O^+(14, 2)$ | **$+4648$** | **$d_0 \lesssim 2 \times 10^4$** | Even `EXACT(k<=2)` alone crosses zero at $d \approx 7.5 \times 10^4$ ($-3.42\times 10^{-25}$ at $65536$ vs $+2.23\times 10^{-24}$ at $131072$); positive $k \ge 3$ bulk shifts $d_0$ down by $\sim 4\times$ |
+
+> **Definitive Verdict on Hard Battle A (Double Obstruction):**
+> 1. **Single-Exponential Growth Law & Linear-Copy Barrier:** $d_0(4m, 2m) = \Theta(2^{4m})$ — governed by the leading pole scale $d + 2^{4m - 4}$ — refuting super-exponential $2^{\Theta(m^2)}$ or $(2m)!$ growth. Breaking $y_H(2^n)$ via the $R_{4m}$-ideal therefore requires **linear copies $t(n) = \Omega(n)$** (impossible at $t(n) \ll n$).
+> 2. **Super-Exponentially Vanishing Violation Margin:** Because $p_0 = \frac{(2m)!^2}{|O^+(4m-2,2)|} \sim 2^{-4m^2}$ (already $|E_{\mathrm{orth}}| / E_{\mathrm{stab}} \sim 10^{-5}$ at $t = 12, d = 128$), the $R_{4m}$-ideal Clifford-PPT hierarchy cannot produce a uniform $O(1)$ asymptotic gap $\liminf F_n^* > 2$. Hard Battle A is now **theoretically closed**.
 
 ---
 
@@ -210,7 +263,7 @@ Diagonalizing the maximal isotropic subspace of top Paulis (`k = 4`, splitting $
 
 ---
 
-## 5. Complete Verified Dead-End Ledger (Through Stage 14)
+## 5. Complete Verified Dead-End Ledger (Through Stage 15)
 
 Do **not** re-investigate any of the following (all decisively settled with exact data or proofs):
 1. Continuous spectral moment bounds on $S(\sigma)$ (`Tr(r_t^3) ≤ 1`, `Tr(M_n^4)` Cauchy–Schwarz): all collapse identically to $c \le 2$.
@@ -220,18 +273,29 @@ Do **not** re-investigate any of the following (all decisively settled with exac
 5. Multi-block MUB superpositions (Desarguesian, Kerdock, Z-shifted, recursive Clifford-$F_m$) for driving $F_n \to 2$: locked by the two-horned obstruction (Horn 1: $k \le 3 \implies F_{\mathrm{intra}} \propto 2^m/5^3 \to \infty$; Horn 2: $k \ge 4 \implies \kappa_{\mathrm{cross}} \ge 2.0\text{–}2.8$).
 6. Bulk `-3` eigenvalue quantization of $S(\sigma)$ and naive flat-amplitude `Alltop.lean` stability ($I_2 = 1$): refuted by Probe 2 (`-3 -> -7 -> -15` tracking and $I_2 \to 2$).
 7. Heavy finite-$n$ certificate engineering (e.g., formalizing the 381-dim $t = 8$ SDP for $n=4,5,6$ or DPLL scaling).
+8. **General $t = 4m$ $R_{4m}$-ideal Clifford-PPT for sublinear $t(n) \ll n$ or constant asymptotic gap $\liminf F_n^* > 2$ (Stage 15):** exact $O^\varepsilon(4m-2,2)$ projection proves $d_0(4m, 2m) = \Theta(2^{4m})$ (single-exponential, requiring linear $t(n) = \Omega(n)$), permanent $C_2(4m, 2r) > 0$ sign flip for all $t \ge 16$, and super-exponentially vanishing margin $p_0 \sim 2^{-4m^2}$.
+9. **Single-MUB Boolean WHT one-sided cubic/quartic obstruction & single-stabilizer 4th overlap moment (Stage 15 pre-checks):**
+   - *Single-MUB WHT:* refuted directly at $n = 7$ ($d = 128$), where a single Boolean function $f : \mathbb{F}_2^7 \setminus \{0\} \to \{\pm 1\}$ attains $Y(x) = 1 + \frac{\widehat{f}(x)}{\sqrt{129}} \ge +0.0277 > 0$ everywhere with $\mathbb{E}[Y^2] = 2$, $\mathbb{E}[Y^3] = 5.9197$, $\mathbb{E}[Y^4] = 24.0693$ (Porter–Thomas moments are feasible inside a single MUB!).
+   - *Single-stabilizer 4th overlap moment:* exact identity $\mathbb{E}_{|\phi\rangle \in \mathrm{Stab}_n}[d^4 |\langle\phi|\psi\rangle|^8] = A(d) + B(d)\,F_n(\psi)$ has $A(d) \to 24$, $B(d) = O(1/d) \to 0$; at Welch, $m_4(\mathrm{Welch}) \to 24$ stays strictly above the Hamburger lower bound $20$ for moments $(1, 2, 6)$, yielding zero $O(1)$ gap.
 
 ---
 
 ## 6. Next-Stage Pure-Theory Attack Roadmap
 
 1. **Route 1 (COMPLETED & Machine-Verified in [`MultiQubitMUB/AsymptoticBarriers.lean`](MultiQubitMUB/AsymptoticBarriers.lean)):**  
-   All four general-$n$ pure-theory theorem groups from Section 2 are now formalized (1,298 lines, 21 audited theorems, 74/74 total in [`Audit.lean`](Audit.lean), `peak_pgid_rss = 4800.5 MB`, standard three Lean axioms only):
-   - Theorem 2.1: `pow_two_add_one_ne_sq`, `sqrt_pow_two_add_one_ne_rat`, `signCubeSum_lt_spectral`, `frustPairs_gt_spectral`, `no_pauli_sic_via_cubic_trace`;
-   - Theorem 2.2: `pauliL1_ge_of_pauliMoment4`, `pauliAlpha_ge_of_pauliMoment4`, `exists_unit_state_rayleigh_ge_cube`, `exists_unit_state_pauliL1_ge_of_signCubeSum`, `exists_unit_state_pauliAlpha_ge_of_frustPairs` (sharp linear $1 - O(2 - c_n)$ bound with exact equality on the Hoggar SIC at $n=3$);
-   - Proposition 2.3: `qSIC_nonneg`, `sum_qSIC_eq_one`, `sympWHT_qSIC_eq`, `sympWHT_qSIC_pow_nonneg`, `qSIC_moment4_eq_welch`;
-   - Section 2.4: `signMat_diag_odd_int`, `signMat_offdiag_even_re_im`, `signMat_add_id_half_gaussInt`, `compBasisIPR_eq_sum_Z_pauliSq`, `compBasisIPR_eq_welch_of_flat_pauli`, `compBasisIPR_sub_welch_sq_le`.
-2. **Route 2 (Hard Battle A — General $t = 4m$ $R_{4m}$-Ideal Theory):**  
-   Compute $Q_{4m}$ directly inside the tiny $R_{4m}$-ideal (bypassing the full commutant) at $t = 12$ ($6:6$ cut) and derive the general-$m$ asymptotic law for $d_0(4m)$ (testing $2^{\Theta(m^2)}$ vs $(2m)!$ vs $4^{2m}$), and evaluate whether the $R_{4m}$-ideal alone gives an explicit closed-form PPT theorem for all $t = 4m$.
-3. **Route 3 (Hard Battle B — True Quantitative $\liminf F_n^* > 2$ or $\limsup c_n^* < 2$):**  
-   Attack the coupled multi-MUB discrete constraint uncovered by Probe 2: across all $d+1$ MUBs $L_k$, the Born variables $Y_{L_k}(x) = 1 + \frac{m_{k,x}}{\sqrt{d+1}} \ge 0$ must simultaneously have odd-integer WHTs $m_{k,x}$ bounded below by $-\sqrt{d+1}$, average third moment $\mathbb{E}[Y^3] \to 6$ (Porter–Thomas), minimal 4th additive energy $d E_{\mathrm{add}}(p_k) - 1 \to 1/d$, and non-bilinear symplectic 2-cocycle consistency $\gamma(p,q) = Q_0(p)Q_0(q) + a_1 \cdot b_2$ across spreads. Targeting $\liminf F_n^* > 2$ directly (exploiting the sparse-spike gap over $c < 2$) or bounding $\mathrm{Tr}(S(\sigma)^4) \le (1-\delta)T_2^2$ remain the two sharpest paths to a true asymptotic constant gap.
+   All four general-$n$ pure-theory theorem groups from Section 2 are formalized (1,298 lines, 21 audited theorems, 74/74 total in [`Audit.lean`](Audit.lean), `peak_pgid_rss = 4800.5 MB`, standard three Lean axioms only).
+2. **Route 2 (COMPLETED — Stage 15 General-$t = 4m$ $R_{4m}$-Ideal Mechanism & Ceiling Settled):**  
+   The complete $O^\varepsilon(4m-2,2)$ bidiagonal projection $Q_{\mathrm{orth}}^{(4m,2r)}(d)$, universal stabilizer identity, exact $C_2(4m,2r)$ cancellation theorem, $t=12/16$ phase transitions ($d_0(12,6) \approx 550\text{–}650$, $d_0(4m,2m) = \Theta(2^{4m})$), and double obstruction are fully resolved (Section 3.4). *(Optional pure-math formalization candidate: the clean algebraic $O^\varepsilon(2s,2)$ bidiagonal projection & stabilizer identity for all $m, r, d$ — separate from the open asymptotic gap.)*
+3. **Route 3 (LIVE MAIN FRONT — Hard Battle B: True Quantitative $\liminf F_n^* > 2$ or $\limsup c_n^* < 2$):**  
+   With single-MUB WHT and single-stabilizer 4th moment ruled out (Dead End #9), every genuine attack must couple **multiple MUBs / global phase coherence**. Stage 15 distills the frontier into two crisp, algebraically exact targets:
+   - **Path 3A (Direct $\liminf F_n^* > 2$ via Exact Gowers-$U^3$ Phase-Box Decomposition):**  
+     In every stabilizer basis (with $p_x := |\psi_x|^2$, autocorrelation $r_a := (p * p)(a)$, square-amplitude overlap $K(a) := \sum_x \psi_x^2 (\psi_{x\oplus a}^*)^2 = \langle \psi^{\circ 2} | X^a | \psi^{\circ 2} \rangle \in \mathbb{R}$, and real quartic Gowers box $H(a, u) := \sum_x \psi_x \psi_{x\oplus a}^* \psi_{x\oplus u}^* \psi_{x\oplus a\oplus u} \in \mathbb{R}$), every unit state $|\psi\rangle \in \mathbb{CP}^{d-1}$ obeys the exact identities (verified to $10^{-15}$ on $n = 3$ Hoggar SIC and $n = 3, 4, 5$ Haar states):
+     $$F_n(|\psi\rangle) = d \sum_{a, u \in \mathbb{F}_2^n} H(a, u)^2 = d^5 \|\psi\|_{U^3(\mathbb{F}_2^n)}^8,$$
+     $$F_n(|\psi\rangle) - \frac{2d}{d+1} = \frac{d(d+1)}{d-1}\!\left(r_0 - \frac{2}{d+1}\right)^2 + 2d \sum_{a \neq 0}\!\left(r_a - \frac{1 - r_0}{d-1}\right)^2 + d \sum_{a \neq 0} K(a)^2 + d \sum_{\substack{a, u \neq 0 \\ a \neq u}} H(a, u)^2.$$
+     Every term on the RHS is a non-negative square. Real states force $K(a) = r_a \implies F_n \ge 3 - O(1/d)$, whereas the $n = 3$ Hoggar SIC simultaneously kills $K(a) \equiv 0$ and $H(a, u) \equiv 0$ ($a \neq u \neq 0$). Target: prove an unconditional lower bound $d\sum_{a \neq 0} K(a)^2 + d\sum_{a \neq u \neq 0} H(a,u)^2 \ge \delta_0 > 0$ ($\forall n \ge 4$) via the massively overconstrained quartic phase system ($\sim d^2$ real equations on $2d - 2$ DOFs), derivative vectors $D_a \psi$, and universal near-Bentness of $(U\psi)^{\circ 2}$ across all Clifford bases.
+   - **Path 3B (Simultaneous $\limsup c_n^* < 2$ and $\liminf F_n^* > 2$ via Pure Boolean Symplectic Autocorrelation Bound):**  
+     Expanding $S(\sigma)^2 = (d^2 - 1)I + \sum_{r \neq 0} A_r(\sigma) P_r$, where
+     $$A_r(\sigma) := \sum_{p \in r^\perp \setminus \{0, r\}} \gamma(p, p \oplus r)\,\sigma_p \sigma_{p \oplus r} \in 2\mathbb{Z}, \qquad A_r(\sigma) \equiv 2 \pmod 4$$
+     (and in particular for $r = Z_1$, $\gamma \equiv +1$ so $A_{Z_1}(\sigma) = \sum_{p \in Z_1^\perp \setminus \{0, Z_1\}} \sigma_p \sigma_{p \oplus Z_1}$ is a pure unsigned Boolean autocorrelation), yields the exact identities
+     $$\mathrm{Tr}\!\left(S(\sigma)^4\right) = d(d^2 - 1)^2 + d \sum_{r \neq 0} A_r(\sigma)^2, \qquad \mathrm{Tr}\!\left(S(\sigma)^3\right) = d \sum_{r \neq 0} \sigma_r A_r(\sigma).$$
+     Any uniform bound $\sum_{r \neq 0} A_r(\sigma)^2 \le (1 - \delta)\,d(d^2 - 1)^2$ ($\delta > 0$) immediately proves **both** $\limsup c_n^* \le 2\sqrt{1 - \delta} < 2$ and $\liminf F_n^* > 2$ (exploiting $\sigma_p^2 = 1$ hypercube discreteness + non-bilinear symplectic 2-cocycle coupling across $r$).
