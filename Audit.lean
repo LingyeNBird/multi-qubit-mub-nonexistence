@@ -123,3 +123,17 @@ Verifies that every main theorem depends ONLY on the three standard Lean 4 / Mat
 #print axioms MultiQubitMUB.twoStateJ_gt_two_of_real
 #print axioms MultiQubitMUB.twoStateJ_ge_seventeen_eighths_of_stabilizer
 #print axioms MultiQubitMUB.twoStateJ_gt_two_of_stabilizer
+#print axioms MultiQubitMUB.sum_pauliSq_subspace
+#print axioms MultiQubitMUB.twoStateJ_ge_of_subspace
+#print axioms MultiQubitMUB.twoStateJ_ge_two_add_subspace_gap
+#print axioms MultiQubitMUB.twoStateJ_ge_of_k_stabilizers
+#print axioms MultiQubitMUB.sum_pauliSq_quadric_coset
+#print axioms MultiQubitMUB.pauliExpect_eq_zero_of_real_antisym
+#print axioms MultiQubitMUB.no_real_pauli_sic_all
+#print axioms MultiQubitMUB.sum_innerProd_pauliApply_mul
+#print axioms MultiQubitMUB.crossPauli_selfDual_deriv
+#print axioms MultiQubitMUB.crossPauli_autocorr_outer
+#print axioms MultiQubitMUB.sum_pauliDiff_sq
+#print axioms MultiQubitMUB.sum_pauliDiff_pow4_le
+#print axioms MultiQubitMUB.twoState_indefiniteSpread_ge
+#print axioms MultiQubitMUB.twoState_indefiniteSpread_le_of_bulkFloor

@@ -16,3 +16,4 @@ import MultiQubitMUB.AsymptoticContextuality
 import MultiQubitMUB.AsymptoticBarriers
 import MultiQubitMUB.AsymptoticChar2Theory
 import MultiQubitMUB.AsymptoticPauliSlicing
+import MultiQubitMUB.AsymptoticSubspaceAndRealSIC

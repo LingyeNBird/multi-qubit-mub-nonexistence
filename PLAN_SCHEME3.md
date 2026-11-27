@@ -106,10 +106,16 @@
    - **Stage 18 近期 AI-Math 证明范式快速体检与 Theorem 18.1（`stage18_test_oa_ideas.c`，详见 [`ASYMPTOTIC_THEORY_NOTES.md`](ASYMPTOTIC_THEORY_NOTES.md) Section 4.5 与 Section 5 #13）**：
      - **Theorem 18.1（受 Anthropic `zeta23` 启发的不定 $(1,1)$ 惯性展宽 $\beta_m^*$ 无条件归约）**：利用 $\Delta = \rho_+ - \rho_-$ 精确 $(1,1)$ 惯性 + $\tau_r = \mathrm{sgn}(c_r^+ - c_r^-)$ + Hölder，5 行证得 $(\beta_m^*)^2 \ge \frac{4(1-\gamma^2)^2}{(F_+ + F_- - 2) + 6C + 4(\sqrt{F_+-1}+\sqrt{F_--1})\sqrt{C}}$，从而任意布尔 Pauli 符号矩阵的中间特征值能量下界 $\frac{1}{T_2}\sum_{j=2}^{D-1}\lambda_j(S(\tau))^2 \ge c_0 > 0$（$\iff \limsup \beta_m^* < 1$）无条件闭合 $\liminf F_n^* > 2$；$\mathbb{F}_2^m$ 上实测 $\beta_m^*$ 单调下降 `1.000 -> 0.977 -> 0.963 -> 0.941 -> 0.923 -> 0.881`（`bulk_frac` 升至 `22.4%`），但 $\mathbb{Z}_5$ 复单位模 $\tau \in S^1$ 精确达 `1.000000`（`bulk_frac = 0`, $C = 0.454$）。
      - **元障碍 #13（3 套 OA/Anthropic 范式体检结论）**：① 多项式形式的 `zeta23` 有限压缩/子式仍被 $\mathrm{Sym}^8$ 伪态 $y_H(2D)$ 全部满足，而非多项式 $\beta_m^* < 1$ 退回 3B 高次布尔矩阵同一座大山；② EPnI 经典 Pauli 退极化流过不了半-MUB 多胞体，量子冯·诺依曼熵在纯态奇异（一阶导 $+\infty$）且有限群缺连续分束器；③ Strassen 渐近谱只看见指数率，抹平 $O(1)$ 常数间隙。
-   - **收官执行计划（固化已有 100% 完备证明的定理后体面暂停主猜想攻坚）**：
-     - **待形式化收官包（均已有完整初等证明、零缺口）**：
-       1. Theorem 17.5（`sum_pauliSq_subspace`、`twoStateJ_ge_of_subspace`、`sum_pauliSq_quadric_coset` — 直接复用 `AsymptoticPauliSlicing.lean` 的 `twoStateJ_ge_of_partition`）；
-       2. Theorem 17.6（`no_real_pauli_sic_all` — 直接复用 `AsymptoticBarriers.lean` 的 `pow_two_add_one_ne_sq` 与 `AsymptoticChar2Theory.lean` 的 `pauliMoment4_real_state_ge`，3 行证得一切 $m \ge 2, m \neq 4$ 严格有 $F_m(\phi_{\text{real}}) > \frac{3\cdot 2^m}{2^m + 2}$）；
-       3. Identities I & II（`crossPauli_selfDual_deriv`、`crossPauli_autocorr_outer` — 2 行 `SWAP` 收缩）；
-       4. Theorem 18.1（`twoState_indefiniteSpread_ge` — 5 行 $(1,1)$-惯性 + Hölder 不等式归约）。
+   - **Stage 17–18 最终里程碑固化（✅ 已完成 130/130 全量审计，优雅收官）**：
+     - **新增模块：** [`MultiQubitMUB/AsymptoticSubspaceAndRealSIC.lean`](MultiQubitMUB/AsymptoticSubspaceAndRealSIC.lean)（**1,298 行，14 条公开定理**，零 `sorry`、零 `native_decide`、零 `set_option`、零改动任何上游已过审模块）
+     - **低内存安全构建与全量审计：**
+       - `lake env lean -M 8192 -j 1 MultiQubitMUB/AsymptoticSubspaceAndRealSIC.lean`：exit 0，22.4s，0 错误 0 警告；
+       - `python3 idea/safe_lake_build.py MultiQubitMUB.AsymptoticSubspaceAndRealSIC`：exit 0，11.0s，`peak_pgid_rss = 4810.4 MB`（< 8000 MB 上限）；
+       - `python3 idea/safe_lake_build.py MultiQubitMUB`：exit 0，3.5s，`peak_pgid_rss = 4214.1 MB`；
+       - `lake env lean -M 8192 -j 1 Audit.lean`：**130 / 130** 条定理（116 条既有 + 14 条新增）100% 仅依赖标准公理（129 条 `[propext, Classical.choice, Quot.sound]` + 1 条零公理）。
+     - **已形式化的 4 组最终收官定理**：
+       1. **Theorem 17.5（全维 $k$ 子群质量分裂、$\mathcal{J}_m$ 闭式间隙与统一二次曲面-子空间陪集恒等式，$\forall m, H$）**：`sum_pauliSq_subspace`、`twoStateJ_ge_of_subspace`、`twoStateJ_ge_two_add_subspace_gap`（$2 + \frac{S_H^2}{2(|H|-1)} - \frac{1+S_H}{2^m} \le \mathcal{J}_m$）、`twoStateJ_ge_of_k_stabilizers`（$2 + \frac{|H|-1}{8} - \frac{|H|}{2^m} \le \mathcal{J}_m$）、`sum_pauliSq_quadric_coset`；
+       2. **Theorem 17.6（全 $m$ 实 Pauli-SIC 完整分类定理，$\forall m \ge 2, m \neq 4$）**：`pauliExpect_eq_zero_of_real_antisym`、`no_real_pauli_sic_all`（严格 $\frac{3\cdot 2^m}{2^m+2} < F_m(\phi_{\mathrm{real}})$，与复 Pauli-SIC $n \in \{1, 3\}$ 形成双星对偶）；
+       3. **Stage 17 Identities I & II（精确自对偶扭转自相关恒等式，$\forall m$）**：`sum_innerProd_pauliApply_mul`、`crossPauli_selfDual_deriv`、`crossPauli_autocorr_outer`；
+       4. **Theorem 18.1（不定 $(1,1)$ 惯性展宽 $\beta_m^*$ 无条件归约与中间特征值能量等价，$\forall m \ge 1$）**：`sum_pauliDiff_sq`、`sum_pauliDiff_pow4_le`、`twoState_indefiniteSpread_ge`、`twoState_indefiniteSpread_le_of_bulkFloor`。
      - **暂停留档的长期开放前沿（超出死胡同 #1–#13）**：$\ell_\infty$/$\Lambda$-刚性（$C \ge \kappa(1-\Lambda)^2$ 或素数群 $\mathbb{Z}_p$ 平坦 STFT 刚性）、布尔符号矩阵中间特征值下界（$\limsup \beta_m^* < 1$）、以及特征 2 常振幅相态常数间隙（$\min_{\text{phase}} F_n \ge 2 + \delta_0$）。
