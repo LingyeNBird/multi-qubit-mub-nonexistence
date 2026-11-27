@@ -9,3 +9,6 @@ import MultiQubitMUB.TwoQubitSOS
 import MultiQubitMUB.FourQubitSpectralAndTuran
 import MultiQubitMUB.FourQubitContextualityMUB
 import MultiQubitMUB.FourQubitUnconditionalMUB
+import MultiQubitMUB.FourQubitCDExact
+import MultiQubitMUB.GeneralContextualityLift
+import MultiQubitMUB.TwoQubitExactMin
